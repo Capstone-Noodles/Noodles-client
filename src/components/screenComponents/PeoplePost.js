@@ -6,26 +6,26 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const Post = ()=> {
+const PeoplePost = ()=> {
 
     const postInfo = [
         {
-            postTitle: '빵이',
-            postPersonImage: require('../../storage/images/fig.jpg'),
-            postImage: require('../../storage/images/post1.png'),
-            likes: 765,
+            postTitle: '친구1',
+            postPersonImage: require('../../storage/images/profile3.jpg'),
+            postImage: require('../../storage/images/post22.jpg'),
+            likes: 37,
             isLiked: false,
         },
         {
-            postTitle: '세빈',
-            postPersonImage: require('../../storage/images/profile1.jpg'),
-            postImage: require('../../storage/images/post22.jpg'),
+            postTitle: '친구2',
+            postPersonImage: require('../../storage/images/profile4.jpg'),
+            postImage: require('../../storage/images/post3.jpg'),
             likes: 81,
             isLiked: false,
         },
         {
-            postTitle: '짱구',
-            postPersonImage: require('../../storage/images/profile2.jpg'),
+            postTitle: '친구3',
+            postPersonImage: require('../../storage/images/profile5.jpeg'),
             postImage: require('../../storage/images/post2.png'),
             likes: 99,
             isLiked: false,
@@ -121,7 +121,7 @@ const Post = ()=> {
                                   <Text style={{
                                       fontWeight:'700', fontSize:14,
                                       paddingVertical:2, paddingLeft:4}}>
-                                        안냐세염^^
+                                        즐겁다
                                   </Text>
                               </View>
                           </View>
@@ -135,44 +135,6 @@ const Post = ()=> {
                           </View>
                       </View>
 
-                    
-                      {/*<View style={{
-                          paddingHorizontal:15, 
-                          borderColor:'#ffbfbf', borderWidth:1.5,
-                          borderRadius:90}}>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                            <View style={{flexDirection:'row', alignItems:'center'}}>
-                                <Image
-                                  source={data.postPersonImage}
-                                  style={{
-                                      width:25, height:25,
-                                      borderRadius:100,
-                                      backgroundColor:'orange',
-                                      marginRight:10,
-                                  }}
-                                />
-                                <TextInput
-                                  placeholder='Add a comment'
-                                  style={{opacity:0.5}}
-                                />
-                            </View>
-                            <View style={{flexDirection:'row', alignItems:'center'}}>
-                                <Entypo
-                                  name="emoji-happy"
-                                  style={{fontSize:15, color:'lightgreen', marginRight:10}}
-                                />
-                                <Entypo
-                                  name="emoji-neutral"
-                                  style={{fontSize:15, color:'pink', marginRight:10}}
-                                />
-                                <Entypo
-                                  name="emoji-sad"
-                                  style={{fontSize:15, color:'red'}}
-                                />
-                            </View>
-                        </View>
-                      </View>*/}
-
 
                  </View>
               )
@@ -182,4 +144,4 @@ const Post = ()=> {
   );
 };
 
-export default Post;
+export default PeoplePost;

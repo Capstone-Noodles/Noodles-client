@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Text, View, Image, TouchableOpacity,
-         TextInput } from 'react-native';
+         TextInput, SafeAreaView, StatusBar } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const Post = ()=> {
+const Post = ({navigation})=> {
 
     const postInfo = [
         {
@@ -15,25 +15,21 @@ const Post = ()=> {
             postImage: require('../../storage/images/post1.png'),
             likes: 765,
             isLiked: false,
-        },
-        {
-            postTitle: '세빈',
-            postPersonImage: require('../../storage/images/profile1.jpg'),
-            postImage: require('../../storage/images/post22.jpg'),
-            likes: 81,
-            isLiked: false,
-        },
-        {
-            postTitle: '짱구',
-            postPersonImage: require('../../storage/images/profile2.jpg'),
-            postImage: require('../../storage/images/post2.png'),
-            likes: 99,
-            isLiked: false,
         }
     ];
 
   return (
-    <View>
+    <SafeAreaView style={{flex:1,backgroundColor:'white', height:'100%'}}>
+      <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
+      <View style={{paddingTop:30,flexDirection:'row',alignItems:'center'}}>
+        <TouchableOpacity onPress={()=>navigation.goBack()}>
+          <Ionic 
+              name="chevron-back-sharp" 
+              style={{fontSize:40,color:'gray'}}/>
+        </TouchableOpacity>
+        <Text style={{fontSize:20,paddingLeft:10,color:'gray'}}>게시물</Text>
+      </View>
+      
       {
           postInfo.map( (data,index)=> {
               const [like, setLike] = useState(data.isLiked)
@@ -178,7 +174,7 @@ const Post = ()=> {
               )
           })
       }
-    </View>
+    </SafeAreaView>
   );
 };
 

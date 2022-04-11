@@ -11,7 +11,7 @@ import Post from '../screenComponents/Post';
 const Home = ()=> {
   return (
     
-    <View style={{backgroundColor:'white', height:'100%'}}>
+    <View style={{flex:1,backgroundColor:'white', height:'100%'}}>
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
       <View style={{
         justifyContent: 'space-between',
@@ -20,17 +20,34 @@ const Home = ()=> {
         alignItems: 'center',
         paddingTop:35,
         paddingBottom:10,
-        backgroundColor:'white'
+        backgroundColor:'white',
+        borderBottomColor:'#ffd2cf',
+        borderBottomWidth:1.5,
       }}>
         <Ionic name="locate" style={{fontSize: 30}}/>
-        <Text style={{
-          fontSize:25, fontWeight:'500', color:'tomato'}}>
-          우리동네
-        </Text>
+        <View style={{flexDirection:'row',alignItems:'baseline'}}>
+          <Text style={{
+            fontSize:25, fontWeight:'700', color:'tomato'}}>
+            우
+          </Text>
+          <Text style={{
+            fontSize:15, fontWeight:'700', color:'tomato',}}>
+            리
+          </Text>
+          <Text style={{
+            fontSize:25, fontWeight:'700', color:'tomato'}}>
+            동
+          </Text>
+          <Text style={{
+            fontSize:15, fontWeight:'700', color:'tomato',}}>
+            네
+          </Text>
+        </View>
         <Ionic name="notifications-outline" style={{fontSize:25}}/>
       </View>
 
       <ScrollView>
+        {/*<Stories/>*/}
         <Post/>
         <View style={{
           justifyContent:'center',
