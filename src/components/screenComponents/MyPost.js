@@ -42,7 +42,7 @@ const MyPost = (props)=> {
 
   return (
     <ScrollView style={{paddingHorizontal:10, paddingVertical:10,}}>
-        <View style={{
+        <View style={{ 
             flexDirection:'row',
             alignItems:'center',
             justifyContent:'space-around',
@@ -58,21 +58,34 @@ const MyPost = (props)=> {
                 <Image source={require('../../storage/images/profile2.jpg')}
                     style={{width:120, height:120, borderRadius:100}}/>
             </TouchableOpacity>
-            
+
+            <TouchableOpacity onPress={()=>navigation.navigate("PostDetails")}>
             <Image source={require('../../storage/images/profile3.jpg')}
                    style={{width:120, height:120, borderRadius:100}}/>
+            </TouchableOpacity>
+            
         </View>
         <View style={{
             flexDirection:'row',
             alignItems:'center',
             justifyContent:'space-around',
             paddingVertical:10}}>
-            <Image source={require('../../storage/images/profile4.jpg')}
-                   style={{width:120, height:120, borderRadius:100}}/>
-            <Image source={require('../../storage/images/profile5.jpeg')}
-                   style={{width:120, height:120, borderRadius:100}}/>
-            <Image 
-                   style={{width:120, height:120, borderRadius:100,backgroundColor:'#E5E5E5'}}/>
+
+            <TouchableOpacity onPress={()=>navigation.navigate("PostDetails")}>
+                <Image source={require('../../storage/images/profile4.jpg')}
+                    style={{width:120, height:120, borderRadius:100}}/>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={()=>navigation.navigate("PostDetails")}>
+                <Image source={require('../../storage/images/profile5.jpeg')}
+                    style={{width:120, height:120, borderRadius:100}}/>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={()=>navigation.navigate("PostDetails")}>
+                <Image source={require('../../storage/images/profile6.jpg')}
+                    style={{width:120, height:120, borderRadius:100,backgroundColor:'#E5E5E5'}}/>
+            </TouchableOpacity>
+            
         </View>
             {/*MyPostInfo.map((data, index) => {
                 return(

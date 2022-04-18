@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Text, View, Keyboard, Image, StatusBar, TouchableOpacity, Alert } from 'react-native';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import Input from '../screenComponents/Input';
@@ -13,8 +13,12 @@ const Login = ({navigation})=> {
   });
   const [errors,setErrors] = React.useState({});
   const [loading,setLoading] = React.useState(false);
+
   const validate = () => {
       Keyboard.dismiss();
+      inputs.id = inputs.id.replace(/ /g,"").trim();
+      inputs.password = inputs.password.replace(/ /g,"").trim();
+      
       let valid = true;
       if (!inputs.id) {
         handleError('아이디를 입력해주세요!','id');
@@ -28,6 +32,7 @@ const Login = ({navigation})=> {
         valid=false;
       }
       if(valid) {
+          //console.log([inputs.id,inputs.password])
           login();
       }
   };
@@ -66,13 +71,14 @@ const Login = ({navigation})=> {
 
 
   return (
-    <View style={{flex:1,backgroundColor:'white',}}>
+    <View style={{flex:1,backgroundColor:'white'}}>
       <Loader visible={loading}/>
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
+
       <View style={{
         justifyContent:'center',
         alignItems:'center',
-        paddingVertical:70,
+        paddingVertical:50,
        }}>
         <Image source={require('../../storage/images/logo.jpg')}/>
       </View>
@@ -136,7 +142,7 @@ const Login = ({navigation})=> {
 
       <View style={{
         flexDirection:'row', 
-        paddingTop:10, 
+        paddingVertical:10, 
         alignItems:'center', 
         justifyContent:'center'}}>       
       <TouchableOpacity>
@@ -157,6 +163,8 @@ const Login = ({navigation})=> {
         </Text>
       </TouchableOpacity>
       </View>
+
+      
 
     </View>
     

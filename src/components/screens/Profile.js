@@ -4,13 +4,15 @@ import {  View, Button, Image, StatusBar, TouchableOpacity, ScrollView,Dimension
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar, Title, Caption, Text, TouchableRipple, } from 'react-native-paper';
 import Ionic from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 import MyPost from '../screenComponents/MyPost';
 import PostForm from './PostForm';
 
 const Profile = ({navigation}) => {
+
+  //로그아웃
   /*const [userDetails,setUserDetails] = React.useState();
   React.useEffect(() => {
     getUserDetails();
@@ -26,10 +28,12 @@ const Profile = ({navigation}) => {
     navigation.navigate("Login");
   };
 
-  
 
+  const userNickname = '빵이';
+  const userStateMessage = '@J_bread';
+
+  //  
   const [image, setImage] = useState(null);
-
   const getData = data => {
     setImage(data);
   }
@@ -75,7 +79,9 @@ const Profile = ({navigation}) => {
           <TouchableOpacity onPress={()=>navigation.navigate("PostForm")}>
             <AntDesign name="form" style={{fontSize:20,paddingRight:10}}/>
           </TouchableOpacity>
-          <Ionic name="menu-sharp" style={{fontSize:30}}/>
+          <TouchableOpacity onPress={()=>navigation.navigate("Menu")}>
+            <Ionic name="menu-sharp" style={{fontSize:30}}/>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -84,7 +90,7 @@ const Profile = ({navigation}) => {
       <View style={{paddingHorizontal:15, marginTop:10}}>
         <View style={{alignItems:'flex-end',paddingBottom:0}}>
             <TouchableOpacity onPress={()=>navigation.navigate("EditProfile")}>
-              <MaterialCommunityIcons name="account-edit-outline" style={{fontSize:20}}/>
+              <Icons name="account-edit-outline" style={{fontSize:20}}/>
             </TouchableOpacity>
         </View>
         <View style={{alignItems:'center'}}>
@@ -93,9 +99,9 @@ const Profile = ({navigation}) => {
                   size={130}
                 />
             <View style={{alignItems:'center',paddingTop:10}}>
-              <Title style={{fontSize:20,fontWeight:'bold'}}>빵이</Title>
+              <Title style={{fontSize:20,fontWeight:'bold'}}>{userNickname}</Title>
                <Caption style={{
-                 fontSize:13,fontWeight:'500',lineHeight:14}}>@J_bread</Caption>
+                 fontSize:13,fontWeight:'500',lineHeight:14}}>{userStateMessage}</Caption>
             </View>
             
             <View style={{
@@ -122,7 +128,7 @@ const Profile = ({navigation}) => {
 
 
       <View style={{paddingTop:15}}>
-        <TouchableOpacity style={{alignItems:'flex-end'}}>
+        <TouchableOpacity style={{alignItems:'flex-end'}} onPress={()=>navigation.navigate("Test")}>
           <Text style={{fontSize:13}}>
             편집{'   '}
           </Text>

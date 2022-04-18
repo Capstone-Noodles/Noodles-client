@@ -1,38 +1,122 @@
 import React, { useState } from 'react';
-import { Text, View, Image, TouchableOpacity,
-         TextInput, SafeAreaView, StatusBar } from 'react-native';
+import { Text, View, ScrollView, Image, TouchableOpacity, Modal, Dimensions, StatusBar } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionic from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Foundation from "react-native-vector-icons/Foundation";
 
-const Post = ({navigation})=> {
+const PostDetails = ({navigation})=> {
 
+    const userNickname = '빵이';
     const postInfo = [
         {
-            postTitle: '빵이',
+            Nickname: userNickname,
             postPersonImage: require('../../storage/images/fig.jpg'),
-            postImage: require('../../storage/images/post1.png'),
+            postImage: require('../../storage/images/profile1.jpg'),
+            location: '경기도 수원시 망포동',
+            textmsg: '안',
+            distance: '대략 130m',
             likes: 765,
             isLiked: false,
-        }
+            bookmarked: false,
+        },
+        {
+            Nickname: userNickname,
+            postPersonImage: require('../../storage/images/fig.jpg'),
+            postImage: require('../../storage/images/profile2.jpg'),
+            location: '경기도 수원시 화서동',
+            textmsg: '녕',
+            distance: '대략 270m',
+            likes: 81,
+            isLiked: false,
+            bookmarked: false,
+        },
+        {
+            Nickname: userNickname,
+            postPersonImage: require('../../storage/images/fig.jpg'),
+            postImage: require('../../storage/images/profile3.jpg'),
+            location: '경기도 수원시 떡잎마을',
+            textmsg: '하',
+            distance: '대략 560m',
+            likes: 99,
+            isLiked: false,
+            bookmarked: false,
+        },
+        {
+            Nickname: userNickname,
+            postPersonImage: require('../../storage/images/fig.jpg'),
+            postImage: require('../../storage/images/profile4.jpg'),
+            location: '경기도 수원시 망포동',
+            textmsg: '세',
+            distance: '대략 130m',
+            likes: 97,
+            isLiked: false,
+            bookmarked: false,
+      },
+      {
+          Nickname: userNickname,
+          postPersonImage: require('../../storage/images/fig.jpg'),
+          postImage: require('../../storage/images/profile5.jpeg'),
+          location: '경기도 수원시 화서동',
+          textmsg: '요',
+          distance: '대략 270m',
+          likes: 55,
+          isLiked: false,
+          bookmarked: false,
+      },
+      {
+          Nickname: userNickname,
+          postPersonImage: require('../../storage/images/fig.jpg'),
+          postImage: require('../../storage/images/profile6.jpg'),
+          location: '경기도 수원시 떡잎마을',
+          textmsg: '우',
+          distance: '대략 560m',
+          likes: 44,
+          isLiked: false,
+          bookmarked: false,
+      },
     ];
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const devHeight = Dimensions.get("window").height;
+
+  
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:'white', height:'100%'}}>
+    <ScrollView style={{backgroundColor:'white',flex:1}}>
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
-      <View style={{paddingTop:30,flexDirection:'row',alignItems:'center'}}>
+
+      
+      <View style={{
+        paddingTop:30,
+        paddingBottom:5,
+        flexDirection:'row',
+        alignItems:'center',
+        backgroundColor:'white',
+        borderBottomColor:'#ffd2cf',
+        borderBottomWidth:1.5,
+      }}>
         <TouchableOpacity onPress={()=>navigation.goBack()}>
           <Ionic 
               name="chevron-back-sharp" 
-              style={{fontSize:40,color:'gray'}}/>
+              style={{fontSize:38,color:'#484848'}}/>
         </TouchableOpacity>
-        <Text style={{fontSize:20,paddingLeft:10,color:'gray'}}>게시물</Text>
+        <Text style={{fontSize:20,paddingLeft:10,color:'#484848'}}>게시물</Text>
       </View>
       
       {
           postInfo.map( (data,index)=> {
-              const [like, setLike] = useState(data.isLiked)
+              const [like, setLike] = useState(data.isLiked);
+              const [bookmark, setBookmark] = useState(data.bookmarked);
+
+              const popup = () => {
+      
+                if (userNickname === data.Nickname) {
+                  //console.log([userNickname,data.Nickname])
+                  setModalVisible(!modalVisible)
+                }
+              }
+
               return(
                  <View key={index} style={{
                       paddingBottom:10,
@@ -64,8 +148,8 @@ const Post = ({navigation})=> {
                         <View style={{
                             flexDirection:'row', alignItems:'center',
                             paddingLeft:7 }}>
-                            <TouchableOpacity>
-                                <Feather name="bookmark" 
+                            <TouchableOpacity onPress={()=> setBookmark(!bookmark)}>
+                                <FontAwesome name={ bookmark ? "bookmark":"bookmark-o" }
                                          style={{fontSize:20, paddingRight:10}}/>
                             </TouchableOpacity>
                             <TouchableOpacity>
@@ -89,7 +173,7 @@ const Post = ({navigation})=> {
                             { like ? data.likes+1:data.likes }개
                             </Text>
                         </View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={popup} style={{paddingLeft:10}}>
                             <Feather name="more-vertical" style={{fontSize:20}}/>
                         </TouchableOpacity>
                       </View>
@@ -109,73 +193,99 @@ const Post = ({navigation})=> {
                               <View style={{paddingLeft:5, }}>
                                   <Text style={{
                                       fontSize:15, fontWeight:'bold',
-                                  }}> {data.postTitle}
+                                  }}> {data.Nickname}
                                   </Text>
                                   <Text style={{fontSize:12, opacity:0.6, paddingVertical:2, paddingLeft:4}}>
-                                        경기도 수원시 망포동
+                                        {data.location}
                                   </Text>
                                   <Text style={{
                                       fontWeight:'700', fontSize:14,
                                       paddingVertical:2, paddingLeft:4}}>
-                                        안냐세염^^
+                                        {data.textmsg}
                                   </Text>
                               </View>
                           </View>
                           <View style={{}}>
                             <Text style={{
                                 fontSize:12, opacity:0.6, paddingVertical:2, paddingRight:35
-                            }}>대략 130m</Text>
+                            }}>{data.distance}</Text>
                             <Text style={{
                                 fontSize:12, opacity:0.3, paddingVertical:2, paddingLeft:55
                             }}>더보기</Text>
                           </View>
                       </View>
 
-                    
-                      {/*<View style={{
-                          paddingHorizontal:15, 
-                          borderColor:'#ffbfbf', borderWidth:1.5,
-                          borderRadius:90}}>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                            <View style={{flexDirection:'row', alignItems:'center'}}>
-                                <Image
-                                  source={data.postPersonImage}
-                                  style={{
-                                      width:25, height:25,
-                                      borderRadius:100,
-                                      backgroundColor:'orange',
-                                      marginRight:10,
-                                  }}
-                                />
-                                <TextInput
-                                  placeholder='Add a comment'
-                                  style={{opacity:0.5}}
-                                />
-                            </View>
-                            <View style={{flexDirection:'row', alignItems:'center'}}>
-                                <Entypo
-                                  name="emoji-happy"
-                                  style={{fontSize:15, color:'lightgreen', marginRight:10}}
-                                />
-                                <Entypo
-                                  name="emoji-neutral"
-                                  style={{fontSize:15, color:'pink', marginRight:10}}
-                                />
-                                <Entypo
-                                  name="emoji-sad"
-                                  style={{fontSize:15, color:'red'}}
-                                />
-                            </View>
-                        </View>
-                      </View>*/}
-
-
+ 
                  </View>
               )
           })
       }
-    </SafeAreaView>
+      {/*User_Modal*/}
+      <View>
+      <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => { setModalVisible(!modalVisible); }}
+        >
+          <View style={{
+            flex:1,
+            backgroundColor:'#000000AA',
+            justifyContent:'flex-end',
+  
+          }}>
+            <View style={{
+              backgroundColor:'white',
+              width:'100%',
+              borderTopRightRadius:15,
+              borderTopLeftRadius:15,
+              paddingHorizontal:10,
+              maxHeight:devHeight*0.4,
+            }}>
+              <View style={{
+                flexDirection:'row',
+                justifyContent:'space-between',
+                alignItems:'center',
+                marginHorizontal:10,
+                marginVertical:10
+              }}>
+                <Text style={{fontSize:18,fontWeight:'600',color:'#484848'}}>나의 게시물</Text>
+                <TouchableOpacity onPress={()=>setModalVisible(!modalVisible)}>
+                  <Ionic 
+                    name="close" 
+                    style={{fontSize:20,color:'#484848',textAlign:'right'}}/>
+                </TouchableOpacity>
+              </View>
+              
+              <View style={{
+                flexDirection:'row',
+                justifyContent:'space-around',
+                alignItems:'center',
+                marginHorizontal:10,
+                marginVertical:20,
+              }}>
+                <TouchableOpacity>
+                  <Foundation 
+                    name="page-edit" 
+                    style={{fontSize:65,color:'#ffbfbf'}}/>
+                  <Text style={{textAlign:'center',fontSize:15,color:'#484848',}}>수정</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Foundation 
+                    name="page-delete" 
+                    style={{fontSize:65,color:'#ffbfbf'}}/>
+                  <Text style={{textAlign:'center',fontSize:15,color:'#484848',}}>삭제</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        </View>
+
+       
+        
+    </ScrollView>
   );
 };
 
-export default Post;
+export default PostDetails;

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {  StyleSheet, Dimensions,View, Button, Image, StatusBar, TouchableOpacity, ScrollView, TextInput, useWindowDimensions } from 'react-native';
+import {  StyleSheet, Dimensions,View, Button, Image, StatusBar, TouchableOpacity, ScrollView, TextInput, useWindowDimensions, Alert } from 'react-native';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
+
 import { Avatar, Title, Caption, Text, TouchableRipple, } from 'react-native-paper';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -31,10 +32,76 @@ const Test = ()=> {
             }
         }
     }
+
+
+  //카메라
+  
+
+  
+  
+
+  //앨범
+  const [image_camera, setImage_camera] = useState(null);
+  const [upload, setupload] = useState(false);
+
+  const camera = async () => {
+    // No permissions request is necessary for launching the image library
+    setupload(true);
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    //console.log(result);
+
+    if (!result.cancelled) {
+      setImage_camera(result.uri);
+    }
+  };
+  
+//
+const [image, setImage] = useState(null);
+  
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    setupload(true);
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+
+    //console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    } else if (result.cancelled) {
+      setupload(false);
+    }
+  };
+
+
   return (
     
-    <View style={{flex:1,}}>
+    <ScrollView style={{flex:1,}}>
         <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
+        
+        
+
+      <View style={{alignItems:'center',justifyContent:'center',margin:30,}}>
+      <Button title="dfkjdf" onPress={camera}/>
+      {image_camera && <Image source={{ uri: image_camera.uri }} style={{ width: 100, height: 100 }} />}
+      <Button title="dfkjdf" onPress={pickImage}/>
+      <View>{image && 
+      <Image source={{ uri: image.uri }} style={{ width: 100, height: 100 }} />}
+      </View>
+      </View>
+      
+      
 
         {/*<View style={{
           alignItems:'center',
@@ -131,7 +198,7 @@ const Test = ()=> {
         </View>
       </View>
 
-    </View>
+    </ScrollView>
     
   );
 };

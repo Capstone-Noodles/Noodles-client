@@ -14,8 +14,10 @@ import Signup from './src/components/screens/Signup';
 import Status from './src/components/screenComponents/Status';
 import PostForm from './src/components/screens/PostForm';
 import Test from './src/components/screens/test';
+import Test2 from './src/components/screens/test2';
 import PostDetails from './src/components/screens/PostDetails';
 import EditProfile from './src/components/screens/EditProfile';
+import Menu from './src/components/screens/Menu';
 
 const App = () => {
   
@@ -81,8 +83,10 @@ const App = () => {
         <Stack.Screen name="Bottom" component={BottomTabScreen}/>
         <Stack.Screen name="PostForm" component={PostForm}/>
         <Stack.Screen name="Test" component={Test}/>
+        <Stack.Screen name="Test2" component={Test2}/>
         <Stack.Screen name="PostDetails" component={PostDetails}/>
         <Stack.Screen name="EditProfile" component={EditProfile}/>
+        <Stack.Screen name="Menu" component={Menu}/>
        
         <Stack.Screen name="Status" component={Status}/>
       </Stack.Navigator>

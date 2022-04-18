@@ -1,15 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet, useWindowDimensions, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions, ActivityIndicator, ScrollView } from 'react-native';
 
 const Loader = ({visible=false}) => {
     const {height,width} = useWindowDimensions();
+
     return (
         visible && (
-        <View style={[style.container, {height,width}]}>
-            <View style={style.loader}>
-                <ActivityIndicator size="large" color={'#ffbfbf'} />
-                <Text style={{marginLeft:13, fontSize:14}}>로딩중..</Text>
-            </View>
+        <View style={[style.container, {height,width} ]}>
+          <View style={style.loader}>
+            <ActivityIndicator size="large" color={'#ffbfbf'} />
+            <Text style={{marginLeft:13, fontSize:14}}>로딩중..</Text>
+          </View>
         </View>
         )
     );
@@ -17,10 +18,11 @@ const Loader = ({visible=false}) => {
 
 const style = StyleSheet.create({
     container: {
+        flex:1,
         position:'absolute',
         zIndex:10,
         backgroundColor:'rgba(0,0,0,0.5)',
-        justifyContent:'center',
+        justifyContent:'center'
     },
     loader: {
         height:70,
