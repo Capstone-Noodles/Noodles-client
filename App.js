@@ -8,6 +8,7 @@ import Home from './src/components/screens/Home';
 import People from './src/components/screens/People';
 import Search from './src/components/screens/Search';
 import Chat from './src/components/screens/Chat';
+import ChatWith from './src/components/screens/ChatWith';
 import Profile from './src/components/screens/Profile';
 import Login from './src/components/screens/Login';
 import Signup from './src/components/screens/Signup';
@@ -84,9 +85,25 @@ const App = () => {
         <Stack.Screen name="PostForm" component={PostForm}/>
         <Stack.Screen name="Test" component={Test}/>
         <Stack.Screen name="Test2" component={Test2}/>
-        <Stack.Screen name="PostDetails" component={PostDetails}/>
-        <Stack.Screen name="EditProfile" component={EditProfile}/>
+        <Stack.Screen name="PostDetails" component={PostDetails}
+          options={({}) => ({
+            title: '게시물',
+            headerShown: true,
+            headerBackTitleVisible:false,
+          })}/>
+        <Stack.Screen name="EditProfile" component={EditProfile}
+          options={({}) => ({
+            title: '프로필 수정',
+            headerShown: true,
+            headerBackTitleVisible:false,
+          })}/>
         <Stack.Screen name="Menu" component={Menu}/>
+        <Stack.Screen name="ChatWith" component={ChatWith} 
+          options={({route}) => ({
+            title: route.params.userName,
+            headerShown: true,
+            headerBackTitleVisible:false,
+          })}/>
        
         <Stack.Screen name="Status" component={Status}/>
       </Stack.Navigator>

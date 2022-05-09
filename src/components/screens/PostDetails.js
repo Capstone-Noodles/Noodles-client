@@ -85,24 +85,6 @@ const PostDetails = ({navigation})=> {
   return (
     <ScrollView style={{backgroundColor:'white',flex:1}}>
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
-
-      
-      <View style={{
-        paddingTop:30,
-        paddingBottom:5,
-        flexDirection:'row',
-        alignItems:'center',
-        backgroundColor:'white',
-        borderBottomColor:'#ffd2cf',
-        borderBottomWidth:1.5,
-      }}>
-        <TouchableOpacity onPress={()=>navigation.goBack()}>
-          <Ionic 
-              name="chevron-back-sharp" 
-              style={{fontSize:38,color:'#484848'}}/>
-        </TouchableOpacity>
-        <Text style={{fontSize:20,paddingLeft:10,color:'#484848'}}>게시물</Text>
-      </View>
       
       {
           postInfo.map( (data,index)=> {
