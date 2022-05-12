@@ -106,16 +106,7 @@ const Signup = ({navigation}) => {
       <Loader visible={loading}/>
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
 
-      <View style={{paddingVertical:10,flexDirection:'row',alignItems:'center'}}>
-        <TouchableOpacity onPress={()=>navigation.goBack()}>
-          <Ionic 
-              name="chevron-back-sharp" 
-              style={{fontSize:40,color:'#484848'}}/>
-        </TouchableOpacity>
-        <Text style={{fontSize:25,fontWeight:'bold',paddingLeft:10,color:'#484848'}}>회원가입</Text>
-      </View>
-
-      <Text style={{paddingVertical:10,paddingLeft:20, fontSize:20, opacity:0.6}}>
+      <Text style={{paddingTop:25,paddingBottom:10,paddingLeft:20, fontSize:20, opacity:0.6}}>
           아래의 사항을 빠짐없이 기입해 주세요.
       </Text>
 

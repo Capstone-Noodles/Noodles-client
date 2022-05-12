@@ -19,6 +19,8 @@ import Test2 from './src/components/screens/test2';
 import PostDetails from './src/components/screens/PostDetails';
 import EditProfile from './src/components/screens/EditProfile';
 import Menu from './src/components/screens/Menu';
+import Locate from './src/components/screens/Locate';
+import PresentLocate from './src/components/screens/PresentLocate';
 
 const App = () => {
   
@@ -80,7 +82,12 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Signup" component={Signup}
+          options={({}) => ({
+            title: '회원가입',
+            headerShown: true,
+            headerBackTitleVisible:false,
+          })}/>
         <Stack.Screen name="Bottom" component={BottomTabScreen}/>
         <Stack.Screen name="PostForm" component={PostForm}/>
         <Stack.Screen name="Test" component={Test}/>
@@ -97,13 +104,25 @@ const App = () => {
             headerShown: true,
             headerBackTitleVisible:false,
           })}/>
-        <Stack.Screen name="Menu" component={Menu}/>
+        <Stack.Screen name="Menu" component={Menu}
+          options={({}) => ({
+            title: '설정',
+            headerShown: true,
+            headerBackTitleVisible:false,
+          })}/>
         <Stack.Screen name="ChatWith" component={ChatWith} 
           options={({route}) => ({
             title: route.params.userName,
             headerShown: true,
             headerBackTitleVisible:false,
           })}/>
+        <Stack.Screen name="Locate" component={Locate}
+          options={({}) => ({
+            title: '위치 설정',
+            headerShown: true,
+            headerBackTitleVisible:false,
+          })}/>
+        <Stack.Screen name="PresentLocate" component={PresentLocate}/>
        
         <Stack.Screen name="Status" component={Status}/>
       </Stack.Navigator>
