@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StatusBar, Image } from 'react-native';
 import {NavigationContainer} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
@@ -20,7 +20,10 @@ import PostDetails from './src/components/screens/PostDetails';
 import EditProfile from './src/components/screens/EditProfile';
 import Menu from './src/components/screens/Menu';
 import Locate from './src/components/screens/Locate';
-import PresentLocate from './src/components/screens/PresentLocate';
+// import PresentLocate from './src/components/screens/PresentLocate';
+import { UserContext } from "./src/contexts/User";
+import { UserProvider } from "./src/contexts/User";
+
 
 const App = () => {
   
@@ -76,61 +79,58 @@ const App = () => {
 
 
 
-
+  const { user } = useContext(UserContext);
   return (
-    
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Signup" component={Signup}
-          options={({}) => ({
-            title: '회원가입',
-            headerShown: true,
-            headerBackTitleVisible:false,
-          })}/>
-        <Stack.Screen name="Bottom" component={BottomTabScreen}/>
-        <Stack.Screen name="PostForm" component={PostForm}/>
-        <Stack.Screen name="Test" component={Test}/>
-        <Stack.Screen name="Test2" component={Test2}/>
-        <Stack.Screen name="PostDetails" component={PostDetails}
-          options={({}) => ({
-            title: '게시물',
-            headerShown: true,
-            headerBackTitleVisible:false,
-          })}/>
-        <Stack.Screen name="EditProfile" component={EditProfile}
-          options={({}) => ({
-            title: '프로필 수정',
-            headerShown: true,
-            headerBackTitleVisible:false,
-          })}/>
-        <Stack.Screen name="Menu" component={Menu}
-          options={({}) => ({
-            title: '설정',
-            headerShown: true,
-            headerBackTitleVisible:false,
-          })}/>
-        <Stack.Screen name="ChatWith" component={ChatWith} 
-          options={({route}) => ({
-            title: route.params.userName,
-            headerShown: true,
-            headerBackTitleVisible:false,
-          })}/>
-        <Stack.Screen name="Locate" component={Locate}
-          options={({}) => ({
-            title: '위치 설정',
-            headerShown: true,
-            headerBackTitleVisible:false,
-          })}/>
-        <Stack.Screen name="PresentLocate" component={PresentLocate}/>
-       
-        <Stack.Screen name="Status" component={Status}/>
-      </Stack.Navigator>
-    </NavigationContainer>
-
-
-
-
+    <UserProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Signup" component={Signup}
+            options={({}) => ({
+              title: '회원가입',
+              headerShown: true,
+              headerBackTitleVisible:false,
+            })}/>
+          <Stack.Screen name="Bottom" component={BottomTabScreen}/>
+          <Stack.Screen name="PostForm" component={PostForm}/>
+          <Stack.Screen name="Test" component={Test}/>
+          <Stack.Screen name="Test2" component={Test2}/>
+          <Stack.Screen name="PostDetails" component={PostDetails}
+            options={({}) => ({
+              title: '게시물',
+              headerShown: true,
+              headerBackTitleVisible:false,
+            })}/>
+          <Stack.Screen name="EditProfile" component={EditProfile}
+            options={({}) => ({
+              title: '프로필 수정',
+              headerShown: true,
+              headerBackTitleVisible:false,
+            })}/>
+          <Stack.Screen name="Menu" component={Menu}
+            options={({}) => ({
+              title: '설정',
+              headerShown: true,
+              headerBackTitleVisible:false,
+            })}/>
+          <Stack.Screen name="ChatWith" component={ChatWith} 
+            options={({route}) => ({
+              title: route.params.userName,
+              headerShown: true,
+              headerBackTitleVisible:false,
+            })}/>
+          <Stack.Screen name="Locate" component={Locate}
+            options={({}) => ({
+              title: '위치 설정',
+              headerShown: true,
+              headerBackTitleVisible:false,
+            })}/>
+          {/* <Stack.Screen name="PresentLocate" component={PresentLocate}/> */}
+        
+          <Stack.Screen name="Status" component={Status}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserProvider>
   );
 };
 
