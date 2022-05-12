@@ -201,7 +201,7 @@ const Signup = ({navigation}) => {
             onChangeText={(text)=>handleOnChange(text,'name')} />
       </View>
           
-      <Text style={{paddingVertical:10,paddingLeft:20, fontSize:20, opacity:0.6}}>
+      <Text style={{paddingTop:25,paddingBottom:15,paddingLeft:20, fontSize:20, opacity:0.6}}>
         서비스 이용 약관에 동의해 주세요.
       </Text>
       <View style={{paddingHorizontal:20,paddingVertical:10}}>

@@ -108,18 +108,22 @@ const Profile = ({navigation}) => {
               marginTop:10, alignItems:'center',
               flexDirection:'row', paddingHorizontal: 20,
               }}>
-              <View style={{paddingRight:30,flexDirection:'row',alignItems:'center',}}>
-                <Title style={{fontSize:13,fontWeight:'bold'}}>
-                  팔로워 </Title>
-                <Caption style={{fontSize:13,fontWeight:'500',lineHeight:14}}>
-                  1.2K</Caption>
-              </View>
-              <View style={{paddingLeft:30,flexDirection:'row',alignItems:'center',}}>
-                <Title style={{fontSize:13,fontWeight:'bold'}}>
-                  팔로잉 </Title>
-                <Caption style={{fontSize:13,fontWeight:'500',lineHeight:14}}>
-                  1</Caption>
-              </View>
+              <TouchableOpacity>
+                <View style={{paddingRight:30,flexDirection:'row',alignItems:'center',}}>
+                  <Title style={{fontSize:13,fontWeight:'bold'}}>
+                    팔로워 </Title>
+                  <Caption style={{fontSize:13,fontWeight:'500',lineHeight:14}}>
+                    1.2K</Caption>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <View style={{paddingLeft:30,flexDirection:'row',alignItems:'center',}}>
+                  <Title style={{fontSize:13,fontWeight:'bold'}}>
+                    팔로잉 </Title>
+                  <Caption style={{fontSize:13,fontWeight:'500',lineHeight:14}}>
+                    1</Caption>
+                </View>
+              </TouchableOpacity>
             </View>  
         </View>
       </View>
