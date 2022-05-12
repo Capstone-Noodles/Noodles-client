@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, Image, TouchableOpacity, Modal, Dimensions } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Foundation from "react-native-vector-icons/Foundation";
+import { UserContext, UserProvider } from '../../contexts/User';
 
 const Post = ()=> {
 
@@ -48,8 +49,26 @@ const Post = ()=> {
     const [modalVisible, setModalVisible] = useState(false);
     const [others_modalVisible, setOthers_ModalVisible] = useState(false);
     const devHeight = Dimensions.get("window").height;
+    const { user } = useContext(UserContext);
 
-  
+  // 게시물 읽어오는 axios
+  useEffect(async () => {
+    await axios
+      .get(
+        `http://133.186.228.218:8080/posts?longitude=127.00231&latitude=37.00201`,
+        {
+          headers: {
+            "x-auth-token": `${user?.accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        const result = response.data;
+        console.log(result);
+      })
+      .catch((err) => {});
+  }, [user]);
+
   return (
     <View>
       {

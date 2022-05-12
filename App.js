@@ -20,7 +20,7 @@ import PostDetails from './src/components/screens/PostDetails';
 import EditProfile from './src/components/screens/EditProfile';
 import Menu from './src/components/screens/Menu';
 import Locate from './src/components/screens/Locate';
-import PresentLocate from './src/components/screens/PresentLocate';
+// import PresentLocate from './src/components/screens/PresentLocate';
 import { UserContext } from "./src/contexts/User";
 import { UserProvider } from "./src/contexts/User";
 
@@ -125,7 +125,7 @@ const App = () => {
               headerShown: true,
               headerBackTitleVisible:false,
             })}/>
-          <Stack.Screen name="PresentLocate" component={PresentLocate}/>
+          {/* <Stack.Screen name="PresentLocate" component={PresentLocate}/> */}
         
           <Stack.Screen name="Status" component={Status}/>
         </Stack.Navigator>

@@ -1,9 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { Text, View, Keyboard, Image, StatusBar, TouchableOpacity, Alert } from 'react-native';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import Input from '../screenComponents/Input';
 import Loader from '../screenComponents/Loader';
+import { UserContext, UserProvider } from "../../contexts/User";
 
 const Login = ({navigation})=> {
 
@@ -36,6 +37,40 @@ const Login = ({navigation})=> {
           login();
       }
   };
+
+  const { dispatch } = useContext(UserContext);
+
+    // 로그인 axios
+  const pressLoginBtn = async () => {
+    await axios
+      .post("http://133.186.228.218:8080/users/login", {
+        id: `${inputs.id}`,
+        password: `${inputs.password}`,
+      })
+      .then((response) => {
+        if (response.data.result) {
+          const accessToken = response.data.result.accessToken;
+          const refreshToken = response.data.result.refreshToken;
+          dispatch({ accessToken, refreshToken });
+          navigation.navigate("Bottom");
+        } else {
+          Alert.alert("Error", `${response.data.errorMessage}`);
+        }
+        // AsyncStorage.removeItem(response.data.token);
+        // AsyncStorage.setItem("token", response.data.token);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        // err.response.data == "입력하신 Id와 일치하는 아이디가 없습니다."
+        //   ? Alert.alert(
+        //       "로그인 실패",
+        //       "입력하신 Id와 일치하는 아이디가 없습니다."
+        //     )
+        //   : Alert.alert("로그인 실패", "비밀번호가 일치하지 않습니다");
+        Alert.alert("로그인 실패");
+      });
+  };
+
   const login = () => {
     setLoading(true);
     setTimeout(async () => {
@@ -101,7 +136,7 @@ const Login = ({navigation})=> {
             onChangeText={(text)=>handleOnChange(text,'password')}
             password />
           
-          <TouchableOpacity onPress={validate} activeOpacity={0.7}>
+          <TouchableOpacity onPress={pressLoginBtn} activeOpacity={0.7}>
             <View style={{
                 backgroundColor:'#ffbfbf', borderRadius:10,
                 width:'100%', height:45, marginTop:20,

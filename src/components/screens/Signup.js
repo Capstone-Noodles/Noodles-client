@@ -29,7 +29,27 @@ const Signup = ({navigation}) => {
   
   const [isChecked,setIsChecked] = React.useState(false); //전체동의 체크여부
   
+  const pressSignupBtn = async () => {
+    console.log(inputs);
+    await axios
+      .post("http://133.186.228.218:8080/users", {
+        id: `${inputs.id}`,
+        password: `${inputs.password}`,
+        phoneNum: `${inputs.phoneNumber}`,
+        name: `${inputs.name}`,
+      })
+      .then((response) => {
+        console.log(response.data.result);
+        // AsyncStorage.removeItem(response.data.token);
 
+        // AsyncStorage.setItem("token", response.data.token);
+        navigation.navigate("Login");
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("오류", err.message);
+      });
+  };
   
 
   const validate = () => {
@@ -213,7 +233,7 @@ const Signup = ({navigation}) => {
 
       
           <TouchableOpacity 
-            onPress={validate} 
+            onPress={pressSignupBtn} 
             activeOpacity={0.7} 
             /*disabled={isChecked? false:true}*/
             style={{padding:20}}>
