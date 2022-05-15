@@ -27,14 +27,7 @@ const Agreement = ()=> {
         },
     ];
 
-  const [checkAll,setCheckAll] = useState(false);
-  
-  const check_all = () => {
-    setCheckAll(!checkAll)
-    if (checkAll) {
-
-    }
-  }
+  const [isChecked,setIsChecked] = useState(false);
 
   return (
     <View>
@@ -46,10 +39,10 @@ const Agreement = ()=> {
               borderBottomWidth:2,
               width:'100%',
             }}>
-              <TouchableOpacity onPress={check_all}>
+              <TouchableOpacity onPress={()=> setIsChecked(!isChecked)}>
                   <Ionic name='ios-checkmark-circle-sharp' 
                         style={{
-                          color: checkAll ? '#ffbfbf':'#D9D9D9',
+                          color: isChecked ? '#ffbfbf':'#D9D9D9',
                           fontSize:20,
                           paddingRight:7}} />
               </TouchableOpacity>
@@ -58,7 +51,7 @@ const Agreement = ()=> {
 
       {
           checkInfo.map( (data,index)=> {
-            const [isChecked,setIsChecked] = useState(data.isChecked);
+            
               return(
                  <View key={index}>
 

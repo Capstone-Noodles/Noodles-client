@@ -34,8 +34,6 @@ const Signup = ({ navigation }) => {
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
 
-  const [isChecked, setIsChecked] = React.useState(false); //전체동의 체크여부
-
   const pressSignupBtn = async () => {
     console.log(inputs);
     await axios
@@ -232,7 +230,7 @@ const Signup = ({ navigation }) => {
         />
         <Input
           label="PhoneNumber"
-          placeholder="010-1234-5678"
+          placeholder="- 없이 숫자만 입력"
           iconName="ios-logo-whatsapp"
           error={errors.phoneNumber}
           onFocus={() => {
@@ -253,7 +251,7 @@ const Signup = ({ navigation }) => {
         />
       </View>
           
-      <Text style={{paddingTop:25,paddingBottom:15,paddingLeft:20, fontSize:20, opacity:0.6}}>
+      <Text style={{paddingTop:20,paddingBottom:15,paddingLeft:20, fontSize:20, opacity:0.6}}>
         서비스 이용 약관에 동의해 주세요.
       </Text>
       <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>

@@ -103,7 +103,7 @@ const Login = ({ navigation }) => {
       } else {
         Alert.alert("Error",'존재하지 않는 회원입니다!');
       } */
-    }, 2000);
+    }, 1000);
   };
   const handleOnChange = (text, input) => {
     setInputs((prevState) => ({ ...prevState, [input]: text }));

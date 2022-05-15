@@ -1,0 +1,43 @@
+//Friends Profile Data
+export const FriendsProfileData = [
+    {
+        name: '김지민',
+        accountName: '세빈',
+        StateMessage:'@JiMin',
+        profileImage: require('../../storage/images/profile1.jpg'),
+        posts: 56,
+        followers: 123,
+        following: 456,
+        follow: false,
+    },
+    {
+        name: '정세빈',
+        accountName: '친구1',
+        StateMessage:'@SeBin',
+        profileImage: require('../../storage/images/profile2.jpg'),
+        posts: 56,
+        followers: 123,
+        following: 456,
+        follow: false,
+    },
+    {
+        name: '조연주',
+        accountName: '친구2',
+        StateMessage:'@YoenJu',
+        profileImage: require('../../storage/images/profile3.jpg'),
+        posts: 56,
+        followers: 123,
+        following: 456,
+        follow: false,
+    },
+    {
+        name: '최승용',
+        accountName: '친구2',
+        StateMessage:'@SeongYong',
+        profileImage: require('../../storage/images/profile4.jpg'),
+        posts: 56,
+        followers: 123,
+        following: 456,
+        follow: false,
+    },
+]

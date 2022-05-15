@@ -31,6 +31,8 @@ const Profile = ({navigation}) => {
 
   const userNickname = '빵이';
   const userStateMessage = '@J_bread';
+  const follower ='4';
+  const following='1';
 
   //  
   const [image, setImage] = useState(null);
@@ -108,20 +110,21 @@ const Profile = ({navigation}) => {
               marginTop:10, alignItems:'center',
               flexDirection:'row', paddingHorizontal: 20,
               }}>
-              <TouchableOpacity>
-                <View style={{paddingRight:30,flexDirection:'row',alignItems:'center',}}>
+              <TouchableOpacity onPress={()=>navigation.navigate("Follower",{follower:follower})}>
+                <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
                     팔로워 </Title>
                   <Caption style={{fontSize:13,fontWeight:'500',lineHeight:14}}>
-                    1.2K</Caption>
+                    {follower}</Caption>
                 </View>
               </TouchableOpacity>
+              <View style={{paddingHorizontal:30}}></View>
               <TouchableOpacity>
-                <View style={{paddingLeft:30,flexDirection:'row',alignItems:'center',}}>
+                <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
                     팔로잉 </Title>
                   <Caption style={{fontSize:13,fontWeight:'500',lineHeight:14}}>
-                    1</Caption>
+                    {following}</Caption>
                 </View>
               </TouchableOpacity>
             </View>  
