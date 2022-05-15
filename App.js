@@ -24,7 +24,8 @@ import PresentLocate from './src/components/screens/PresentLocate';
 import { UserContext } from "./src/contexts/User";
 import { UserProvider } from "./src/contexts/User";
 import Follower from './src/components/screens/Follower';
-import FriendProfile from './src/components/screenComponents/FriendProfile';
+import Following from './src/components/screens/Following';
+import FriendProfile from './src/components/screens/FriendProfile';
 
 
 const App = () => {
@@ -134,7 +135,18 @@ const App = () => {
               headerShown: true,
               headerBackTitleVisible:false,
             })}/>
-          <Stack.Screen name="FriendProfile" component={FriendProfile}/>
+          <Stack.Screen name="Following" component={Following}
+            options={({route}) => ({
+              title: '팔로잉 ' + route.params.following + '명',
+              headerShown: true,
+              headerBackTitleVisible:false,
+            })}/>
+          <Stack.Screen name="FriendProfile" component={FriendProfile}
+            options={({route}) => ({
+              title: route.params.id,
+              headerShown: true,
+              headerBackTitleVisible:false,
+            })}/>
         
           <Stack.Screen name="Status" component={Status}/>
         </Stack.Navigator>

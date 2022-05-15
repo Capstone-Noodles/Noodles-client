@@ -119,7 +119,7 @@ const Profile = ({navigation}) => {
                 </View>
               </TouchableOpacity>
               <View style={{paddingHorizontal:30}}></View>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>navigation.navigate("Following",{following:following})}>
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
                     팔로잉 </Title>

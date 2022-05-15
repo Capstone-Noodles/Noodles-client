@@ -47,9 +47,7 @@ const MyPost = (props)=> {
             alignItems:'center',
             justifyContent:'space-around',
             paddingVertical:10}}>
-            <TouchableOpacity 
-                onPressIn={()=>props.data(require('../../storage/images/profile1.jpg'))}
-                onPressOut={()=>props.data(null)}>
+            <TouchableOpacity onPress={()=>navigation.navigate("PostDetails")}>
                 <Image source={require('../../storage/images/profile1.jpg')}
                     style={{width:120, height:120, borderRadius:100}}/>
             </TouchableOpacity>

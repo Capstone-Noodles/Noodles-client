@@ -13,7 +13,7 @@ const Follower = ({route})=> {
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
       <ScrollView style={{margin:10}} showsVerticalScrollIndicator={false}>
           {
-            FriendsProfileData.slice(0,4).map((data, index) => {
+            FriendsProfileData.slice(1,5).map((data, index) => {
               const [follow,setFollow] = useState(data.follow);
               return(
                 <View key={index} style={{width:'100%'}}>
@@ -34,8 +34,10 @@ const Follower = ({route})=> {
                         maxWidth:'64%',
                       }}
                       onPress={()=>navigation.push("FriendProfile", {
-                        name: data.name,
+                        id: data.id,
+                        nickname: data.nickname,
                         profileImage: data.profileImage,
+                        stateMessage: data.StateMessage,
                         follow: data.follow,
                         post: data.posts,
                         followers: data.followers,
@@ -52,7 +54,7 @@ const Follower = ({route})=> {
                       />
                       <View style={{flexDirection:'column'}}>
                         <Text style={{fontWeight:'bold'}}>
-                          {data.name}
+                          {data.nickname}
                         </Text>
                         <Text style={{color:'#484848'}}>
                           {data.StateMessage}
@@ -61,7 +63,7 @@ const Follower = ({route})=> {
                     </TouchableOpacity>
 
                     <TouchableOpacity 
-                      style={{width: follow? 72:68}}
+                      style={{width: 68}}
                       onPress={() => setFollow(!follow)}>
                       <View
                         style={{
@@ -73,7 +75,7 @@ const Follower = ({route})=> {
                           alignItems:'center'
                         }}>
                         <Text style={{color:follow ? '#6A6A6A':'#fff',fontWeight:'bold'}}>
-                          {follow ? 'Following':'Follow'}
+                          {follow ? '팔로잉':'팔로우'}
                         </Text>
                       </View>
                     </TouchableOpacity>
