@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import {
   Text,
   View,
@@ -9,12 +9,22 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
+import styled from "styled-components";
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import Agreement from "../screenComponents/Agreement";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Input from "../screenComponents/Input";
 import Loader from "../screenComponents/Loader";
 import axios from "axios";
+
+const ErrorText = styled.Text`
+  align-items: flex-start;
+  width: 100%;
+  height: 20px;
+  margin-left: 20px;
+  line-height: 20px;
+  color: grey;
+`;
 
 const Signup = ({ navigation }) => {
   const scrollRef = useRef();
@@ -33,6 +43,15 @@ const Signup = ({ navigation }) => {
   });
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
+  const [disabled, setDisabled] = React.useState(true);
+  const [duplicated, setDuplicated] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
+
+  useEffect(() => {
+    if (errorMessage == '사용가능한 아이디입니다.') {
+      setDisabled(inputs.id && inputs.password && inputs.phoneNumber && inputs.name);
+    }
+  }, [errorMessage, inputs]);
 
   const pressSignupBtn = async () => {
     console.log(inputs);
@@ -56,18 +75,36 @@ const Signup = ({ navigation }) => {
       });
   };
 
-  const validateIdDuplicate = async () => {
-    await axios
-      .get(`http://133.186.228.218:8080/users/idCheck?id=${inputs.id}`)
-      .then((response) => {
-        console.log(isOk);
-        Alert.alert("사용가능한 아이디입니다.");
+  const validateIdDuplicate = useCallback(async() => {
+    try {
+      axios({
+        method: 'get',
+        url: `http://133.186.228.218:8080/users/idCheck?id=${inputs.id}`,
       })
-      .catch((err) => {
-        Alert.alert("아이디가 중복되었습니다.");
-        console.log(err);
+      .then(function (response) {
+        setErrorMessage('사용가능한 아이디입니다.')
+      })
+      .catch(function(error) {
+        setErrorMessage('아이디가 중복되었습니다.')
       });
-  };
+    } catch (e) {
+    } finally {
+
+    }
+  }, [inputs, errorMessage]);
+
+  // const validateIdDuplicate = async () => {
+  //   await axios
+  //     .get(`http://133.186.228.218:8080/users/idCheck?id=${inputs.id}`)
+  //     .then((response) => {
+  //       console.log(isOk);
+  //       Alert.alert("사용가능한 아이디입니다.");
+  //     })
+  //     .catch((err) => {
+  //       Alert.alert("아이디가 중복되었습니다.");
+  //       console.log(err);
+  //     });
+  // };
 
   const validate = () => {
     Keyboard.dismiss();
@@ -170,6 +207,7 @@ const Signup = ({ navigation }) => {
           }}
           onChangeText={(text) => handleOnChange(text, "id")}
         />
+        <ErrorText>{errorMessage}</ErrorText>
         <View style={{ alignItems: "flex-end" }}>
           <TouchableOpacity
             style={{
@@ -283,7 +321,7 @@ const Signup = ({ navigation }) => {
       <TouchableOpacity
         onPress={pressSignupBtn}
         activeOpacity={0.7}
-        /*disabled={isChecked? false:true}*/
+        disabled={!disabled}
         style={{ padding: 20 }}
       >
         <View
