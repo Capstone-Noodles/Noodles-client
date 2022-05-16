@@ -17,12 +17,15 @@ import Input from "../screenComponents/Input";
 import Loader from "../screenComponents/Loader";
 import axios from "axios";
 
+const CheckIdContainer = styled.View`
+  flex-direction: row;
+`;
+
 const ErrorText = styled.Text`
-  align-items: flex-start;
-  width: 100%;
-  height: 20px;
+  flex: 1;
+  width: 50%;
+  height: 13px;
   margin-left: 20px;
-  line-height: 20px;
   color: grey;
 `;
 
@@ -49,7 +52,9 @@ const Signup = ({ navigation }) => {
 
   useEffect(() => {
     if (errorMessage == '사용가능한 아이디입니다.') {
-      setDisabled(inputs.id && inputs.password && inputs.phoneNumber && inputs.name);
+      if (inputs.id && inputs.password && inputs.phoneNumber && inputs.name) {
+        setDisabled();
+      }
     }
   }, [errorMessage, inputs]);
 
@@ -155,6 +160,7 @@ const Signup = ({ navigation }) => {
     }
   };
   const signup = () => {
+    console.log(disabled);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -207,23 +213,25 @@ const Signup = ({ navigation }) => {
           }}
           onChangeText={(text) => handleOnChange(text, "id")}
         />
-        <ErrorText>{errorMessage}</ErrorText>
-        <View style={{ alignItems: "flex-end" }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#E5E5E5",
-              borderRadius: 10,
-              width: 50,
-              height: 15,
-              alignItems: "center",
-              justifyContent: "center",
-              marginVertical: 5,
-            }}
-            onPress={validateIdDuplicate}
-          >
-            <Text style={{ textAlign: "right", fontSize: 12 }}>중복확인</Text>
-          </TouchableOpacity>
-        </View>
+        <CheckIdContainer>
+          <ErrorText>{errorMessage}</ErrorText>
+          <View style={{ alignItems: "flex-end" }}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#E5E5E5",
+                borderRadius: 10,
+                width: 60,
+                height: 17,
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 5,
+              }}
+              onPress={validateIdDuplicate}
+            >
+              <Text style={{ textAlign: "right", fontSize: 12 }}>중복확인</Text>
+            </TouchableOpacity>
+          </View>
+        </CheckIdContainer>
         {/*<View style={{marginBottom:15,}}>
             <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'baseline'}}>
               <Text style={{marginVertical:5,fontSize:14,color:'gray'}}>ID</Text>
@@ -321,7 +329,7 @@ const Signup = ({ navigation }) => {
       <TouchableOpacity
         onPress={pressSignupBtn}
         activeOpacity={0.7}
-        disabled={!disabled}
+        disabled={disabled}
         style={{ padding: 20 }}
       >
         <View
