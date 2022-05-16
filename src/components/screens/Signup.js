@@ -56,6 +56,19 @@ const Signup = ({ navigation }) => {
       });
   };
 
+  const validateIdDuplicate = async () => {
+    await axios
+      .get(`http://133.186.228.218:8080/users/idCheck?id=${inputs.id}`)
+      .then((response) => {
+        console.log(isOk);
+        Alert.alert("사용가능한 아이디입니다.");
+      })
+      .catch((err) => {
+        Alert.alert("아이디가 중복되었습니다.");
+        console.log(err);
+      });
+  };
+
   const validate = () => {
     Keyboard.dismiss();
     //inputs.id=inputs.id.replace(/\s| /gi, '');
@@ -168,6 +181,7 @@ const Signup = ({ navigation }) => {
               justifyContent: "center",
               marginVertical: 5,
             }}
+            onPress={validateIdDuplicate}
           >
             <Text style={{ textAlign: "right", fontSize: 12 }}>중복확인</Text>
           </TouchableOpacity>
@@ -250,8 +264,16 @@ const Signup = ({ navigation }) => {
           onChangeText={(text) => handleOnChange(text, "name")}
         />
       </View>
-          
-      <Text style={{paddingTop:20,paddingBottom:15,paddingLeft:20, fontSize:20, opacity:0.6}}>
+
+      <Text
+        style={{
+          paddingTop: 20,
+          paddingBottom: 15,
+          paddingLeft: 20,
+          fontSize: 20,
+          opacity: 0.6,
+        }}
+      >
         서비스 이용 약관에 동의해 주세요.
       </Text>
       <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
