@@ -26,6 +26,7 @@ import { UserProvider } from "./src/contexts/User";
 import Follower from './src/components/screens/Follower';
 import Following from './src/components/screens/Following';
 import FriendProfile from './src/components/screens/FriendProfile';
+import Comment from './src/components/screens/Comment';
 
 
 const App = () => {
@@ -147,6 +148,7 @@ const App = () => {
               headerShown: true,
               headerBackTitleVisible:false,
             })}/>
+          <Stack.Screen name="Comment" component={Comment}/>
         
           <Stack.Screen name="Status" component={Status}/>
         </Stack.Navigator>

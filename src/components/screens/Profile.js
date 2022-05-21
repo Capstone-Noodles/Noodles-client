@@ -111,10 +111,10 @@ const Profile = ({navigation}) => {
               flexDirection:'row', paddingHorizontal: 20,
               }}>
               <TouchableOpacity onPress={()=>navigation.navigate("Follower",{follower:follower})}>
-                <View style={{flexDirection:'row',alignItems:'center'}}>
+                <View style={{flexDirection:'row',alignItems:'center',}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
                     팔로워 </Title>
-                  <Caption style={{fontSize:13,fontWeight:'500',lineHeight:14}}>
+                  <Caption style={{fontSize:13,fontWeight:'500',lineHeight:17}}>
                     {follower}</Caption>
                 </View>
               </TouchableOpacity>
@@ -123,7 +123,7 @@ const Profile = ({navigation}) => {
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
                     팔로잉 </Title>
-                  <Caption style={{fontSize:13,fontWeight:'500',lineHeight:14}}>
+                  <Caption style={{fontSize:13,fontWeight:'500',lineHeight:17}}>
                     {following}</Caption>
                 </View>
               </TouchableOpacity>

@@ -14,6 +14,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
 import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
+import {useNavigation} from '@react-navigation/native';
 
 const Post = () => {
   const userNickname = "빵이";
@@ -57,6 +58,7 @@ const Post = () => {
   const [others_modalVisible, setOthers_ModalVisible] = useState(false);
   const devHeight = Dimensions.get("window").height;
   const { user } = useContext(UserContext);
+  const navigation = useNavigation();
 
   // 게시물 읽어오는 axios
   useEffect(async () => {
@@ -93,6 +95,7 @@ const Post = () => {
         };
 
         return (
+          
           <View
             key={index}
             style={{
@@ -139,7 +142,8 @@ const Post = () => {
                     style={{ fontSize: 20, paddingRight: 10 }}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                 onPress={()=>navigation.navigate('Comment')}>
                   <Ionic
                     name="ios-chatbubble-outline"
                     style={{ fontSize: 20, paddingRight: 10 }}
