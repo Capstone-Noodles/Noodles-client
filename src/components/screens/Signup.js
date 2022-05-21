@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import {
   Text,
   View,
@@ -9,12 +9,25 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
+import styled from "styled-components";
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import Agreement from "../screenComponents/Agreement";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Input from "../screenComponents/Input";
 import Loader from "../screenComponents/Loader";
 import axios from "axios";
+
+const CheckIdContainer = styled.View`
+  flex-direction: row;
+`;
+
+const ErrorText = styled.Text`
+  flex: 1;
+  width: 50%;
+  height: 13px;
+  margin-left: 20px;
+  color: grey;
+`;
 
 const Signup = ({ navigation }) => {
   const scrollRef = useRef();
@@ -33,6 +46,17 @@ const Signup = ({ navigation }) => {
   });
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
+  const [disabled, setDisabled] = React.useState(true);
+  const [duplicated, setDuplicated] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
+
+  useEffect(() => {
+    if (errorMessage == '사용가능한 아이디입니다.') {
+      if (inputs.id && inputs.password && inputs.phoneNumber && inputs.name) {
+        setDisabled();
+      }
+    }
+  }, [errorMessage, inputs]);
 
   const pressSignupBtn = async () => {
     console.log(inputs);
@@ -55,6 +79,37 @@ const Signup = ({ navigation }) => {
         Alert.alert("오류", err.message);
       });
   };
+
+  const validateIdDuplicate = useCallback(async() => {
+    try {
+      axios({
+        method: 'get',
+        url: `http://133.186.228.218:8080/users/idCheck?id=${inputs.id}`,
+      })
+      .then(function (response) {
+        setErrorMessage('사용가능한 아이디입니다.')
+      })
+      .catch(function(error) {
+        setErrorMessage('아이디가 중복되었습니다.')
+      });
+    } catch (e) {
+    } finally {
+
+    }
+  }, [inputs, errorMessage]);
+
+  // const validateIdDuplicate = async () => {
+  //   await axios
+  //     .get(`http://133.186.228.218:8080/users/idCheck?id=${inputs.id}`)
+  //     .then((response) => {
+  //       console.log(isOk);
+  //       Alert.alert("사용가능한 아이디입니다.");
+  //     })
+  //     .catch((err) => {
+  //       Alert.alert("아이디가 중복되었습니다.");
+  //       console.log(err);
+  //     });
+  // };
 
   const validate = () => {
     Keyboard.dismiss();
@@ -105,6 +160,7 @@ const Signup = ({ navigation }) => {
     }
   };
   const signup = () => {
+    console.log(disabled);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -157,21 +213,25 @@ const Signup = ({ navigation }) => {
           }}
           onChangeText={(text) => handleOnChange(text, "id")}
         />
-        <View style={{ alignItems: "flex-end" }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#E5E5E5",
-              borderRadius: 10,
-              width: 50,
-              height: 15,
-              alignItems: "center",
-              justifyContent: "center",
-              marginVertical: 5,
-            }}
-          >
-            <Text style={{ textAlign: "right", fontSize: 12 }}>중복확인</Text>
-          </TouchableOpacity>
-        </View>
+        <CheckIdContainer>
+          <ErrorText>{errorMessage}</ErrorText>
+          <View style={{ alignItems: "flex-end" }}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#E5E5E5",
+                borderRadius: 10,
+                width: 60,
+                height: 17,
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 5,
+              }}
+              onPress={validateIdDuplicate}
+            >
+              <Text style={{ textAlign: "right", fontSize: 12 }}>중복확인</Text>
+            </TouchableOpacity>
+          </View>
+        </CheckIdContainer>
         {/*<View style={{marginBottom:15,}}>
             <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'baseline'}}>
               <Text style={{marginVertical:5,fontSize:14,color:'gray'}}>ID</Text>
@@ -250,8 +310,16 @@ const Signup = ({ navigation }) => {
           onChangeText={(text) => handleOnChange(text, "name")}
         />
       </View>
-          
-      <Text style={{paddingTop:20,paddingBottom:15,paddingLeft:20, fontSize:20, opacity:0.6}}>
+
+      <Text
+        style={{
+          paddingTop: 20,
+          paddingBottom: 15,
+          paddingLeft: 20,
+          fontSize: 20,
+          opacity: 0.6,
+        }}
+      >
         서비스 이용 약관에 동의해 주세요.
       </Text>
       <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
@@ -261,7 +329,7 @@ const Signup = ({ navigation }) => {
       <TouchableOpacity
         onPress={pressSignupBtn}
         activeOpacity={0.7}
-        /*disabled={isChecked? false:true}*/
+        disabled={disabled}
         style={{ padding: 20 }}
       >
         <View
