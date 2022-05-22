@@ -43,7 +43,9 @@ const Chat = ({navigation})=> {
         borderBottomColor:'#ffd2cf',
         borderBottomWidth:3,
       }}>
-        <Ionic name="locate" style={{fontSize: 30}}/>
+        <TouchableOpacity onPress={()=>navigation.navigate("Locate")}>
+          <Ionic name="locate" style={{fontSize: 30}}/>
+        </TouchableOpacity>
         <View style={{flexDirection:'row',alignItems:'baseline'}}>
           <Text style={{
             fontSize:25, fontWeight:'700', color:'tomato'}}>

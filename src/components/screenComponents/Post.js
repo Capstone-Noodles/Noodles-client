@@ -11,6 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import { PostData } from '../screenComponents/Data';
 
 const Post = () => {
+
   const userNickname = "빵이";
   const devHeight = Dimensions.get("window").height;
   const { user } = useContext(UserContext);
@@ -44,7 +45,7 @@ const Post = () => {
         const [closed,setClosed] = useState(data.closed);
         const [modalVisible, setModalVisible] = useState(false);
         const [others_modalVisible, setOthers_ModalVisible] = useState(false);
-        
+       
         const popup = () => {
           if (userNickname === data.Nickname) {
             //console.log([userNickname,data.Nickname])
@@ -144,10 +145,25 @@ const Post = () => {
                   alignItems: "flex-start",
                 }}
               >
-                <Image
-                  source={data.postPersonImage}
-                  style={{ width: 40, height: 40, borderRadius: 100 }}
-                />
+                <TouchableOpacity 
+                  onPress={
+                    (userNickname === data.Nickname)? 
+                    ()=>navigation.navigate("Profile") 
+                    : ()=>navigation.navigate("FriendProfile", {
+                      id: data.id,
+                      nickname: data.Nickname,
+                      profileImage: data.postPersonImage,
+                      stateMessage: data.StateMessage,
+                      follow: data.follow,
+                      post: data.posts,
+                      followers: data.followers,
+                      following: data.following,
+                    })}>
+                  <Image
+                    source={data.postPersonImage}
+                    style={{ width: 40, height: 40, borderRadius: 100 }}
+                  />
+                </TouchableOpacity>
                 <View style={{ paddingLeft: 5 }}>
                   <Text
                     style={{

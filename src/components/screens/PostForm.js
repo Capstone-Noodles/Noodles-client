@@ -89,7 +89,9 @@ const PostForm = ({navigation})=> {
         borderBottomColor:'#ffd2cf',
         borderBottomWidth:3,
       }}>
-        <Ionic name="locate" style={{fontSize:30}}/>
+        <TouchableOpacity onPress={()=>navigation.navigate("Locate")}>
+          <Ionic name="locate" style={{fontSize: 30}}/>
+        </TouchableOpacity>
         <Text>{location}</Text>
         <Ionic name="notifications-outline" style={{fontSize:25}}/>
       </View>

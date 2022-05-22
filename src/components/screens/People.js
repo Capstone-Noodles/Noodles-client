@@ -8,7 +8,7 @@ import Evilcons from "react-native-vector-icons/EvilIcons";
 import Stories from '../screenComponents/Stories';
 import PeoplePost from '../screenComponents/PeoplePost';
 
-const People = ()=> {
+const People = ({navigation})=> {
 
   //화면 맨 위로
   const scrollRef = useRef();
@@ -34,7 +34,9 @@ const People = ()=> {
         borderBottomColor:'#ffd2cf',
         borderBottomWidth:1.5,
       }}>
-        <Ionic name="locate" style={{fontSize: 30}}/>
+        <TouchableOpacity onPress={()=>navigation.navigate("Locate")}>
+          <Ionic name="locate" style={{fontSize: 30}}/>
+        </TouchableOpacity>
         <View style={{flexDirection:'row',alignItems:'baseline'}}>
           <Text style={{
             fontSize:25, fontWeight:'700', color:'tomato'}}>
