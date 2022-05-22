@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Modal,
-  Dimensions,
-} from "react-native";
+import { Text, View, Image, TouchableOpacity, Modal, Dimensions, } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionic from "react-native-vector-icons/Ionicons";
@@ -15,47 +8,10 @@ import Foundation from "react-native-vector-icons/Foundation";
 import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
 import {useNavigation} from '@react-navigation/native';
+import { PostData } from '../screenComponents/Data';
 
 const Post = () => {
   const userNickname = "빵이";
-  const postInfo = [
-    {
-      Nickname: "빵이",
-      postPersonImage: require("../../storage/images/fig.jpg"),
-      postImage: require("../../storage/images/post1.png"),
-      location: "경기도 수원시 망포동",
-      textmsg: "안냐세염^^",
-      distance: "대략 130m",
-      likes: 765,
-      isLiked: false,
-      bookmarked: false,
-    },
-    {
-      Nickname: "세빈",
-      postPersonImage: require("../../storage/images/profile1.jpg"),
-      postImage: require("../../storage/images/post22.jpg"),
-      location: "경기도 수원시 화서동",
-      textmsg: "안녕 난 세빈이야",
-      distance: "대략 270m",
-      likes: 81,
-      isLiked: false,
-      bookmarked: false,
-    },
-    {
-      Nickname: "짱구",
-      postPersonImage: require("../../storage/images/profile2.jpg"),
-      postImage: require("../../storage/images/post2.png"),
-      location: "경기도 수원시 떡잎마을",
-      textmsg: "안녕 난 짱구야",
-      distance: "대략 560m",
-      likes: 99,
-      isLiked: false,
-      bookmarked: false,
-    },
-  ];
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [others_modalVisible, setOthers_ModalVisible] = useState(false);
   const devHeight = Dimensions.get("window").height;
   const { user } = useContext(UserContext);
   const navigation = useNavigation();
@@ -80,10 +36,15 @@ const Post = () => {
 
   return (
     <View>
-      {postInfo.map((data, index) => {
+      {
+        PostData.slice(0,10).map((data, index) => {
+
         const [like, setLike] = useState(data.isLiked);
         const [bookmark, setBookmark] = useState(data.bookmarked);
-
+        const [closed,setClosed] = useState(data.closed);
+        const [modalVisible, setModalVisible] = useState(false);
+        const [others_modalVisible, setOthers_ModalVisible] = useState(false);
+        
         const popup = () => {
           if (userNickname === data.Nickname) {
             //console.log([userNickname,data.Nickname])
@@ -95,7 +56,10 @@ const Post = () => {
         };
 
         return (
-          
+          <View>
+          {
+            closed ? null:
+            (
           <View
             key={index}
             style={{
@@ -240,46 +204,8 @@ const Post = () => {
               </View>
             </View>
 
-            {/*<View style={{
-                          paddingHorizontal:15, 
-                          borderColor:'#ffbfbf', borderWidth:1.5,
-                          borderRadius:90}}>
-                        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                            <View style={{flexDirection:'row', alignItems:'center'}}>
-                                <Image
-                                  source={data.postPersonImage}
-                                  style={{
-                                      width:25, height:25,
-                                      borderRadius:100,
-                                      backgroundColor:'orange',
-                                      marginRight:10,
-                                  }}
-                                />
-                                <TextInput
-                                  placeholder='Add a comment'
-                                  style={{opacity:0.5}}
-                                />
-                            </View>
-                            <View style={{flexDirection:'row', alignItems:'center'}}>
-                                <Entypo
-                                  name="emoji-happy"
-                                  style={{fontSize:15, color:'lightgreen', marginRight:10}}
-                                />
-                                <Entypo
-                                  name="emoji-neutral"
-                                  style={{fontSize:15, color:'pink', marginRight:10}}
-                                />
-                                <Entypo
-                                  name="emoji-sad"
-                                  style={{fontSize:15, color:'red'}}
-                                />
-                            </View>
-                        </View>
-                      </View>*/}
-          </View>
-        );
-      })}
-      {/*User_Modal*/}
+
+
       <View>
         <Modal
           animationType="fade"
@@ -358,7 +284,7 @@ const Post = () => {
                     수정
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>setClosed(true)}>
                   <Foundation
                     name="page-delete"
                     style={{ fontSize: 65, color: "#ffbfbf" }}
@@ -379,7 +305,7 @@ const Post = () => {
         </Modal>
       </View>
 
-      {/*Other_Modal*/}
+
       <View>
         <Modal
           animationType="fade"
@@ -493,6 +419,18 @@ const Post = () => {
           </View>
         </Modal>
       </View>
+
+
+      
+    </View>
+    )}
+      
+      </View>
+        );
+      })}
+      
+
+      
     </View>
   );
 };

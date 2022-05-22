@@ -148,7 +148,12 @@ const App = () => {
               headerShown: true,
               headerBackTitleVisible:false,
             })}/>
-          <Stack.Screen name="Comment" component={Comment}/>
+          <Stack.Screen name="Comment" component={Comment}
+            options={({route}) => ({
+              title: '댓글',
+              headerShown: true,
+              headerBackTitleVisible:false,
+            })}/>
         
           <Stack.Screen name="Status" component={Status}/>
         </Stack.Navigator>
