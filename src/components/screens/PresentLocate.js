@@ -3,6 +3,7 @@ import { Text, View, Dimensions, StatusBar, TouchableOpacity } from 'react-nativ
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import * as Location from 'expo-location';
 import Ionic from "react-native-vector-icons/Ionicons";
+import axios from "axios";
 
 const PresentLocate = ({navigation})=> {
   const devWidth= Dimensions.get('window').width;
@@ -44,6 +45,26 @@ const PresentLocate = ({navigation})=> {
   } else if (location) {
     text = JSON.stringify(location);
     console.log('[LOG] current location : ' + text);
+
+      // 좌표로 주소 변환
+      let latitude = location.coords.latitude;
+      let longitude = location.coords.longitude;
+      const addressInfo = async() => {
+          await axios.get('https://dapi.kakao.com/v2/local/geo/coord2address.json',
+              {
+                  headers: {
+                      Authorization: 'KakaoAK 593cba0bc3ea7f52024615b72630d3ee'
+                  },
+                  params: {
+                      x: `${longitude}`,
+                      y: `${latitude}`
+                  }
+              }).then((res)=> {
+                  console.log(res.data.documents[0].road_address.address_name);     // 도로명
+                  console.log(res.data.documents[0].address.address_name);          // 지번
+          });
+      }
+      addressInfo();
   }
 
   return (
