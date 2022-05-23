@@ -16,6 +16,7 @@ const Post = () => {
   const devHeight = Dimensions.get("window").height;
   const { user } = useContext(UserContext);
   const navigation = useNavigation();
+  let posts = [];
 
   // 게시물 읽어오는 axios
   useEffect(async () => {
@@ -30,7 +31,14 @@ const Post = () => {
       )
       .then((response) => {
         const result = response.data;
-        console.log(result);
+        result.map((post)=> {
+          posts.push(post)
+        })
+        // posts.map((data)=> {
+        //   console.log(data);
+        //   console.log(data.content);
+        //   console.log(data.postImageList)
+        // })
       })
       .catch((err) => {});
   }, [user]);
@@ -38,11 +46,11 @@ const Post = () => {
   return (
     <View>
       {
-        PostData.slice(0,10).map((data, index) => {
+        posts.map((data, index) => {
 
         const [like, setLike] = useState(data.isLiked);
-        const [bookmark, setBookmark] = useState(data.bookmarked);
-        const [closed,setClosed] = useState(data.closed);
+        const [bookmark, setBookmark] = useState(data.isBookmarked);
+        //const [closed,setClosed] = useState(data.closed);
         const [modalVisible, setModalVisible] = useState(false);
         const [others_modalVisible, setOthers_ModalVisible] = useState(false);
        
@@ -59,7 +67,7 @@ const Post = () => {
         return (
           <View>
           {
-            closed ? null:
+            //closed ? null:
             (
           <View
             key={index}
@@ -80,7 +88,7 @@ const Post = () => {
               }}
             >
               <Image
-                source={data.postImage}
+                source={{uri:'https://placeimg.com/140/140/any'}}
                 style={{ width: "95%", height: 350, borderRadius: 30 }}
               />
             </View>
@@ -150,17 +158,17 @@ const Post = () => {
                     (userNickname === data.Nickname)? 
                     ()=>navigation.navigate("Profile") 
                     : ()=>navigation.navigate("FriendProfile", {
-                      id: data.id,
-                      nickname: data.Nickname,
-                      profileImage: data.postPersonImage,
-                      stateMessage: data.StateMessage,
-                      follow: data.follow,
-                      post: data.posts,
-                      followers: data.followers,
-                      following: data.following,
+                      //id: data.id,
+                      //nickname: data.Nickname,
+                      profileImage: data.profileImage,
+                      //stateMessage: data.StateMessage,
+                      //follow: data.follow,
+                      //post: data.posts,
+                      //followers: data.followers,
+                      //following: data.following,
                     })}>
                   <Image
-                    source={data.postPersonImage}
+                    source={{uri:'https://placeimg.com/140/140/any'}}
                     style={{ width: 40, height: 40, borderRadius: 100 }}
                   />
                 </TouchableOpacity>
@@ -172,7 +180,7 @@ const Post = () => {
                     }}
                   >
                     {" "}
-                    {data.Nickname}
+                    
                   </Text>
                   <Text
                     style={{
@@ -192,7 +200,7 @@ const Post = () => {
                       paddingLeft: 4,
                     }}
                   >
-                    {data.textmsg}
+                    {data.content}
                   </Text>
                 </View>
               </View>

@@ -154,7 +154,7 @@ const Login = ({ navigation }) => {
           password
         />
 
-        <TouchableOpacity onPress={validate} activeOpacity={0.7}>
+        <TouchableOpacity onPress={pressLoginBtn} activeOpacity={0.7}>
           <View
             style={{
               backgroundColor: "#ffbfbf",
