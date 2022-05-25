@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import {  View,ScrollView, Image, ImageBackground, StatusBar, TouchableOpacity, TextInput, Modal, Dimensions } from 'react-native';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
@@ -9,7 +9,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";
 import { UserContext, UserProvider } from "../../contexts/User";
-
+import axios from "axios";
 
 const PostForm = ({navigation})=> {
 
@@ -18,6 +18,7 @@ const PostForm = ({navigation})=> {
   const [upload, setupload] = useState(false);
   //앨범에서 사진 가져오기
   const [image, setImage] = useState(null);
+  const [content, setContent] = useState('');
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     setupload(true);
@@ -44,13 +45,11 @@ const PostForm = ({navigation})=> {
     setupload(true);
     setModalVisible(!modalVisible);
     let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 4],
       quality: 1,
     });
-
-    //console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);
@@ -58,34 +57,67 @@ const PostForm = ({navigation})=> {
       setupload(false);
     }
   };
+
   //이미지 삭제
   const delete_image = async () => {
     setImage(null);
     setupload(false);
   }
 
+  const _handleContent = (content) => {
+    setContent(content);
+  };
+
   //업로드버튼 클릭시
   const uploadButton = useCallback(async() => {
     try {
       if (user.latitude == null) {
-        dispatch({ location: '서울 중구 오장동 206-30' , latitude: 37.5642135, longitude: 127.0016985 });
+        dispatch({ 
+          accessToken: user.accessToken, 
+          refreshToken: user.refreshToken,
+          id: user.id,
+          location: '서울 중구 오장동',
+          latitude: 37.5642135, 
+          longitude: 127.0016985
+        });
       }
-      axios({
-        method: 'post',
-        url: 'http://133.186.228.218:8080/posts/write',
-        data: { 
-          uploadDto : { 
-            longitude: `${user?.longitude}`, 
-            latitude: `${user?.latitude}`,
-            location: `${user?.location}`,
-            content: `${content}`,
-          },
-          imageFileList : `${image}`
-        },
+      
+      // const data = {
+      //   uploadDto : { 
+      //     longitude: `${user?.longitude}`,
+      //     latitude: `${user?.latitude}`,
+      //     location: `${user?.location}`,
+      //     content: `${content}`,
+      //   },
+      //   imageFileList : `${image}`,
+      // }
+      const form = new FormData();
+      const filename = image.split('/').pop();
+      const match = /\.(\w+)$/.exec(filename ?? '');
+      const type = match ? `image/${match[1]}` : `image`;
+      const uploadDto = {
+        longitude: `${user?.longitude}`,
+        latitude: `${user?.latitude}`,
+        location: `${user?.location}`,
+        content: `${content}`,
+      }
+      form.append('uploadDto', {uploadDto});
+      form.append('imageFileList', { uri: image, name: filename, type });
+      console.log(form);
+      axios.post('http://133.186.228.218:8080/posts/write', form, {
         headers: {
           "x-auth-token": `${user?.accessToken}`,
         }
       })
+      // axios({
+      //   method: 'post',
+      //   url: 'http://133.186.228.218:8080/posts/write',
+      //   headers: {
+      //     'x-auth-token': `${user?.accessToken}`,
+      //     'Content-Type': 'multipart/form-data'
+      //   },
+      //   data: form
+      // })
       .then(function(response){
         Alert.alert("알림", "글이 작성되었습니다.");
         return response.data;
@@ -94,10 +126,11 @@ const PostForm = ({navigation})=> {
         alert("Error",error);
       });
     } catch (e) {
-      alert(image);
+      console.log(e);
+      alert(e);
     } finally {
     }
-  }, [image, user]);
+  }, [image, user, dispatch, content]);
 
   //BottomPopup
   const [modalVisible, setModalVisible] = useState(false);
@@ -120,7 +153,7 @@ const PostForm = ({navigation})=> {
         <TouchableOpacity onPress={()=>navigation.navigate("Locate")}>
           <Ionic name="locate" style={{fontSize: 30}}/>
         </TouchableOpacity>
-        <Text>{location}</Text>
+        <Text>{user.location}</Text>
         <Ionic name="notifications-outline" style={{fontSize:25}}/>
       </View>
 
@@ -172,8 +205,10 @@ const PostForm = ({navigation})=> {
           }}>
               <TextInput 
                 style={{width:'95%'}}
+                value={content}
                 multiline
                 numberOfLines={8}
+                onChangeText={_handleContent}
                 placeholder="글을 자유롭게 작성해보세요."
               />
           </View>
