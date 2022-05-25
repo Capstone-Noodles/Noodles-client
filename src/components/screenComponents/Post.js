@@ -463,7 +463,6 @@ const Post = () => {
           });
         }
         setPosts(list);
-        console.log(list);
         return response.res;
       })
       .catch(function(error){
@@ -478,16 +477,14 @@ const Post = () => {
   }, [user, setPosts]);
 
   return (
-    <Container>
-      <FlatList
-        keyExtractor={item => item['id'].toString()}
-        data={posts}
-        renderItem={({ item }) => (
-          <Item item={item} />
-        )}
-        windowSize={3}
-      />
-  </Container>
+    <FlatList
+      keyExtractor={item => item['id'].toString()}
+      data={posts}
+      renderItem={({ item }) => (
+        <Item item={item} />
+      )}
+      windowSize={3}
+    />
   );
 };
 

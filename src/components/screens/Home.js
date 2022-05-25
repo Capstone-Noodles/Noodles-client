@@ -19,6 +19,13 @@ const Home = ({navigation})=> {
     });
   }
   
+  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 34
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    )
+  }
 
   return (
     
@@ -59,7 +66,7 @@ const Home = ({navigation})=> {
         <Ionic name="notifications-outline" style={{fontSize:25}}/>
       </View>
 
-      <ScrollView ref={scrollRef}>
+      <View ref={scrollRef}>
         {/*<Stories/>*/}
         <Post/>
         <View style={{
@@ -72,7 +79,7 @@ const Home = ({navigation})=> {
                    style={{fontSize:60, opacity:0.2}}/>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
 
     </View>
     

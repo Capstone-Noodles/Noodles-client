@@ -58,11 +58,15 @@ const PresentLocate = ({navigation})=> {
                       x: `${longitude}`,
                       y: `${latitude}`
                   }
-              }).then((res)=> {
+              })
+              .then((res)=> {
                 dispatch({ location: res.data.documents[0].road_address.address_name, latitude: latitude, longitude: longitude });
                 //console.log(res.data.documents[0].address.address_name); // 지번
                 //console.log(res.data.documents[0].road_address.address_name); // 도로명
-          });
+              })
+              .catch((err) => {
+                Alert.alert("니 주소 없다잉");
+              });
       }
       addressInfo();
   }
