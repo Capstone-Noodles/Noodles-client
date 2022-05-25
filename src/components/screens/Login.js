@@ -68,7 +68,7 @@ const Login = ({ navigation }) => {
         // AsyncStorage.setItem("token", response.data.token);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        // console.log(err.response.data);
         // err.response.data == "입력하신 Id와 일치하는 아이디가 없습니다."
         //   ? Alert.alert(
         //       "로그인 실패",
