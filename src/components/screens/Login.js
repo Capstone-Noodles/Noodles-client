@@ -59,7 +59,8 @@ const Login = ({ navigation }) => {
         if (response.data.result) {
           const accessToken = response.data.result.accessToken;
           const refreshToken = response.data.result.refreshToken;
-          dispatch({ accessToken, refreshToken });
+          const id = inputs.id;
+          dispatch({ accessToken, refreshToken, id });
           navigation.navigate("Bottom");
         } else {
           Alert.alert("Error", `${response.data.errorMessage}`);

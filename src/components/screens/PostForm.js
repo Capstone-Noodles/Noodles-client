@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {  View,ScrollView, Image, ImageBackground, StatusBar, TouchableOpacity, TextInput, Modal, Dimensions } from 'react-native';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
@@ -8,12 +8,13 @@ import Ionic from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";
+import { UserContext, UserProvider } from "../../contexts/User";
 
 
 const PostForm = ({navigation})=> {
 
-  const location = ['제주도 서귀포시 천지동'];
-
+  const { user } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
   const [upload, setupload] = useState(false);
   //앨범에서 사진 가져오기
   const [image, setImage] = useState(null);
@@ -64,9 +65,39 @@ const PostForm = ({navigation})=> {
   }
 
   //업로드버튼 클릭시
-  const uploadButton = () => {
-    navigation.navigate("Home")
-  }
+  const uploadButton = useCallback(async() => {
+    try {
+      if (user.latitude == null) {
+        dispatch({ location: '서울 중구 오장동 206-30' , latitude: 37.5642135, longitude: 127.0016985 });
+      }
+      axios({
+        method: 'post',
+        url: 'http://133.186.228.218:8080/posts/write',
+        data: { 
+          uploadDto : { 
+            longitude: `${user?.longitude}`, 
+            latitude: `${user?.latitude}`,
+            location: `${user?.location}`,
+            content: `${content}`,
+          },
+          imageFileList : `${image}`
+        },
+        headers: {
+          "x-auth-token": `${user?.accessToken}`,
+        }
+      })
+      .then(function(response){
+        Alert.alert("알림", "글이 작성되었습니다.");
+        return response.data;
+      })
+      .catch(function(error){
+        alert("Error",error);
+      });
+    } catch (e) {
+      alert(image);
+    } finally {
+    }
+  }, [image, user]);
 
   //BottomPopup
   const [modalVisible, setModalVisible] = useState(false);
@@ -75,9 +106,6 @@ const PostForm = ({navigation})=> {
   return (
     <ScrollView style={{flex:1,backgroundColor:'white',height:'100%'}}>
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
-      
-      
-
       <View style={{
         justifyContent: 'space-between',
         flexDirection: 'row',

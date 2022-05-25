@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import * as Location from 'expo-location';
 import Ionic from "react-native-vector-icons/Ionicons";
+import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
 
 const PresentLocate = ({navigation})=> {
   const devWidth= Dimensions.get('window').width;
   const devHeight= Dimensions.get('window').height;
+  const { dispatch } = useContext(UserContext);
 
   const [mapRegion, setmapRegion] = useState({
     latitude: 35.91395373474155,
@@ -25,7 +27,7 @@ const PresentLocate = ({navigation})=> {
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  // Get current location information 
+  // Get current location information
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -43,9 +45,6 @@ const PresentLocate = ({navigation})=> {
   if (errorMsg) {
     text = errorMsg;
   } else if (location) {
-    text = JSON.stringify(location);
-    console.log('[LOG] current location : ' + text);
-
       // 좌표로 주소 변환
       let latitude = location.coords.latitude;
       let longitude = location.coords.longitude;
@@ -59,10 +58,15 @@ const PresentLocate = ({navigation})=> {
                       x: `${longitude}`,
                       y: `${latitude}`
                   }
-              }).then((res)=> {
-                  console.log(res.data.documents[0].road_address.address_name);     // 도로명
-                  console.log(res.data.documents[0].address.address_name);          // 지번
-          });
+              })
+              .then((res)=> {
+                dispatch({ location: res.data.documents[0].road_address.address_name, latitude: latitude, longitude: longitude });
+                //console.log(res.data.documents[0].address.address_name); // 지번
+                //console.log(res.data.documents[0].road_address.address_name); // 도로명
+              })
+              .catch((err) => {
+                Alert.alert("니 주소 없다잉");
+              });
       }
       addressInfo();
   }
