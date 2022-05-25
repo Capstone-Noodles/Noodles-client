@@ -17,16 +17,30 @@ const Container = styled.View`
 `;
 
 const Item = React.memo(
-  ({ item: { id, content, distance, isBookmarked, isLiked, likes, postIdx, postImageList, profileImage,userIdx, nickname } }) => {
+  ({ item: { id, content, distance, location, isBookmarked, isLiked, likes, postIdx, postImageList, profileImage,userIdx, nickname } }) => {
     const [like, setLike] = useState(likes);
     const [bookmark, setBookmark] = useState(isBookmarked);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [others_modalVisible, setOthers_ModalVisible] = useState(false);
+    const devHeight = Dimensions.get("window").height;
+    const userNickname='웜듀';
+       
+    const navigation = useNavigation();
+
+          const popup = () => {
+          if (userNickname === nickname) {
+            //console.log([userNickname,nickname]);
+            setModalVisible(!modalVisible);
+          } else {
+            //console.log([userNickname,data.Nickname])
+            setOthers_ModalVisible(!others_modalVisible);
+          }
+        };
 
     return (
       <View>
         <View style={{
-          paddingBottom: 10,
-          borderBottomColor: "#ffd2cf",
-          borderBottomWidth: 1.5,
+          paddingBottom: 5,
           borderTopColor: "#ffd2cf",
           borderTopWidth: 1.5,
         }}>
@@ -46,8 +60,9 @@ const Item = React.memo(
             alignItems: "center",
             justifyContent: "space-between",
             paddingHorizontal: 5,
-            paddingVertical: 5,
+            paddingTop: 5,
           }}>
+
             <View style={{
               flexDirection: "row",
               alignItems: "center",
@@ -77,23 +92,329 @@ const Item = React.memo(
                   />
                 </TouchableOpacity>
                 <Text>좋아요 {like ? likes + 1 : likes}개</Text>
+                
             </View>
+            <TouchableOpacity style={{ paddingLeft: 10 }} onPress={popup}>
+              <Feather name="more-vertical" style={{ fontSize: 20 }} />
+            </TouchableOpacity>
           </View>
         </View>
-        <TouchableOpacity style={{ paddingLeft: 10 }}>
-          <Feather name="more-vertical" style={{ fontSize: 20 }} />
-        </TouchableOpacity>
+
+        <View
+              style={{
+                flexDirection: "row",
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                padding: 10,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-start",
+                }}
+              >
+                <TouchableOpacity 
+                  onPress={
+                    (userNickname === nickname)? 
+                    ()=>navigation.navigate("Profile") 
+                    : ()=>navigation.navigate("FriendProfile", {
+                      nickname: nickname,
+                      profileImage: profileImage,
+                      //stateMessage: data.StateMessage,
+                      //follow: data.follow,
+                      //post: data.posts,
+                      //followers: data.followers,
+                      //following: data.following,
+                    })}>
+                  <Image
+                    source={{uri:`${profileImage}`}}
+                    style={{ width: 40, height: 40, borderRadius: 100 }}
+                  />
+                </TouchableOpacity>
+                <View style={{ paddingLeft: 5 }}>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {" "}
+                    {nickname}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      opacity: 0.6,
+                      paddingVertical: 2,
+                      paddingLeft: 4,
+                    }}
+                  >
+                    {location}
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: "700",
+                      fontSize: 14,
+                      paddingVertical: 2,
+                      paddingLeft: 4,
+                    }}
+                  >
+                    {content}
+                  </Text>
+                </View>
+              </View>
+              <View style={{}}>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    opacity: 0.6,
+                    paddingVertical: 2,
+                    paddingRight: 35,
+                  }}
+                >
+                  {distance}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    opacity: 0.3,
+                    paddingVertical: 2,
+                    paddingLeft: 55,
+                  }}
+                >
+                  더보기
+                </Text>
+              </View>
+            </View>
+
+
+
+          <View>
+         <Modal
+           animationType="fade"
+           transparent={true}
+           visible={modalVisible}
+           onRequestClose={() => {
+             setModalVisible(!modalVisible);
+           }}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#000000AA",
+              justifyContent: "flex-end",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                width: "100%",
+                borderTopRightRadius: 15,
+                borderTopLeftRadius: 15,
+                paddingHorizontal: 10,
+                maxHeight: devHeight * 0.4,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginHorizontal: 10,
+                  marginVertical: 10,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 18, fontWeight: "600", color: "#484848" }}
+                >
+                  나의 게시물
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Ionic
+                    name="close"
+                    style={{
+                      fontSize: 20,
+                      color: "#484848",
+                      textAlign: "right",
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  marginHorizontal: 10,
+                  marginVertical: 20,
+                }}
+              >
+                <TouchableOpacity>
+                  <Foundation
+                    name="page-edit"
+                    style={{ fontSize: 65, color: "#ffbfbf" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    수정
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>setClosed(true)}>
+                  <Foundation
+                    name="page-delete"
+                    style={{ fontSize: 65, color: "#ffbfbf" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    삭제
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+
+      <View>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={others_modalVisible}
+          onRequestClose={() => {
+            setOthers_ModalVisible(!others_modalVisible);
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#000000AA",
+              justifyContent: "flex-end",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                width: "100%",
+                borderTopRightRadius: 15,
+                borderTopLeftRadius: 15,
+                paddingHorizontal: 10,
+                maxHeight: devHeight * 0.4,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginHorizontal: 10,
+                  marginVertical: 10,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 18, fontWeight: "600", color: "#484848" }}
+                >
+                  다른 사용자의 게시물
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setOthers_ModalVisible(!others_modalVisible)}
+                >
+                  <Ionic
+                    name="close"
+                    style={{
+                      fontSize: 20,
+                      color: "#484848",
+                      textAlign: "right",
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  marginHorizontal: 10,
+                  marginVertical: 20,
+                }}
+              >
+                <TouchableOpacity>
+                  <AntDesign
+                    name="sharealt"
+                    style={{ fontSize: 65, color: "#ffbfbf" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    공유
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <AntDesign
+                    name="link"
+                    style={{ fontSize: 65, color: "#ffbfbf" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    링크
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <AntDesign
+                    name="exclamationcircle"
+                    style={{ fontSize: 65, color: "#fd6767" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    신고
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+
+
+        
       </View>
     );
   },
 );
 
 const Post = () => {
-
-  const userNickname = "빵이";
-  const devHeight = Dimensions.get("window").height;
+  
   const { user } = useContext(UserContext);
-  const navigation = useNavigation();
   const [posts, setPosts] = useState([]);
 
 
