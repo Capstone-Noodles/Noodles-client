@@ -85,7 +85,7 @@ const Profile = ({ navigation }) => {
           });
         }
 
-        // console.log(getData[0]);
+        console.log(getData[0]);
       })
       .catch((err) => {
         console.log(err);

@@ -7,40 +7,8 @@ const MyPost = (props) => {
   const navigation = useNavigation();
 
   const myPostInfo = props.data;
+  //   console.log("in MyPost");
   //   console.log(myPostInfo);
-
-  const MyPostInfo = [
-    {
-      id: 1,
-      name: "빵이",
-      image: require("../../storage/images/post1.png"),
-    },
-    {
-      id: 0,
-      name: "인간",
-      image: require("../../storage/images/post22.jpg"),
-    },
-    {
-      id: 0,
-      name: "짱구",
-      image: require("../../storage/images/post2.png"),
-    },
-    {
-      id: 0,
-      name: "짱구",
-      image: require("../../storage/images/post3.jpg"),
-    },
-    // {
-    //   id: 0,
-    //   name: "짱구",
-    //   image: require("../../storage/images/profile1.jpg"),
-    // },
-    // {
-    //     id:0,
-    //     name: '짱구',
-    //     image: require('../../storage/images/profile2.jpg'),
-    // },
-  ];
 
   return (
     <ScrollView style={{ paddingHorizontal: 10, paddingVertical: 10 }}>
@@ -54,15 +22,19 @@ const MyPost = (props) => {
       >
         {myPostInfo &&
           myPostInfo.map((post) => {
-            <TouchableOpacity
-              onPress={() => navigation.navigate("PostDetails")}
-            >
-              <Image
-                // source={require("../../storage/images/profile1.jpg")}
-                source={{ uri: `${post.image}` }}
-                style={{ width: 120, height: 120, borderRadius: 100 }}
-              />
-            </TouchableOpacity>;
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("PostDetails");
+                }}
+                key={post.idx}
+              >
+                <Image
+                  source={{ uri: `${post.image}` }}
+                  style={{ width: 120, height: 120, borderRadius: 100 }}
+                />
+              </TouchableOpacity>
+            );
           })}
         {/* <TouchableOpacity onPress={() => navigation.navigate("PostDetails")}>
           <Image
