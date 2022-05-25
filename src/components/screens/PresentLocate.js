@@ -9,6 +9,7 @@ import axios from "axios";
 const PresentLocate = ({navigation})=> {
   const devWidth= Dimensions.get('window').width;
   const devHeight= Dimensions.get('window').height;
+  const { user } = useContext(UserContext);
   const { dispatch } = useContext(UserContext);
 
   const [mapRegion, setmapRegion] = useState({
@@ -60,8 +61,15 @@ const PresentLocate = ({navigation})=> {
                   }
               })
               .then((res)=> {
-                dispatch({ location: res.data.documents[0].road_address.address_name, latitude: latitude, longitude: longitude });
-                //console.log(res.data.documents[0].address.address_name); // 지번
+                dispatch({ 
+                  accessToken: user.accessToken, 
+                  refreshToken: user.refreshToken,
+                  id: user.id,
+                  location: res.data.documents[0].road_address.address_name,
+                  latitude: latitude, 
+                  longitude: longitude
+                });
+                // console.log(res.data.documents[0].address.address_name); // 지번
                 //console.log(res.data.documents[0].road_address.address_name); // 도로명
               })
               .catch((err) => {

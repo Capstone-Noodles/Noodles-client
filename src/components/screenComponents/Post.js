@@ -84,15 +84,15 @@ const Item = React.memo(
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setLike(!like)}>
                   <AntDesign
-                    name={like ? "heart" : "hearto"}
+                    name={like ? "hearto" : "heart"}
                     style={{
                       paddingRight: 10,
                       fontSize: 20,
-                      color: like ? "tomato" : "black",
+                      color: like ? "black" : "tomato",
                     }}
                   />
                 </TouchableOpacity>
-                <Text>좋아요 {like ? likes + 1 : likes}개</Text>
+                <Text>좋아요 {like ? likes : likes + 1}개</Text>
                 
             </View>
             <TouchableOpacity style={{ paddingLeft: 10 }} onPress={popup}>
@@ -427,7 +427,8 @@ const Post = () => {
           accessToken: user.accessToken, 
           refreshToken: user.refreshToken,
           id: user.id,
-          latitude: 37.5642135 , 
+          location: '서울 중구 오장동',
+          latitude: 37.5642135, 
           longitude: 127.0016985
         });
       }
@@ -463,11 +464,9 @@ const Post = () => {
           });
         }
         setPosts(list);
-        return response.res;
       })
       .catch(function(error){
         console.log(error);
-        alert("Error",error);
       });
     } catch (e) {
       console.log(e);
