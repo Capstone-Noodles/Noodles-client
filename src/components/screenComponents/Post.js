@@ -136,17 +136,17 @@ const Item = React.memo(
                 <View style={{ paddingLeft: 5 }}>
                   <Text
                     style={{
-                      fontSize: 15,
+                      fontSize: 12,
                       fontWeight: "bold",
                     }}
                   >
                     {" "}
-                    {nickname}
+                    {identification}
                   </Text>
                   <Text
                     style={{
-                      fontSize: 12,
-                      opacity: 0.6,
+                      fontSize: 10,
+                      opacity: 0.5,
                       paddingVertical: 2,
                       paddingLeft: 4,
                     }}
@@ -155,8 +155,7 @@ const Item = React.memo(
                   </Text>
                   <Text
                     style={{
-                      fontWeight: "700",
-                      fontSize: 14,
+                      fontSize: 12,
                       paddingVertical: 2,
                       paddingLeft: 4,
                     }}
@@ -168,8 +167,8 @@ const Item = React.memo(
               <View style={{}}>
                 <Text
                   style={{
-                    fontSize: 12,
-                    opacity: 0.6,
+                    fontSize: 10,
+                    opacity: 0.5,
                     paddingVertical: 2,
                     paddingRight: 35,
                   }}
@@ -178,7 +177,7 @@ const Item = React.memo(
                 </Text>
                 <Text
                   style={{
-                    fontSize: 12,
+                    fontSize: 1,
                     opacity: 0.3,
                     paddingVertical: 2,
                     paddingLeft: 55,

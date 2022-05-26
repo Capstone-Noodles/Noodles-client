@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, Dimensions, StatusBar, TouchableOpacity } from 'react-native';
+import { Text, View, Dimensions, StatusBar, TouchableOpacity, Alert } from 'react-native';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import * as Location from 'expo-location';
 import Ionic from "react-native-vector-icons/Ionicons";
