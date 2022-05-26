@@ -101,12 +101,12 @@ const PostForm = ({navigation})=> {
         location: `${user?.location}`,
         content: `${content}`,
       }
-      form.append('uploadDto', {uploadDto});
+      form.append('uploadDto', JSON.stringify(uploadDto));
       form.append('imageFileList', { uri: image, name: filename, type });
-      console.log(form);
       axios.post('http://133.186.228.218:8080/posts/write', form, {
         headers: {
           "x-auth-token": `${user?.accessToken}`,
+          "Content-Type": "multipart/form-data",
         }
       })
       // axios({
@@ -123,10 +123,10 @@ const PostForm = ({navigation})=> {
         return response.data;
       })
       .catch(function(error){
+        console.log(error);
         alert("Error",error);
       });
     } catch (e) {
-      console.log(e);
       alert(e);
     } finally {
     }

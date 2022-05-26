@@ -28,9 +28,10 @@ const PresentLocate = ({navigation})=> {
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+
   // Get current location information
   useEffect(() => {
-    (async () => {
+    (async() => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
@@ -49,6 +50,7 @@ const PresentLocate = ({navigation})=> {
       // 좌표로 주소 변환
       let latitude = location.coords.latitude;
       let longitude = location.coords.longitude;
+      console.log(latitude, longitude);
       const addressInfo = async() => {
           await axios.get('https://dapi.kakao.com/v2/local/geo/coord2address.json',
               {

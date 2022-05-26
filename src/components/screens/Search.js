@@ -29,7 +29,7 @@ const Search = ({navigation})=> {
         flexDirection: 'row',
         paddingHorizontal: 15,
         alignItems: 'center',
-        paddingTop:35,
+        paddingTop: 50,
         paddingBottom:10,
         backgroundColor:'white',
         borderBottomColor:'#ffd2cf',

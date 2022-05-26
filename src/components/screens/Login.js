@@ -126,7 +126,8 @@ const Login = ({ navigation }) => {
         style={{
           justifyContent: "center",
           alignItems: "center",
-          paddingVertical: 50,
+          paddingVertical: 30,
+          marginTop: 50,
         }}
       >
         <Image source={require("../../storage/images/logo.jpg")} />

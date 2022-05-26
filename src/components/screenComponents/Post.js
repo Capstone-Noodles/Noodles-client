@@ -84,15 +84,15 @@ const Item = React.memo(
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setLike(!like)}>
                   <AntDesign
-                    name={like ? "hearto" : "heart"}
+                    name={like ? "heart" : "hearto"}
                     style={{
                       paddingRight: 10,
                       fontSize: 20,
-                      color: like ? "black" : "tomato",
+                      color: like ? "tomato" : "black",
                     }}
                   />
                 </TouchableOpacity>
-                <Text>좋아요 {like ? likes : likes + 1}개</Text>
+                <Text>좋아요 {like ? likes + 1 : likes}개</Text>
                 
             </View>
             <TouchableOpacity style={{ paddingLeft: 10 }} onPress={popup}>

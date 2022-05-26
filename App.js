@@ -41,7 +41,7 @@ const App = () => {
         tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle:{
-          height: 50
+          height: 80
         },
 
         tabBarIcon: ({focused, size, colour}) => {

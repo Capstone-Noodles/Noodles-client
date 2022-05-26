@@ -1,7 +1,8 @@
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import React,{ useRef } from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Evilcons from "react-native-vector-icons/EvilIcons";
@@ -36,7 +37,7 @@ const Home = ({navigation})=> {
         flexDirection: 'row',
         paddingHorizontal: 15,
         alignItems: 'center',
-        paddingTop:35,
+        paddingTop: 50,
         paddingBottom:10,
         backgroundColor:'white',
         borderBottomColor:'#ffd2cf',
@@ -66,7 +67,8 @@ const Home = ({navigation})=> {
         <Ionic name="notifications-outline" style={{fontSize:25}}/>
       </View>
 
-      <View ref={scrollRef}>
+      <ScrollView>
+      {/* <ScrollView ref={scrollRef}> */}
         {/*<Stories/>*/}
         <Post/>
         <View style={{
@@ -79,7 +81,7 @@ const Home = ({navigation})=> {
                    style={{fontSize:60, opacity:0.2}}/>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
 
     </View>
     
