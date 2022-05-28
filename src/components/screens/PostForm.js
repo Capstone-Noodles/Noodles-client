@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback } from 'react';
-import {  View,ScrollView, Image, ImageBackground, StatusBar, TouchableOpacity, TextInput, Modal, Dimensions } from 'react-native';
+import {  View,ScrollView, Image, ImageBackground, StatusBar, TouchableOpacity, TextInput, Modal, Dimensions, Alert } from 'react-native';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar, Title, Caption, Text, TouchableRipple, } from 'react-native-paper';
@@ -10,6 +10,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";
 import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
+import { CommonActions } from '@react-navigation/native';
 
 const PostForm = ({navigation})=> {
 
@@ -24,7 +25,7 @@ const PostForm = ({navigation})=> {
     setupload(true);
     setModalVisible(!modalVisible);
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 4],
       quality: 1,
@@ -101,8 +102,13 @@ const PostForm = ({navigation})=> {
         location: `${user?.location}`,
         content: `${content}`,
       }
-      form.append('uploadDto', JSON.stringify(uploadDto));
+      form.append('longitude', user.longitude);
+      form.append('latitude', user.latitude);
+      form.append('location', user.location);
+      form.append('content', content);
       form.append('imageFileList', { uri: image, name: filename, type });
+      
+      console.log(form);
       axios.post('http://133.186.228.218:8080/posts/write', form, {
         headers: {
           "x-auth-token": `${user?.accessToken}`,
@@ -119,7 +125,7 @@ const PostForm = ({navigation})=> {
       //   data: form
       // })
       .then(function(response){
-        Alert.alert("알림", "글이 작성되었습니다.");
+        navigation.dispatch(CommonActions.navigate("Home")); 
         return response.data;
       })
       .catch(function(error){

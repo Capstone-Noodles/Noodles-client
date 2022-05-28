@@ -8,7 +8,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
 import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import { PostData } from '../screenComponents/Data';
 
 const Container = styled.View`
@@ -417,6 +417,7 @@ const Post = () => {
   const { user } = useContext(UserContext);
   const { dispatch } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
+  const isFocused = useIsFocused();
 
 
   useEffect(() => {
@@ -472,7 +473,7 @@ const Post = () => {
       alert("Error", e);
     } finally {
     }
-  }, [user, setPosts]);
+  }, [user, setPosts, isFocused]);
 
   return (
     <FlatList
