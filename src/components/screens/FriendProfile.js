@@ -20,7 +20,7 @@ const FriendProfile = ({route,navigation}) => {
         <View style={{alignItems:'center'}}>
 
             <Avatar.Image
-                  source={profileImage}
+                  source={{uri:`${profileImage}`}}
                   size={130}
                 />
             <View style={{flexDirection:'row',width:'100%',justifyContent:'space-around',alignItems:'center'}}>

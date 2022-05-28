@@ -1,7 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {Text, View, TextInput, FlatList, TouchableOpacity, Image, Dimensions, Modal} from 'react-native';
+import {
+    Avatar,
+    Title,
+    Caption,
+    TouchableRipple,
+  } from "react-native-paper";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {UserContext} from "../../contexts/User";
 import axios from "axios";
 import styled from "styled-components/native";
@@ -32,41 +39,262 @@ const Item = React.memo(
         };
 
         return (
-            <View style={{ flex: 1, backgroundColor:'#fff' }}>
-                <View>
-                    <View style={{
-                        alignItems:'center',
-                        flexDirection:'row',
-                        width:'100%',
-                        padding: 10,
-                        backgroundColor: '#F1F1F1',
-                        paddingLeft: 30,
-                        }}
-                    >
-
-                        <Image
-                            source={{uri:`${profileImage}`}}
-                            style={{ width: 40, height: 40, borderRadius: 100 }}
-                        />
-                        <Text
-                            style={{
-                                width:'75%',
-                                height:40,
-                                backgroundColor:'#fff',
-                                borderRadius:5,
-                                borderColor:'#D9D9D9',
-                                borderWidth:0.5,
-                                alignItems:'center',
-                                justifyContent:'center',
-                                fontSize:18,
-                                padding:4,
-                                paddingLeft:10,
-                                left:5,
-                            }}
-                        > { content } </Text>
+            <View style={{width:'100%',padding:10,flexDirection:'row'}}>
+                <TouchableOpacity 
+                    style={{paddingHorizontal:5}}
+                    onPress={()=>navigation.navigate("FriendProfile", {
+                        nickname: id,
+                        profileImage: profileImage,
+                        //stateMessage: data.StateMessage,
+                        //follow: data.follow,
+                        //post: data.posts,
+                        //followers: data.followers,
+                        //following: data.following,
+                    })}>
+                    <Image
+                        source={{uri:`${profileImage}`}}
+                        style={{ width: 40, height: 40, borderRadius: 100 }}/>
+                </TouchableOpacity>
+                <View style={{flexDirection:'column'}}>
+                    <View style={{justifyContent:'space-between',flexDirection:'row'}}>
+                    <View style={{flexDirection:'row', justifyContent:'flex-start',alignItems:'flex-start', width:'80%'}}>
+                        <Text style={{paddingHorizontal:5, fontSize:18, fontWeight:'bold'}}>
+                            {id}
+                        </Text>
+                        <Text style={{paddingHorizontal:5, fontSize:15}}>
+                            {content}
+                        </Text>
                     </View>
+                    <TouchableOpacity style={{ paddingLeft: 10 }} onPress={popup}>
+                        <Feather name="more-vertical" style={{ fontSize: 20 }} />
+                    </TouchableOpacity>
+                    </View>
+                    <Caption style={{left:5}}>
+                        {date}
+                    </Caption>
                 </View>
+
+
+
+
+                <View>
+         <Modal
+           animationType="fade"
+           transparent={true}
+           visible={modalVisible}
+           onRequestClose={() => {
+             setModalVisible(!modalVisible);
+           }}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#000000AA",
+              justifyContent: "flex-end",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                width: "100%",
+                borderTopRightRadius: 15,
+                borderTopLeftRadius: 15,
+                paddingHorizontal: 10,
+                maxHeight: devHeight * 0.4,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginHorizontal: 10,
+                  marginVertical: 10,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 18, fontWeight: "600", color: "#484848" }}
+                >
+                  나의 댓글
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Ionic
+                    name="close"
+                    style={{
+                      fontSize: 20,
+                      color: "#484848",
+                      textAlign: "right",
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  marginHorizontal: 10,
+                  marginVertical: 20,
+                }}
+              >
+                <TouchableOpacity>
+                  <MaterialIcons
+                    name="edit"
+                    style={{ fontSize: 65, color: "#ffbfbf" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    수정
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>setClosed(true)}>
+                  <Icon
+                    name="delete"
+                    style={{ fontSize: 65, color: "#ffbfbf" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    삭제
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
+          </View>
+        </Modal>
+      </View>
+
+
+      <View>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={others_modalVisible}
+          onRequestClose={() => {
+            setOthers_ModalVisible(!others_modalVisible);
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#000000AA",
+              justifyContent: "flex-end",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                width: "100%",
+                borderTopRightRadius: 15,
+                borderTopLeftRadius: 15,
+                paddingHorizontal: 10,
+                maxHeight: devHeight * 0.4,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginHorizontal: 10,
+                  marginVertical: 10,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 18, fontWeight: "600", color: "#484848" }}
+                >
+                  다른 사용자의 댓글
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setOthers_ModalVisible(!others_modalVisible)}
+                >
+                  <Ionic
+                    name="close"
+                    style={{
+                      fontSize: 20,
+                      color: "#484848",
+                      textAlign: "right",
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  marginHorizontal: 10,
+                  marginVertical: 20,
+                }}
+              >
+                <TouchableOpacity>
+                  <AntDesign
+                    name="sharealt"
+                    style={{ fontSize: 65, color: "#ffbfbf" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    공유
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <AntDesign
+                    name="link"
+                    style={{ fontSize: 65, color: "#ffbfbf" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    링크
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <AntDesign
+                    name="exclamationcircle"
+                    style={{ fontSize: 65, color: "#fd6767" }}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                      color: "#484848",
+                    }}
+                  >
+                    신고
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+
+
+
+
+            </View> 
         );
     },
 );
@@ -116,7 +344,7 @@ const Comment = ()=> {
         }, [user, setComments]);
 
         return (
-            <View>
+            <View style={{backgroundColor:'#fff',flex:1}}>
                 <View
                     style={{
                         justifyContent:'center',
