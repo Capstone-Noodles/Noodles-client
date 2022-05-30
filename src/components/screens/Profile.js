@@ -257,7 +257,9 @@ const Profile = ({ navigation }) => {
 
         <MyPost data={getData} />
 
-        <TouchableOpacity style={{ alignItems: "center" }}>
+        <TouchableOpacity 
+          style={{ alignItems: "center" }}
+          onPress={() => navigation.navigate("AllPosts")} >
           <Text>전체 게시물 보기</Text>
         </TouchableOpacity>
       </View>

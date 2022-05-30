@@ -6,7 +6,7 @@ import Ionic from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Foundation from "react-native-vector-icons/Foundation";
 
-const PostDetails = ({navigation})=> {
+const PostDetails = ({route,navigation})=> {
 
     const userNickname = '빵이';
     const postInfo = [
@@ -80,9 +80,17 @@ const PostDetails = ({navigation})=> {
 
     const [modalVisible, setModalVisible] = useState(false);
     const devHeight = Dimensions.get("window").height;
-
+    const {postImageList} = route.params;
   
   return (
+    <View style={{flex:1}}>
+      <Image 
+      source={{uri:`${postImageList}`}}
+      style={{width:300,height:300}}/>
+    </View>
+
+
+    /*
     <ScrollView style={{backgroundColor:'white',flex:1}}>
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
       
@@ -202,7 +210,7 @@ const PostDetails = ({navigation})=> {
               )
           })
       }
-      {/*User_Modal*/}
+      
       <View>
       <Modal
           animationType="fade"
@@ -267,6 +275,7 @@ const PostDetails = ({navigation})=> {
        
         
     </ScrollView>
+            */
   );
 };
 
