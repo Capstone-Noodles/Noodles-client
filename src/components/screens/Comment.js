@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Text, View, TextInput, FlatList, TouchableOpacity, Image, Dimensions, Modal} from 'react-native';
 import {
     Avatar,
@@ -12,7 +12,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {UserContext} from "../../contexts/User";
 import axios from "axios";
 import styled from "styled-components/native";
-import {useNavigation} from "@react-navigation/native";
+import {CommonActions, useNavigation} from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
@@ -38,6 +38,10 @@ const Item = React.memo(
             }
         };
 
+        const onclick = () => {
+
+        }
+
         return (
             <View style={{width:'100%',padding:10,flexDirection:'row'}}>
                 <TouchableOpacity 
@@ -58,8 +62,9 @@ const Item = React.memo(
                 <View style={{flexDirection:'column'}}>
                     <View style={{justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row', justifyContent:'flex-start',alignItems:'flex-start', width:'80%'}}>
-                        <Text style={{paddingHorizontal:5, fontSize:18, fontWeight:'bold'}}>
-                            {id}
+                        <Text style={{paddingHorizontal:5, fontSize:10, fontWeight:'bold'}}>
+                            {identification}
+                            
                         </Text>
                         <Text style={{paddingHorizontal:5, fontSize:15}}>
                             {content}
@@ -299,17 +304,40 @@ const Item = React.memo(
     },
 );
 
-const Comment = ()=> {
+const Comment = ({navigation, route})=> {
 
         const {user} = useContext(UserContext);
         const [comments, setComments] = useState([]);
+        const [content, setContent] = useState('');
 
+        const postIdx = route.params;
+
+        const _handleContent = (content) => {
+            setContent(content);
+        };
+
+        const commentButton = () => {
+            const body = {
+                content : `${content}`,
+                postIdx : `${postIdx}`,
+            }
+            try {
+                axios.post('http://133.186.228.218:8080/comments', body, {
+                    headers: {
+                        "x-auth-token": `${user?.accessToken}`,
+                    }
+                })
+            } catch (e) {
+                console.log(e);
+                alert("Error", e);
+            }
+        }
 
         useEffect(() => {
             try {
                 axios({
                     method: 'get',
-                    url: 'http://133.186.228.218:8080/comments/28/postComment',
+                    url: 'http://133.186.228.218:8080/comments/'+postIdx+'/postComment',
                     headers: {
                         "x-auth-token": `${user?.accessToken}`,
                     }
@@ -324,6 +352,7 @@ const Comment = ()=> {
                                 content: result[i].content,
                                 parentCommentIdx: result[i].parentCommentIdx,
                                 userIdx: result[i].userIdx,
+                                identification: result[i].identification,
                                 profileImage: result[i].profileImage,
                                 date: result[i].date,
                                 location: result[i].location,
@@ -360,6 +389,10 @@ const Comment = ()=> {
                     <TextInput
                         placeholder="댓글을 입력하세요."
                         placeholderTextColor="#909090"
+                        value={content}
+                        multiline
+                        numberOfLines={8}
+                        onChangeText={_handleContent}
                         style={{
                             width:'75%',
                             height:40,
@@ -374,7 +407,7 @@ const Comment = ()=> {
                             paddingLeft:10,
                             left:5,
                         }}/>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={commentButton}>
                         <Icon
                             name='send-circle'
                             size={35}

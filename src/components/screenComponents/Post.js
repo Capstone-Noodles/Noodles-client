@@ -25,7 +25,7 @@ const Item = React.memo(
     const devHeight = Dimensions.get("window").height;
     const { user } = useContext(UserContext);
     const userId = user.id;
-       
+
     const navigation = useNavigation();
 
           const popup = () => {
@@ -76,7 +76,7 @@ const Item = React.memo(
                   />
                 </TouchableOpacity>
                 <TouchableOpacity
-                 onPress={()=>navigation.navigate('Comment')}>
+                 onPress={()=>navigation.navigate('Comment', postIdx)}>
                   <Ionic
                     name="ios-chatbubble-outline"
                     style={{ fontSize: 20, paddingRight: 10 }}
