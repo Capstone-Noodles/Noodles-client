@@ -18,6 +18,7 @@ const PostDetails = ({route,navigation})=> {
   const { user } = useContext(UserContext);
   const userId = user.id;
   const devHeight = Dimensions.get("window").height;
+  const [viewMore, setViewMore] = useState(false);
     
   const {
     postImageList,
@@ -162,9 +163,10 @@ const PostDetails = ({route,navigation})=> {
                   fontSize: 12,
                   paddingVertical: 2,
                   paddingLeft: 4,
+                  width: 200,
                 }}
-                numberOfLines={1}
-                ellipsizeMode="tail"
+                numberOfLines={viewMore ? 100:1}
+                ellipsizeMode='tail'
               >
                 {content}
               </Text>
@@ -181,16 +183,19 @@ const PostDetails = ({route,navigation})=> {
             >
               {distance}
             </Text>
-            <Text
-              style={{
-                fontSize: 12,
-                opacity: 0.3,
-                paddingVertical: 2,
-                paddingLeft: 55,
-              }}
-            >
-              더보기
-            </Text>
+            <TouchableOpacity
+              onPress={()=>setViewMore(!viewMore)}>
+              <Text
+                style={{
+                  fontSize: 12,
+                  opacity: 0.3,
+                  paddingVertical: 2,
+                  paddingLeft: 55,
+                }}
+              >
+                {viewMore? '접기':'더보기'}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
 

@@ -47,7 +47,7 @@ const Item = React.memo(
                 <TouchableOpacity 
                     style={{paddingHorizontal:5}}
                     onPress={()=>navigation.navigate("FriendProfile", {
-                        nickname: id,
+                        nickname: identification,
                         profileImage: profileImage,
                         //stateMessage: data.StateMessage,
                         //follow: data.follow,
