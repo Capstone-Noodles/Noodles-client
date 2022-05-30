@@ -159,6 +159,8 @@ const Item = React.memo(
                       paddingVertical: 2,
                       paddingLeft: 4,
                     }}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
                   >
                     {content}
                   </Text>
@@ -177,7 +179,7 @@ const Item = React.memo(
                 </Text>
                 <Text
                   style={{
-                    fontSize: 1,
+                    fontSize: 12,
                     opacity: 0.3,
                     paddingVertical: 2,
                     paddingLeft: 55,
