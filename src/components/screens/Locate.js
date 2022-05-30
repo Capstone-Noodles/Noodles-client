@@ -1,9 +1,104 @@
-import React, { useState } from 'react';
-import { Text, View, StatusBar, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState, useCallback, useContext } from 'react';
+import { Alert, Text, View, StatusBar, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import Ionic from "react-native-vector-icons/Ionicons";
+import styled from 'styled-components/native';
+import axios from "axios";
+import { UserContext } from "../../contexts/User";
+
+const ItemContainer = styled.TouchableOpacity`
+    flex-direction: column;
+    border-bottom-width: 0.5px;
+    border-color: gray;
+    padding: 10px 15px;
+    margin-right: 20px;
+    margin-left: 20px;
+    height: 50px;
+`;
+
+const Address = styled.Text`
+    margin: auto 0;
+    font-size: 13px;
+    font-weight: 300;
+    color: gray;
+`;
+
+const Item = React.memo(
+  ({ item: { address_name, road_address_name, longitude, latitude } }) => {
+    const { user } = useContext(UserContext);
+    const { dispatch } = useContext(UserContext);
+    let address;
+    if (road_address_name) {
+      address = road_address_name;
+    } else {
+      address = address_name;
+    }
+
+    const _handleAddressPress = useCallback(async() => {
+      dispatch({ 
+        accessToken: user.accessToken, 
+        refreshToken: user.refreshToken,
+        id: user.id,
+        location: address,
+        latitude: latitude, 
+        longitude: longitude
+      });
+    }, [dispatch, user, address, latitude, longitude]);
+
+    if (road_address_name) {
+      return (
+        <ItemContainer onPress={_handleAddressPress}>
+          <Address>{address_name}</Address>
+          <Address>도로명: {road_address_name}</Address>
+        </ItemContainer>
+      );
+    } else {
+      return (
+        <ItemContainer onPress={ _handleAddressPress }>
+          <Address>{address_name}</Address>
+        </ItemContainer>
+      );
+    }
+  },
+);
 
 const Locate = ({navigation})=> {
   const [text,setText] = useState('');
+  const [locationObj, setLocationObj] = useState({});
+
+  const _handleSearchAddress = useCallback(async() => {
+    await axios.get('https://dapi.kakao.com/v2/local/search/address.json?query='+text,
+      {
+        headers: {
+          Authorization: 'KakaoAK 593cba0bc3ea7f52024615b72630d3ee'
+        }
+      })
+      .then((res)=> {
+        const result = res.data.documents;
+        const list = []
+        if (result[0].road_address) {
+          list.push({
+            id: 0,
+            address_name: result[0].address.address_name,
+            road_address_name: result[0].road_address.address_name,
+            longitude: result[0].road_address.x,
+            latitude: result[0].road_address.y
+          })
+        } else {
+          for (let i = 0; i < result.length; i++) {
+            list.push({
+              id: i,
+              address_name: result[i].address.address_name,
+              longitude: result[i].address.x,
+              latitude: result[i].address.y
+            })
+          }
+        }
+        setLocationObj(list);
+      })
+      .catch((err) => {
+        Alert.alert("입력하신 주소와 일치하는 주소가 없습니다.");
+      });
+  }, [text, setLocationObj]);
 
   return (
     
@@ -24,6 +119,7 @@ const Locate = ({navigation})=> {
           placeholder="동명(읍,면)으로 검색 (ex. 죽전동)"
           placeholderTextColor="#909090"
           onChangeText={(text) => setText(text)}
+          onEndEditing={_handleSearchAddress}
           style={{
             width:'94%',
             height:40,
@@ -51,11 +147,11 @@ const Locate = ({navigation})=> {
         </View>
       </TouchableOpacity>  
 
-      <View style={{padding:20}}>
-        <View style={{paddingVertical:10}}>
+      <View style={{paddingLeft:20}}>
+        <View style={{paddingTop:20}}>
             <Text style={{color:'#484848',fontSize:17,paddingBottom:10}}>
                 '{text}' 검색 결과
-            </Text> 
+            </Text>
         </View>
         {/*
         <Text style={{color:'#484848',fontSize:15,paddingVertical:10,left:7,borderBottomColor:'#ffbfbf',borderBottomWidth:1}}>
@@ -66,11 +162,15 @@ const Locate = ({navigation})=> {
         </Text> 
         */}
       </View>
-
-      
-
+      <FlatList
+        keyExtractor={item => item['id'].toString()}
+        data={locationObj}
+        renderItem={({ item }) => (
+          <Item item={item} />
+        )}
+        windowSize={3}
+      />
     </View>
-    
   );
 };
 

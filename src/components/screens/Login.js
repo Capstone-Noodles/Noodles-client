@@ -153,6 +153,7 @@ const Login = ({ navigation }) => {
             handleError(null, "password");
           }}
           onChangeText={(text) => handleOnChange(text, "password")}
+          onEndEditing={pressLoginBtn}
           password
         />
 
