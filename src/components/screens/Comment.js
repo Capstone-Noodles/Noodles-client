@@ -30,6 +30,7 @@ const Item = React.memo(
         const [modalVisible, setModalVisible] = useState(false);
         const [others_modalVisible, setOthers_ModalVisible] = useState(false);
         const navigation = useNavigation();
+        const { dispatch } = useContext(UserContext);
 
         const popup = () => {
             if (userId === identification) {
@@ -46,16 +47,22 @@ const Item = React.memo(
         }
 
         const deleteButton = () => {
-
             try {
                 axios.delete('http://133.186.228.218:8080/comments/'+commentIdx, {
                     headers: {
                         "x-auth-token": `${user?.accessToken}`,
                     }
                 }).then(function(response){
-
+                  setModalVisible(false);
+                  dispatch({ 
+                    accessToken: user.accessToken, 
+                    refreshToken: user.refreshToken,
+                    id: user.id,
+                    location: user.location,
+                    latitude: user.latitude, 
+                    longitude: user.longitude
+                  });
                 })
-
             } catch (e) {
                 console.log(e);
                 alert("Error", e);
