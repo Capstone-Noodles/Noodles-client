@@ -17,6 +17,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 import Foundation from "react-native-vector-icons/Foundation";
+import { set } from 'react-native-reanimated';
 
 const Item = React.memo(
     ({ item: { id, commentIdx, content, parentCommentIdx, userIdx, identification, profileImage, date} }) => {
@@ -309,6 +310,7 @@ const Comment = ({navigation, route})=> {
         const {user} = useContext(UserContext);
         const [comments, setComments] = useState([]);
         const [content, setContent] = useState('');
+        const [state, setState] = useState(false);
 
         const postIdx = route.params;
 
@@ -326,6 +328,9 @@ const Comment = ({navigation, route})=> {
                     headers: {
                         "x-auth-token": `${user?.accessToken}`,
                     }
+                })
+                .then(function(response) {
+                  setState(true);
                 })
             } catch (e) {
                 console.log(e);
@@ -359,6 +364,7 @@ const Comment = ({navigation, route})=> {
                             });
                         }
                         setComments(list);
+                        setState(false);
                         return response.res;
                     })
                     .catch(function (error) {
@@ -370,7 +376,7 @@ const Comment = ({navigation, route})=> {
                 alert("Error", e);
             } finally {
             }
-        }, [user, setComments]);
+        }, [user, setComments, state]);
 
         return (
             <View style={{backgroundColor:'#fff',flex:1}}>
