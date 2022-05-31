@@ -19,6 +19,8 @@ import Feather from "react-native-vector-icons/Feather";
 import Foundation from "react-native-vector-icons/Foundation";
 import { set } from 'react-native-reanimated';
 
+
+
 const Item = React.memo(
     ({ item: { id, commentIdx, content, parentCommentIdx, userIdx, identification, profileImage, date} }) => {
 
@@ -41,6 +43,23 @@ const Item = React.memo(
 
         const onclick = () => {
 
+        }
+
+        const deleteButton = () => {
+
+            try {
+                axios.delete('http://133.186.228.218:8080/comments/'+commentIdx, {
+                    headers: {
+                        "x-auth-token": `${user?.accessToken}`,
+                    }
+                }).then(function(response){
+
+                })
+
+            } catch (e) {
+                console.log(e);
+                alert("Error", e);
+            }
         }
 
         return (
@@ -161,7 +180,7 @@ const Item = React.memo(
                     수정
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>setClosed(true)}>
+                <TouchableOpacity onPress={deleteButton}>
                   <Icon
                     name="delete"
                     style={{ fontSize: 65, color: "#ffbfbf" }}
@@ -330,6 +349,7 @@ const Comment = ({navigation, route})=> {
                     }
                 })
                 .then(function(response) {
+                  setContent('');
                   setState(true);
                 })
             } catch (e) {
