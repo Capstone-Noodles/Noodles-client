@@ -1,24 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { Text, View, Image, TouchableOpacity, Modal, Dimensions, FlatList} from "react-native";
-import styled from 'styled-components/native';
 import Feather from "react-native-vector-icons/Feather";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionic from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
-import { UserContext, UserProvider } from "../../contexts/User";
+import { UserContext } from "../../contexts/User";
 import axios from "axios";
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import { PostData } from '../screenComponents/Data';
-
-const Container = styled.View`
-  flex: 1;
-  background-color: #FFFFFF;
-`;
 
 const Item = React.memo(
   ({ item: { id, content, distance, location, isBookmarked, isLiked, likes, postIdx, postImageList, profileImage, userIdx, nickname, identification } }) => {
-    const [like, setLike] = useState(likes);
+    const [like, setLike] = useState(isLiked);
     const [bookmark, setBookmark] = useState(isBookmarked);
     const [modalVisible, setModalVisible] = useState(false);
     const [others_modalVisible, setOthers_ModalVisible] = useState(false);
@@ -26,18 +19,51 @@ const Item = React.memo(
     const { user } = useContext(UserContext);
     const userId = user.id;
     const [viewMore, setViewMore] = useState(false);
+    const { dispatch } = useContext(UserContext);
 
     const navigation = useNavigation();
 
-          const popup = () => {
-          if (userId === identification) {
-            console.log(userId, identification);
-            setModalVisible(!modalVisible);
-          } else {
-            console.log(userId, identification);
-            setOthers_ModalVisible(!others_modalVisible);
+    const popup = () => {
+      if (userId === identification) {
+        setModalVisible(!modalVisible);
+      } else {
+        setOthers_ModalVisible(!others_modalVisible);
+      }
+    };
+
+    const _handleLikePress = useCallback(async() => {
+      try {
+        axios({
+          method: 'post',
+          url: 'http://133.186.228.218:8080/posts/like/'+postIdx,
+          headers: {
+            "x-auth-token": `${user?.accessToken}`,
           }
-        };
+        })
+        .then(function(response){
+          if (like == 0) {
+            setLike(1)
+          } else {
+            setLike(0)
+          }
+          dispatch({ 
+            accessToken: user.accessToken, 
+            refreshToken: user.refreshToken,
+            id: user.id,
+            location: user.location,
+            latitude: user.latitude, 
+            longitude: user.longitude
+          });
+          return response.data;
+        })
+        .catch(function(error){
+          console.log(error);
+          alert("Error",error);
+        });
+      } catch (e) {
+      } finally {
+      }
+    }, [user, postIdx, setLike, dispatch]);
 
     return (
       <View>
@@ -83,17 +109,16 @@ const Item = React.memo(
                     style={{ fontSize: 20, paddingRight: 10 }}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setLike(!like)}>
-                  <AntDesign
-                    name={like ? "heart" : "hearto"}
-                    style={{
-                      paddingRight: 10,
-                      fontSize: 20,
-                      color: like ? "tomato" : "black",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text>좋아요 {like ? likes + 1 : likes}개</Text>
+                <AntDesign
+                  name={like ? "heart" : "hearto"}
+                  style={{
+                    paddingRight: 10,
+                    fontSize: 20,
+                    color: like ? "tomato" : "black",
+                  }}
+                  onPress={_handleLikePress}
+                />
+                <Text>좋아요 {likes}개</Text>
                 
             </View>
             <TouchableOpacity style={{ paddingLeft: 10 }} onPress={popup}>
@@ -425,7 +450,6 @@ const Post = () => {
   const { dispatch } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const isFocused = useIsFocused();
-
 
   useEffect(() => {
     try {
