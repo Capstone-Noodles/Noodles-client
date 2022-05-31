@@ -32,8 +32,16 @@ const Item = React.memo(
           style={{
             padding:2
           }}
-          onPress={()=>navigation.navigate("PostDeatails", {
-            postImageList: postImageList
+          onPress={()=>navigation.navigate("PostDetails", {
+            postImageList: postImageList,
+            content: content,
+            distance: distance,
+            location: location,
+            isBookmarked: isBookmarked,
+            likes: likes,
+            postIdx: postIdx,
+            profileImage: profileImage,
+            identification: identification
           })}>
           <Image 
               source={{uri:`${postImageList}`}}
