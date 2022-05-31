@@ -15,11 +15,30 @@ const ItemContainer = styled.TouchableOpacity`
     height: 50px;
 `;
 
+const InnerContainer = styled.View`
+    flex-direction: row;
+    margin-top: 3px;
+`;
+
 const Address = styled.Text`
     margin: auto 0;
     font-size: 13px;
     font-weight: 300;
     color: gray;
+`;
+
+const Tag = styled.View`
+    width: 35px;
+    background-color: "rgb(202, 204, 206)";
+    border-radius: 4px;
+    margin-right: 4px;
+`;
+
+const TagText = styled.Text`
+    margin: auto;
+    font-size: 11px;
+    font-weight: 500;
+    color: white;
 `;
 
 const Item = React.memo(
@@ -42,13 +61,19 @@ const Item = React.memo(
         latitude: latitude, 
         longitude: longitude
       });
+      navigation.goBack();
     }, [dispatch, user, address, latitude, longitude]);
 
     if (road_address_name) {
       return (
         <ItemContainer onPress={_handleAddressPress}>
           <Address>{address_name}</Address>
-          <Address>도로명: {road_address_name}</Address>
+          <InnerContainer>
+            <Tag>
+              <TagText>도로명</TagText>
+            </Tag>
+            <Address>{road_address_name}</Address>
+          </InnerContainer>
         </ItemContainer>
       );
     } else {
