@@ -101,7 +101,10 @@ const Locate = ({navigation})=> {
       .then((res)=> {
         const result = res.data.documents;
         const list = []
-        if (result[0].address === null) {
+        if (result.length == 0) {
+          Alert.alert("입력하신 주소와 일치하는 주소가 없습니다.");
+        }
+        else if (result[0].address === null) {
           for (let i = 0; i < result.length; i++) {
             list.push({
               id: i,
