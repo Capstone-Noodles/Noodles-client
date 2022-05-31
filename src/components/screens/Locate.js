@@ -17,7 +17,7 @@ const ItemContainer = styled.TouchableOpacity`
 
 const InnerContainer = styled.View`
     flex-direction: row;
-    margin-top: 3px;
+    margin-top: 5px;
 `;
 
 const Address = styled.Text`
@@ -28,17 +28,17 @@ const Address = styled.Text`
 `;
 
 const Tag = styled.View`
-    width: 35px;
-    background-color: "rgb(202, 204, 206)";
-    border-radius: 4px;
+    width: 40px;
+    background-color: "rgb(230, 230, 230)";
+    border-radius: 3px;
     margin-right: 4px;
 `;
 
 const TagText = styled.Text`
     margin: auto;
     font-size: 11px;
-    font-weight: 500;
-    color: white;
+    font-weight: 600;
+    color: "rgb(105, 105, 105)";
 `;
 
 const Item = React.memo(
@@ -61,7 +61,7 @@ const Item = React.memo(
         latitude: latitude, 
         longitude: longitude
       });
-      navigation.goBack();
+      Alert.alert("해당 주소로 변경되었습니다.");
     }, [dispatch, user, address, latitude, longitude]);
 
     if (road_address_name) {
@@ -91,7 +91,8 @@ const Locate = ({navigation})=> {
   const [locationObj, setLocationObj] = useState({});
 
   const _handleSearchAddress = useCallback(async() => {
-    await axios.get('https://dapi.kakao.com/v2/local/search/address.json?query='+text,
+    try{
+      await axios.get('https://dapi.kakao.com/v2/local/search/address.json?query='+text,
       {
         headers: {
           Authorization: 'KakaoAK 593cba0bc3ea7f52024615b72630d3ee'
@@ -100,7 +101,16 @@ const Locate = ({navigation})=> {
       .then((res)=> {
         const result = res.data.documents;
         const list = []
-        if (result[0].road_address) {
+        if (result[0].address === null) {
+          for (let i = 0; i < result.length; i++) {
+            list.push({
+              id: i,
+              address_name: result[i].address_name,
+              longitude: result[i].x,
+              latitude: result[i].y
+            })
+          }
+        } else if (result[0].road_address) {
           list.push({
             id: 0,
             address_name: result[0].address.address_name,
@@ -121,8 +131,12 @@ const Locate = ({navigation})=> {
         setLocationObj(list);
       })
       .catch((err) => {
-        Alert.alert("입력하신 주소와 일치하는 주소가 없습니다.");
+        console.log(err);
       });
+    } catch (e) {
+      
+    } finally {
+    }
   }, [text, setLocationObj]);
 
   return (
@@ -144,7 +158,7 @@ const Locate = ({navigation})=> {
           placeholder="동명(읍,면)으로 검색 (ex. 죽전동)"
           placeholderTextColor="#909090"
           onChangeText={(text) => setText(text)}
-          onEndEditing={_handleSearchAddress}
+          onSubmitEditing={_handleSearchAddress}
           style={{
             width:'94%',
             height:40,
@@ -191,7 +205,7 @@ const Locate = ({navigation})=> {
         keyExtractor={item => item['id'].toString()}
         data={locationObj}
         renderItem={({ item }) => (
-          <Item item={item} />
+            <Item item={item} />
         )}
         windowSize={3}
       />
