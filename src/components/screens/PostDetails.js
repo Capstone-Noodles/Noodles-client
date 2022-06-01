@@ -183,6 +183,7 @@ const PostDetails = ({route,navigation})=> {
             >
               {distance}
             </Text>
+            {(content.length >25) ?
             <TouchableOpacity
               onPress={()=>setViewMore(!viewMore)}>
               <Text
@@ -195,7 +196,7 @@ const PostDetails = ({route,navigation})=> {
               >
                 {viewMore? '접기':'더보기'}
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity>:null}
           </View>
         </View>
 

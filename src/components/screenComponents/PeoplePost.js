@@ -49,6 +49,7 @@ const Item = React.memo(
     const devHeight = Dimensions.get("window").height;
     const { user } = useContext(UserContext);
     const userId = user.id;
+    const [viewMore, setViewMore] = useState(false);
 
     const navigation = useNavigation();
 
@@ -190,7 +191,10 @@ const Item = React.memo(
                   fontSize: 12,
                   paddingVertical: 2,
                   paddingLeft: 4,
+                  width: 200,
                 }}
+                numberOfLines={viewMore ? 100:1}
+                ellipsizeMode='tail'
               >
                 {content}
               </Text>
@@ -207,16 +211,20 @@ const Item = React.memo(
             >
               {distance}
             </Text>
-            <Text
-              style={{
-                fontSize: 1,
-                opacity: 0.3,
-                paddingVertical: 2,
-                paddingLeft: 55,
-              }}
-            >
-              더보기
-            </Text>
+            {(content.length >25) ?
+            <TouchableOpacity
+              onPress={()=>setViewMore(!viewMore)}>
+              <Text
+                style={{
+                  fontSize: 12,
+                  opacity: 0.3,
+                  paddingVertical: 2,
+                  paddingLeft: 55,
+                }}
+              >
+                {viewMore? '접기':'더보기'}
+              </Text>
+            </TouchableOpacity>:null}
           </View>
         </View>
 

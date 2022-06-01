@@ -205,6 +205,7 @@ const Item = React.memo(
                 >
                   {distance}
                 </Text>
+                {(content.length >25) ?
                 <TouchableOpacity
                   onPress={()=>setViewMore(!viewMore)}>
                   <Text
@@ -217,7 +218,7 @@ const Item = React.memo(
                   >
                     {viewMore? '접기':'더보기'}
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity>:null}
               </View>
             </View>
 
