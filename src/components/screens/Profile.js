@@ -50,8 +50,8 @@ const Profile = ({ navigation }) => {
   const [follower, setFollower] = useState();
   const [following, setFollowing] = useState();
   const [profileImage, setProfileImage] = useState();
+  const [postList, setPostList] = useState([]);
 
-  const getData = [];
   useEffect(() => {
     axios({
       method: "get",
@@ -62,10 +62,6 @@ const Profile = ({ navigation }) => {
     })
       .then((response) => {
         const result = response.data.result.mypageList[0];
-        // console.log(result);
-        // console.log("--------------------------------------");
-        // console.log(result.result.mypageList);
-        // console.log(result.follower);
         setUserNickname(result.nickname);
         setUserStateMessage(result.description);
         setFollower(result.follower);
@@ -77,20 +73,22 @@ const Profile = ({ navigation }) => {
 
         const postIdxListString = result.postIdxList;
         const postIdxList = postIdxListString.split(",");
+        console.log(imageList[0]);
+        console.log(postIdxList[0]);
+        const data = [];
 
         for (let i = 0; i < imageList.length; i++) {
-          getData.push({
+          data.push({
             image: imageList[i],
             idx: postIdxList[i],
           });
         }
-
-        console.log(getData[0]);
+        setPostList(data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [setPostList, user]);
 
   //
   const [image, setImage] = useState(null);
@@ -255,7 +253,7 @@ const Profile = ({ navigation }) => {
           <Text style={{ fontSize: 13 }}>편집{"   "}</Text>
         </TouchableOpacity>
 
-        <MyPost data={getData} />
+        <MyPost data={postList} />
 
         <TouchableOpacity 
           style={{ alignItems: "center" }}
