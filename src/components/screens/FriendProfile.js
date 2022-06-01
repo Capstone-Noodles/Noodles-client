@@ -15,10 +15,11 @@ import axios from "axios";
 const FriendProfile = ({route,navigation}) => {
   const { user } = useContext(UserContext);
   const {id, nickname, profileImage, follow, userIdx} = route.params;
-  const [follow_,setFollow_] = useState(follow);
+  const [follow_,setFollow_] = useState(false);
   const [stateMessage, setStateMessage] = useState();
   const [follower, setFollower] = useState();
   const [following, setFollowing] = useState();
+  const [postList, setPostList] = useState([]);
 
     useEffect(() => {
         axios({
@@ -30,13 +31,13 @@ const FriendProfile = ({route,navigation}) => {
         })
             .then((response) => {
                 const result = response.data.result.mypageList[0];
-                // console.log(result);
                 // console.log("--------------------------------------");
                 // console.log(result.result.mypageList);
                 // console.log(result.follower);
                 setStateMessage(result.description);
                 setFollower(result.follower);
                 setFollowing(result.following);
+                setFollow_(result.isFollowed);
 
                 const imageListString = result.imageList;
                 const imageList = imageListString.split(",");
@@ -44,20 +45,22 @@ const FriendProfile = ({route,navigation}) => {
                 const postIdxListString = result.postIdxList;
                 const postIdxList = postIdxListString.split(",");
 
+                const data = [];
                 for (let i = 0; i < imageList.length; i++) {
-                    getData.push({
+                    data.push({
                         image: imageList[i],
                         idx: postIdxList[i],
                     });
                 }
+                setPostList(data);
 
-                console.log(getData[0]);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [setPostList, user]);
 
+    const [image, setImage] = useState(null);
   return (
     <ScrollView style={{flex:1,backgroundColor:'white', height:'100%'}}>
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
@@ -143,7 +146,7 @@ const FriendProfile = ({route,navigation}) => {
 
       <View style={{paddingTop:15}}>
 
-        <MyPost/>
+        <MyPost data={postList} />
         
         <TouchableOpacity style={{alignItems:'center'}}>
         <Text>
