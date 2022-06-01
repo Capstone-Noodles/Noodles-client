@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {  View, Button, Image, StatusBar, TouchableOpacity, ScrollView,Dimensions } from 'react-native';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
@@ -9,10 +9,55 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 import MyPost from '../screenComponents/MyPost';
 import PostForm from './PostForm';
+import { UserContext, UserProvider } from "../../contexts/User";
+import axios from "axios";
 
 const FriendProfile = ({route,navigation}) => {
-  const {id, nickname, profileImage, stateMessage, follow, post, followers, following} = route.params;
+  const { user } = useContext(UserContext);
+  const {id, nickname, profileImage, follow, userIdx} = route.params;
   const [follow_,setFollow_] = useState(follow);
+  const [stateMessage, setStateMessage] = useState();
+  const [follower, setFollower] = useState();
+  const [following, setFollowing] = useState();
+
+    useEffect(() => {
+        axios({
+            method: "get",
+            url: "http://133.186.228.218:8080/mypage/"+userIdx,
+            headers: {
+                "x-auth-token": `${user?.accessToken}`,
+            },
+        })
+            .then((response) => {
+                const result = response.data.result.mypageList[0];
+                // console.log(result);
+                // console.log("--------------------------------------");
+                // console.log(result.result.mypageList);
+                // console.log(result.follower);
+                setStateMessage(result.description);
+                setFollower(result.follower);
+                setFollowing(result.following);
+
+                const imageListString = result.imageList;
+                const imageList = imageListString.split(",");
+
+                const postIdxListString = result.postIdxList;
+                const postIdxList = postIdxListString.split(",");
+
+                for (let i = 0; i < imageList.length; i++) {
+                    getData.push({
+                        image: imageList[i],
+                        idx: postIdxList[i],
+                    });
+                }
+
+                console.log(getData[0]);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
   return (
     <ScrollView style={{flex:1,backgroundColor:'white', height:'100%'}}>
       <StatusBar backgroundColor='white' barStyle="dark-content" animated={true}/>
@@ -64,7 +109,7 @@ const FriendProfile = ({route,navigation}) => {
                     </View>
             </TouchableOpacity>
             </View>
-            
+
             <View style={{
               marginTop:10, alignItems:'center',
               flexDirection:'row', paddingHorizontal: 20,
@@ -74,7 +119,7 @@ const FriendProfile = ({route,navigation}) => {
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
                     팔로워 </Title>
                   <Caption style={{fontSize:13,fontWeight:'500',lineHeight:14}}>
-                    {followers}</Caption>
+                    {follower}</Caption>
                 </View>
               </TouchableOpacity>
               <View style={{paddingHorizontal:30}}></View>

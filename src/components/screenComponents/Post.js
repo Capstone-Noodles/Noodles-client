@@ -141,19 +141,20 @@ const Item = React.memo(
                   alignItems: "flex-start",
                 }}
               >
-                <TouchableOpacity 
-                  onPress={
-                    (userId === identification)? 
-                    ()=>navigation.navigate("Profile") 
-                    : ()=>navigation.navigate("FriendProfile", {
-                      nickname: nickname,
-                      profileImage: profileImage,
-                      //stateMessage: data.StateMessage,
-                      //follow: data.follow,
-                      //post: data.posts,
-                      //followers: data.followers,
-                      //following: data.following,
-                    })}>
+                  <TouchableOpacity
+                      onPress={
+                          (userId === identification)?
+                              ()=>navigation.navigate("Profile")
+                              : ()=>navigation.navigate("FriendProfile", {
+                                  nickname: identification,
+                                  profileImage: profileImage,
+                                  userIdx : userIdx,
+                                  //stateMessage: data.StateMessage,
+                                  //follow: data.follow,
+                                  //post: data.posts,
+                                  //followers: data.followers,
+                                  //following: data.following,
+                              })}>
                   <Image
                     source={{uri:`${profileImage}`}}
                     style={{ width: 40, height: 40, borderRadius: 100 }}
