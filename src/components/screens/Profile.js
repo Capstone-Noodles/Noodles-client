@@ -8,40 +8,21 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-//import { AsyncStorage } from '@react-native-async-storage/async-storage';
-import * as ImagePicker from "expo-image-picker";
 import {
   Avatar,
   Title,
   Caption,
-  Text,
-  TouchableRipple,
+  Text
 } from "react-native-paper";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 import MyPost from "../screenComponents/MyPost";
-import PostForm from "./PostForm";
 import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
 
 const Profile = ({ navigation }) => {
-  //로그아웃
-  /*const [userDetails,setUserDetails] = React.useState();
-  React.useEffect(() => {
-    getUserDetails();
-  }, []);
-  const getUserDetails = async () => {
-    const userData = await AsyncStorage.getItem('user');
-    if (userData) {
-      setUserDetails(JSON.parse(userData));
-    }
-  };*/
-  const logout = () => {
-    //AsyncStorage.setItem('user',JSON.stringify({...userDetails,loggedIn:false}),);
-    navigation.navigate("Login");
-  };
 
   const { user } = useContext(UserContext);
 
@@ -90,16 +71,7 @@ const Profile = ({ navigation }) => {
       });
   }, [setPostList, user]);
 
-  //
-  const [image, setImage] = useState(null);
-  // const getData = (data) => {
-  //   setImage(data);
-  // };
-  const windowWidth = Dimensions.get("window").width;
-  const windowHeight = Dimensions.get("window").height;
-
   return (
-    //
     <ScrollView style={{ flex: 1, backgroundColor: "white", height: "100%" }}>
       <StatusBar
         backgroundColor="white"
@@ -262,67 +234,6 @@ const Profile = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {image ? (
-        <View
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(52,52,52,0.8)",
-          }}
-        >
-          <StatusBar backgroundColor="#525252" barStyle="dark-content" />
-          <View
-            style={{
-              position: "absolute",
-              top: windowHeight / 6,
-              left: windowWidth / 18,
-              backgroundColor: "white",
-              width: 350,
-              height: 465,
-              borderRadius: 15,
-              zIndex: 1,
-              elevation: 50,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingVertical: 10,
-                paddingHorizontal: 15,
-              }}
-            >
-              <Image
-                source={image}
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 100,
-                }}
-              />
-              <View style={{ paddingLeft: 8 }}>
-                <Text style={{ fontSize: 12, fontWeight: "600" }}>빵이</Text>
-              </View>
-            </View>
-            <Image source={image} style={{ width: "100%", height: "80%" }} />
-            <View
-              style={{
-                justifyContent: "space-around",
-                width: "100%",
-                flexDirection: "row",
-                alignItems: "center",
-                padding: 8,
-              }}
-            >
-              <Ionic name="ios-heart-outline" style={{ fontSize: 26 }} />
-              <Ionic name="ios-person-outline" style={{ fontSize: 26 }} />
-              <Feather name="navigation" style={{ fontSize: 26 }} />
-            </View>
-          </View>
-        </View>
-      ) : null}
     </ScrollView>
   );
 };
