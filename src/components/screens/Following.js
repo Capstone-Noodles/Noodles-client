@@ -10,7 +10,7 @@ const Item = React.memo(
     const [follow,setFollow] = useState(isFollowing);
 
     if (profileImage === null) {
-      profileImage = "https://jimango.s3.ap-northeast-2.amazonaws.com/a9447c3b-feeb-49bf-b720-0f4651fb9d28.jpg";
+      profileImage = "https://jimango.s3.ap-northeast-2.amazonaws.com/noodles_basic.jpg";
     }
 
     return (
