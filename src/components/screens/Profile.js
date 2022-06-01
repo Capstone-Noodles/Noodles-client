@@ -72,7 +72,7 @@ const Profile = ({ navigation }) => {
   }, [setPostList, user]);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "white", height: "100%" }}>
+    <View style={{ flex: 1, backgroundColor: "white", height: "100%" }}>
       <StatusBar
         backgroundColor="white"
         barStyle="dark-content"
@@ -234,7 +234,7 @@ const Profile = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-    </ScrollView>
+    </View>
   );
 };
 
