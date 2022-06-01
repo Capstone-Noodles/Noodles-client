@@ -176,21 +176,6 @@ const Item = React.memo(
                   marginVertical: 20,
                 }}
               >
-                <TouchableOpacity>
-                  <MaterialIcons
-                    name="edit"
-                    style={{ fontSize: 65, color: "#ffbfbf" }}
-                  />
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      fontSize: 15,
-                      color: "#484848",
-                    }}
-                  >
-                    수정
-                  </Text>
-                </TouchableOpacity>
                 <TouchableOpacity onPress={deleteButton}>
                   <Icon
                     name="delete"
