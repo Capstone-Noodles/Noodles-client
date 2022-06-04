@@ -46,7 +46,7 @@ const Search = ({ navigation }) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.result);
       })
       .catch((err) => {
         console.log(err);
@@ -129,7 +129,8 @@ const Search = ({ navigation }) => {
           name="search"
           onPress={() => {
             {
-              clickSearchBtn();
+              navigation.navigate("SearchPost", { search: { search } });
+              // clickSearchBtn();
             }
           }}
           style={{
