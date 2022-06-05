@@ -186,7 +186,7 @@ const App = () => {
             name="SearchPost" 
             component={SearchPost} 
             options={() => ({
-              title: "게시물",
+              title: "검색 결과",
               headerShown: true,
               headerBackTitleVisible: false,
             })}

@@ -487,7 +487,6 @@ const SearchPost = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // console.log({ search });
     axios
       .get("http://133.186.228.218:8080/posts/search", {
         params: {
@@ -535,12 +534,25 @@ const SearchPost = ({ navigation, route }) => {
         flex:1,
         backgroundColor:'#fff'
       }}>
-      <FlatList
+      {
+        posts.length ? 
+        <FlatList
         keyExtractor={(item) => item["id"].toString()}
         data={posts}
         renderItem={({ item }) => <Item item={item} />}
         windowSize={3}
-      />
+        />
+        : 
+        <View
+          style={{
+            flex:1,
+            justifyContent:'center',
+            alignItems:'center'
+          }}>
+          <Text>검색 결과가 없습니다.</Text>
+        </View> 
+      }
+      
     </View>
   );
 };
