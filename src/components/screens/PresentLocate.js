@@ -12,6 +12,7 @@ import * as Location from "expo-location";
 import Ionic from "react-native-vector-icons/Ionicons";
 import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
+import Loader from "../screenComponents/Loader";
 
 const PresentLocate = ({ navigation }) => {
   const devWidth = Dimensions.get("window").width;
@@ -34,6 +35,7 @@ const PresentLocate = ({ navigation }) => {
 
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   const setMyLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -163,6 +165,7 @@ const PresentLocate = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, flexDirection: "column" }}>
+      <Loader visible={loading} />
       <StatusBar
         backgroundColor="white"
         barStyle="dark-content"
@@ -190,6 +193,7 @@ const PresentLocate = ({ navigation }) => {
         onPress={() => {
           {
             setMyLocation();
+            setLoading(true);
           }
           // navigation.navigate("Locate");
         }}
