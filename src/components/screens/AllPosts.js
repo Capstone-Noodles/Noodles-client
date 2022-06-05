@@ -1,20 +1,34 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, Image, TouchableOpacity, Modal, Dimensions, FlatList, StatusBar} from "react-native";
-import styled from 'styled-components/native';
-import Feather from "react-native-vector-icons/Feather";
+import { Text, View, Image, TouchableOpacity, Dimensions, FlatList, StatusBar, ImageBackground} from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import Ionic from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Foundation from "react-native-vector-icons/Foundation";
 import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 
-//const [edit,setEdit] = useState(false);
-//console.log('AllPosts.edit',AllPosts.edit)
+
 
 const Item = React.memo(
-  ({ item: { id, content, distance, location, isBookmarked, isLiked, likes, postIdx, postImageList, profileImage, userIdx, nickname, identification }, edit }) => {
+  ({ item: 
+      { 
+        id, 
+        content, 
+        distance, 
+        location, 
+        isBookmarked, 
+        isLiked, 
+        likes, 
+        postIdx, 
+        postImageList, 
+        profileImage, 
+        userIdx, 
+        nickname, 
+        identification 
+      }, 
+     edit, 
+     count, 
+     setCount 
+  }) => {
+
     const [like, setLike] = useState(likes);
     const [bookmark, setBookmark] = useState(isBookmarked);
     const [modalVisible, setModalVisible] = useState(false);
@@ -22,32 +36,13 @@ const Item = React.memo(
     const devWidth = Dimensions.get("window").width;
     const { user } = useContext(UserContext);
     const userId = user.id;
-    //const [edit,setEdit] = useState(edit);
-    //const edit = useState(AllPosts.edit);
-    //console.log('AllPosts.edit',edits) 
-    const [check, setCheck] = useState(false);
     const navigation = useNavigation();
+    const [check, setCheck] = useState(false);
     
-
     return (
-      <View 
-        style={{
-          backgroundColor:'#fff'
-        }}>
-          {edit ? (<TouchableOpacity 
-            style={{alignItems:'flex-end'}}
-            onPress={()=>{
-              setCheck(!check);
-              console.log(check.length)
-              }}>
-            <AntDesign 
-              name= {check ? "checkcircle":"checkcircleo"}
-              style={{fontSize:14,}}/>
-          </TouchableOpacity>):null}
+      <View style={{ backgroundColor:'#fff' }}>
         <TouchableOpacity 
-          style={{
-            padding:2
-          }}
+          style={{ padding:2 }}
           onPress={()=>navigation.navigate("PostDetails", {
             postImageList: postImageList,
             content: content,
@@ -58,11 +53,29 @@ const Item = React.memo(
             postIdx: postIdx,
             profileImage: profileImage,
             identification: identification
-          })}>
-          <Image 
+          })}
+          disabled={count>=6 ? true:false}
+        >
+          <ImageBackground 
               source={{uri:`${postImageList}`}}
               style={{ width: devWidth/3.1, height: devWidth/3 }}
-            />
+          >
+          {edit ? 
+          (<TouchableOpacity 
+            style={{ alignItems:'flex-end', padding:5}}
+            disabled={count>=6 ? true:false}
+            onPress={()=>{
+              setCheck(!check);
+              console.log('start',check)
+              check ? setCount(--count):setCount(++count)
+              console.log(count)
+              }}>
+            <AntDesign 
+              name= {check ? "checkcircle":"checkcircleo"}
+              style={{fontSize:20,  color:'#ffbfbf'}}/>
+          </TouchableOpacity>)
+          :null}
+          </ImageBackground>
         </TouchableOpacity>
       </View>
     );
@@ -136,11 +149,10 @@ const AllPosts = ()=> {
   const [modalVisible, setModalVisible] = useState(false);
   const [others_modalVisible, setOthers_ModalVisible] = useState(false);
   const devWidth = Dimensions.get("window").width;
-  const [edit,setEdit] = useState(false);
-             
   const navigation = useNavigation();
           
-          
+  const [edit, setEdit] = useState(false);
+  const [count, setCount] = useState(0);
 
   return (
     <View 
@@ -160,7 +172,7 @@ const AllPosts = ()=> {
           margin:10,
           alignItems:'center',
           justifyContent:'space-between',
-          paddingTop:25,
+          paddingTop:30,
         }}>
         <TouchableOpacity 
           style={{paddingRight:10}}
@@ -175,7 +187,7 @@ const AllPosts = ()=> {
             edit ? ()=>navigation.navigate("Profile") : ()=> setEdit(!edit)
           }>
           <Text style={{fontSize:18, color:'gray' }}>
-            {edit ? '완료':'편집'}
+            {count>=6 ? '완료':'편집'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -185,50 +197,8 @@ const AllPosts = ()=> {
         data={posts}
         numColumns={3}
         renderItem={  ({ item })  => (
-          <Item item={item} edit={edit} />
+          <Item item={item} edit={edit} count={count} setCount={setCount}/>
         )}
-          //const [bookmark, setBookmark] = useState(false);
-          
-         // (//<Item item={item}/>)}
-        
-      //   <View 
-      //   style={{
-      //     backgroundColor:'#fff'
-      //   }}
-      //   >
-      //     {edit ? (<TouchableOpacity 
-      //       style={{alignItems:'flex-end'}}
-      //       onPress={()=>{
-      //         setBookmark(!bookmark)
-      //       }}>
-      //       <AntDesign 
-      //         name= {bookmark ? "checkcircle":"checkcircleo"}
-      //         style={{fontSize:13,}}/>
-      //     </TouchableOpacity>):null}
-      //   <TouchableOpacity 
-      //     style={{
-      //       padding:2,
-      //     }}
-      //     onPress={()=>
-      //       navigation.navigate("PostDetails", {
-      //       postImageList: item.postImageList,
-      //       content: item.content,
-      //       distance: item.distance,
-      //       location: item.location,
-      //       isBookmarked: item.isBookmarked,
-      //       likes: item.likes,
-      //       postIdx: item.postIdx,
-      //       profileImage: item.profileImage,
-      //       identification: item.identification
-      //     })}
-      //     >
-      //     <Image 
-      //         source={{uri:`${item.postImageList}`}}
-      //         style={{ width: devWidth/3.1, height: devWidth/3 }}
-      //       />
-      //   </TouchableOpacity>
-      // </View>
-      // ) }//}
         windowSize={3}
       />
     </View>

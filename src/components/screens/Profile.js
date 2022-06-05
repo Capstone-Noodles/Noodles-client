@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   View,
-  Button,
   Image,
   StatusBar,
-  TouchableOpacity,
-  ScrollView,
-  Dimensions,
+  TouchableOpacity
 } from "react-native";
 import {
   Avatar,
@@ -14,6 +11,7 @@ import {
   Caption,
   Text
 } from "react-native-paper";
+import { ScrollView } from 'react-native-virtualized-view';
 import Ionic from "react-native-vector-icons/Ionicons";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -74,7 +72,7 @@ const Profile = ({ navigation }) => {
   }, [setPostList, user]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white", height: "100%" }}>
+    <ScrollView style={{ flex: 1, backgroundColor: "white", height: "100%" }}>
       <StatusBar
         backgroundColor="white"
         barStyle="dark-content"
@@ -220,12 +218,12 @@ const Profile = ({ navigation }) => {
       </View>
 
       <View style={{ paddingTop: 15 }}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{ alignItems: "flex-end" }}
           onPress={() => navigation.navigate("Test")}
         >
           <Text style={{ fontSize: 13 }}>편집{"   "}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <MyPost data={postList} />
 
@@ -236,7 +234,7 @@ const Profile = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-    </View>
+    </ScrollView>
   );
 };
 

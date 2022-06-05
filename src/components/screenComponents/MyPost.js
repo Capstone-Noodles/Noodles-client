@@ -38,7 +38,8 @@ const MyPost = (props) => {
                     // profileImage: profileImage,
                     // identification: identification
                   });
-                }}>
+                }}
+                style={{padding:5}}>
                   <Image
                     source={{ uri: `${item.image}` }}
                     style={{ width: 120, height: 120, borderRadius: 100 }}/>
