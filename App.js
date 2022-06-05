@@ -179,15 +179,7 @@ const App = () => {
               headerBackTitleVisible: false,
             })}
           />
-          <Stack.Screen
-            name="AllPosts"
-            component={AllPosts}
-            options={({ route }) => ({
-              title: "전체 게시물 조회",
-              headerShown: true,
-              headerBackTitleVisible: false,
-            })}
-          />
+          <Stack.Screen name="AllPosts" component={AllPosts} />
 
           <Stack.Screen name="Status" component={Status} />
           <Stack.Screen name="SearchPost" component={SearchPost} />
