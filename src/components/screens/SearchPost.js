@@ -95,7 +95,7 @@ const Item = React.memo(
           style={{
             paddingBottom: 5,
             borderTopColor: "#ffd2cf",
-            borderTopWidth: 1.5,
+            borderTopWidth: 3,
           }}
         >
           <View
@@ -193,7 +193,7 @@ const Item = React.memo(
                 source={{ uri: `${profileImage}` }}
                 style={{ width: 40, height: 40, borderRadius: 100 }}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> 
             <View style={{ paddingLeft: 5 }}>
               <Text
                 style={{
@@ -530,12 +530,18 @@ const SearchPost = ({ navigation, route }) => {
   }, []);
 
   return (
-    <FlatList
-      keyExtractor={(item) => item["id"].toString()}
-      data={posts}
-      renderItem={({ item }) => <Item item={item} />}
-      windowSize={3}
-    />
+    <View 
+      style={{
+        flex:1,
+        backgroundColor:'#fff'
+      }}>
+      <FlatList
+        keyExtractor={(item) => item["id"].toString()}
+        data={posts}
+        renderItem={({ item }) => <Item item={item} />}
+        windowSize={3}
+      />
+    </View>
   );
 };
 

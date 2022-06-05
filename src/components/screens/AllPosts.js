@@ -36,7 +36,10 @@ const Item = React.memo(
         }}>
           {edit ? (<TouchableOpacity 
             style={{alignItems:'flex-end'}}
-            onPress={()=>setCheck(!check)}>
+            onPress={()=>{
+              setCheck(!check);
+              console.log(check.length)
+              }}>
             <AntDesign 
               name= {check ? "checkcircle":"checkcircleo"}
               style={{fontSize:14,}}/>
@@ -142,6 +145,7 @@ const AllPosts = ()=> {
   return (
     <View 
       style={{
+        flex:1,
         backgroundColor:'#fff'
       }}>
       <StatusBar
@@ -155,7 +159,8 @@ const AllPosts = ()=> {
           padding:10,
           margin:10,
           alignItems:'center',
-          justifyContent:'space-between'
+          justifyContent:'space-between',
+          paddingTop:25,
         }}>
         <TouchableOpacity 
           style={{paddingRight:10}}
