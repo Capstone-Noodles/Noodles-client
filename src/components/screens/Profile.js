@@ -27,6 +27,7 @@ const Profile = ({ navigation }) => {
   const { user } = useContext(UserContext);
 
   const [userNickname, setUserNickname] = useState();
+  const [id, setId] = useState();
   const [userStateMessage, setUserStateMessage] = useState();
   const [follower, setFollower] = useState();
   const [following, setFollowing] = useState();
@@ -48,6 +49,7 @@ const Profile = ({ navigation }) => {
         setFollower(result.follower);
         setFollowing(result.following);
         setProfileImage(result.profileImage);
+        setId(result.identification);
 
         const imageListString = result.imageList;
         const imageList = imageListString.split(",");
@@ -182,7 +184,7 @@ const Profile = ({ navigation }) => {
           >
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("Follower", { follower: follower })
+                navigation.navigate("Follower", { follower: follower, id: id })
               }
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -199,7 +201,7 @@ const Profile = ({ navigation }) => {
             <View style={{ paddingHorizontal: 30 }}></View>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("Following", { following: following })
+                navigation.navigate("Following", { following: following, id: id })
               }
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>

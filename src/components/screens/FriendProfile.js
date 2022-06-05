@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {  View, Button, Image, StatusBar, TouchableOpacity, ScrollView,Dimensions } from 'react-native';
+import {  View, Button, Image, StatusBar, TouchableOpacity,Dimensions } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar, Title, Caption, Text, TouchableRipple, } from 'react-native-paper';
@@ -12,7 +13,7 @@ import PostForm from './PostForm';
 import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
 
-const FriendProfile = ({route,navigation}) => {
+const FriendProfile = ({route, navigation}) => {
   const { user } = useContext(UserContext);
   const {id, nickname, profileImage, follow, userIdx} = route.params;
   const [follow_,setFollow_] = useState(false);
@@ -117,7 +118,11 @@ const FriendProfile = ({route,navigation}) => {
               marginTop:10, alignItems:'center',
               flexDirection:'row', paddingHorizontal: 20,
               }}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Follower", { follower: follower, id: userIdx })
+                }
+              >
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
                     팔로워 </Title>
@@ -126,7 +131,11 @@ const FriendProfile = ({route,navigation}) => {
                 </View>
               </TouchableOpacity>
               <View style={{paddingHorizontal:30}}></View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Following", { following: following, id: userIdx })
+                }
+              >
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
                     팔로잉 </Title>
