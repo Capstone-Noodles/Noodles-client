@@ -72,6 +72,10 @@ const PostForm = ({navigation})=> {
   //업로드버튼 클릭시
   const uploadButton = useCallback(async() => {
     try {
+      if (!image) {
+        Alert.alert("이미지를 포함하여 업로드해주세요.")
+        return
+      }
       if (user.latitude == null) {
         dispatch({ 
           accessToken: user.accessToken, 
