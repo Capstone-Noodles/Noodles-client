@@ -25,6 +25,7 @@ const Item = React.memo(
     //const [edit,setEdit] = useState(edit);
     //const edit = useState(AllPosts.edit);
     //console.log('AllPosts.edit',edits) 
+    const [check, setCheck] = useState(false);
     const navigation = useNavigation();
     
 
@@ -35,9 +36,9 @@ const Item = React.memo(
         }}>
           {edit ? (<TouchableOpacity 
             style={{alignItems:'flex-end'}}
-            onPress={()=>setBookmark(!bookmark)}>
+            onPress={()=>setCheck(!check)}>
             <AntDesign 
-              name= {bookmark ? "checkcircle":"checkcircleo"}
+              name= {check ? "checkcircle":"checkcircleo"}
               style={{fontSize:14,}}/>
           </TouchableOpacity>):null}
         <TouchableOpacity 
@@ -164,8 +165,13 @@ const AllPosts = ()=> {
         <Text style={{paddingHorizontal:15, fontSize:20, }}>
           전체 게시물 조회
         </Text>
-        <TouchableOpacity onPress={()=> setEdit(!edit)}>
-          <Text style={{fontSize:18, color:'gray' }}>편집</Text>
+        <TouchableOpacity 
+          onPress={
+            edit ? ()=>navigation.navigate("Profile") : ()=> setEdit(!edit)
+          }>
+          <Text style={{fontSize:18, color:'gray' }}>
+            {edit ? '완료':'편집'}
+          </Text>
         </TouchableOpacity>
       </View>
       
