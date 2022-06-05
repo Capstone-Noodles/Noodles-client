@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { Text, View, Image, TouchableOpacity, Modal, Dimensions, FlatList} from "react-native";
+import { Text, View, Image, TouchableOpacity, Modal, Dimensions, FlatList, Alert} from "react-native";
 import Feather from "react-native-vector-icons/Feather";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Ionic from "react-native-vector-icons/Ionicons";
@@ -64,6 +64,37 @@ const Item = React.memo(
       } finally {
       }
     }, [user, postIdx, setLike, dispatch]);
+
+    const _handleDeletePress = useCallback(async() => {
+      try {
+        axios({
+          method: 'patch',
+          url: 'http://133.186.228.218:8080/posts/delete/'+postIdx,
+          headers: {
+            "x-auth-token": `${user?.accessToken}`,
+          }
+        })
+        .then(function(response){
+          dispatch({ 
+            accessToken: user.accessToken, 
+            refreshToken: user.refreshToken,
+            id: user.id,
+            location: user.location,
+            latitude: user.latitude, 
+            longitude: user.longitude
+          });
+          setModalVisible(!modalVisible)
+          Alert.alert("게시글이 삭제되었습니다.");
+          return;
+        })
+        .catch(function(error){
+          console.log(error);
+          alert("Error",error);
+        });
+      } catch (e) {
+      } finally {
+      }
+    }, [user, postIdx, dispatch, setModalVisible, modalVisible]);
 
     return (
       <View>
@@ -302,7 +333,7 @@ const Item = React.memo(
                     수정
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>setClosed(true)}>
+                <TouchableOpacity onPress={_handleDeletePress}>
                   <Foundation
                     name="page-delete"
                     style={{ fontSize: 65, color: "#ffbfbf" }}
