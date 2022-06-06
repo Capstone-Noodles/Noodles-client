@@ -9,10 +9,41 @@ const Item = React.memo(
   ({ item: { id, userIdx, nickname, profileImage, identification, isFollowing } }) => {
     const [follow,setFollow] = useState(isFollowing);
     const { user } = useContext(UserContext);
+    const { dispatch } = useContext(UserContext);
 
     if (profileImage === null) {
       profileImage = "https://jimango.s3.ap-northeast-2.amazonaws.com/noodles_basic.jpg";
     }
+
+    const _handleFollowPress = useCallback(async() => {
+      try {
+        axios({
+          method: 'post',
+          url: 'http://133.186.228.218:8080/following/'+userIdx,
+          headers: {
+            "x-auth-token": `${user?.accessToken}`,
+          }
+        })
+        .then(function(response){
+          setFollow(!follow)
+          dispatch({ 
+            accessToken: user.accessToken, 
+            refreshToken: user.refreshToken,
+            id: user.id,
+            location: user.location,
+            latitude: user.latitude, 
+            longitude: user.longitude
+          });
+          return response.data;
+        })
+        .catch(function(error){
+          console.log(error);
+          alert("Error",error);
+        });
+      } catch (e) {
+      } finally {
+      }
+    }, [user, userIdx, setFollow, follow, dispatch]);
 
     if (user.id === identification) {
       return (
@@ -94,7 +125,7 @@ const Item = React.memo(
   
             <TouchableOpacity 
               style={{width: 68}}
-              onPress={() => setFollow(!follow)}>
+              onPress={_handleFollowPress}>
               <View
                 style={{
                   backgroundColor: follow ? '#DEDEDE':'#ffbfbf',
