@@ -477,12 +477,14 @@ const Item = React.memo(
   },
 );
 
-const Post = () => {
+const Post = (props) => {
   
   const { user } = useContext(UserContext);
   const { dispatch } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const isFocused = useIsFocused();
+  const regex = /[^0-9]/g;
+  const distance = props.distance.replace(regex, "");
 
   useEffect(() => {
     try {
@@ -502,6 +504,7 @@ const Post = () => {
         params: { 
           longitude: `${user?.longitude}`,
           latitude: `${user?.latitude}`, 
+          distance: `${distance}`,
         },
         headers: {
           "x-auth-token": `${user?.accessToken}`,
@@ -537,7 +540,7 @@ const Post = () => {
       alert("Error", e);
     } finally {
     }
-  }, [user, setPosts, isFocused]);
+  }, [user, setPosts, isFocused, distance]);
 
   return (
     <FlatList

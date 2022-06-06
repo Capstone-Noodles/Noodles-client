@@ -1,8 +1,9 @@
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import React,{ useRef } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { ScrollView } from 'react-native-virtualized-view';
+import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Evilcons from "react-native-vector-icons/EvilIcons";
@@ -10,6 +11,10 @@ import Stories from '../screenComponents/Stories';
 import Post from '../screenComponents/Post';
 
 const Home = ({navigation})=> {
+
+  const [distance, setDistance] = useState('20km');
+
+  const data = ['20km', '10km', '5km']
 
   //화면 맨 위로
   const scrollRef = useRef();
@@ -46,7 +51,7 @@ const Home = ({navigation})=> {
         <TouchableOpacity onPress={()=>navigation.navigate("Locate")}>
           <Ionic name="locate" style={{fontSize: 30}}/>
         </TouchableOpacity>
-        <View style={{flexDirection:'row',alignItems:'baseline'}}>
+        <View style={{ marginLeft: 50, flexDirection:'row',alignItems:'baseline'}}>
           <Text style={{
             fontSize:25, fontWeight:'700', color:'tomato'}}>
             우
@@ -64,13 +69,52 @@ const Home = ({navigation})=> {
             네
           </Text>
         </View>
-        <Ionic name="notifications-outline" style={{fontSize:25}}/>
+        <SelectDropdown
+            defaultButtonText={distance}
+            data={data}
+            buttonStyle={{
+              height: 20,
+              width: 80,
+              borderRadius: 3,
+              backgroundColor: 'white'
+            }}
+            buttonTextStyle={{
+              fontSize: 12,
+              color: "grey"
+            }}
+            dropdownStyle={{
+              borderRadius: 3
+            }}
+            rowStyle={{
+              height: 20,
+              width: 80,
+            }}
+            rowTextStyle={{
+              fontSize: 12,
+              color: "black",
+              margin: "auto"
+            }}
+            renderDropdownIcon={()=> <View style={{ width:10 }}>
+              <Image source={{uri:"https://www.clipartmax.com/png/small/118-1181112_chevron-icon-drop-down-menu-arrow.png"}} style={{ width: 10, height: 10, resizeMode: 'contain' }} />
+              </View>}
+            onSelect={(selectedItem, index) => {
+              setDistance(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem
+            }}
+            rowTextForSelection={(item, index) => {
+              return item
+            }}
+            dropdownIconPosition="right"
+          />
+        {/* <Ionic name="notifications-outline" style={{fontSize:25}}/> */}
       </View>
 
       <ScrollView>
       {/* <ScrollView ref={scrollRef}> */}
         {/*<Stories/>*/}
-        <Post/>
+        <Post distance={distance}/>
         <View style={{
           justifyContent:'center',
           alignItems:'center',
