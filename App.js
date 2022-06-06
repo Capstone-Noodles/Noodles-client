@@ -29,6 +29,7 @@ import FriendProfile from "./src/components/screens/FriendProfile";
 import Comment from "./src/components/screens/Comment";
 import AllPosts from "./src/components/screens/AllPosts";
 import SearchPost from "./src/components/screens/SearchPost";
+import FriendAllPosts from "./src/components/screens/FriendAllPosts";
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -180,6 +181,7 @@ const App = () => {
             })}
           />
           <Stack.Screen name="AllPosts" component={AllPosts} />
+          <Stack.Screen name="FriendAllPosts" component={FriendAllPosts} />
 
           <Stack.Screen name="Status" component={Status} />
           <Stack.Screen 

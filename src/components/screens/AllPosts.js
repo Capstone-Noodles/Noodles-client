@@ -38,7 +38,10 @@ const Item = React.memo(
     const userId = user.id;
     const navigation = useNavigation();
     const [check, setCheck] = useState(false);
-    
+
+    const aPostImageList = postImageList.split(',');
+    const postSrc = aPostImageList[0];
+
     return (
       <View style={{ backgroundColor:'#fff' }}>
         <TouchableOpacity 
@@ -52,12 +55,14 @@ const Item = React.memo(
             likes: likes,
             postIdx: postIdx,
             profileImage: profileImage,
-            identification: identification
+            identification: identification,
+            userIdx: userIdx,
+            nickname: nickname,
           })}
           disabled={count>=6 ? true:false}
         >
           <ImageBackground 
-              source={{uri:`${postImageList}`}}
+              source={{uri:`${postSrc}`}}
               style={{ width: devWidth/3.1, height: devWidth/3 }}
           >
           {edit ? 
@@ -98,10 +103,9 @@ const AllPosts = ()=> {
       }
       axios({
         method: 'get',
-        url: 'http://133.186.228.218:8080/posts',
-        params: { 
-          longitude: `${user?.longitude}`,
-          latitude: `${user?.latitude}`, 
+        url: 'http://133.186.228.218:8080/myPosts',
+        params: {
+            identification: `${user?.id}`,
         },
         headers: {
           "x-auth-token": `${user?.accessToken}`,
@@ -110,21 +114,21 @@ const AllPosts = ()=> {
       .then(function(response){
         const result = response.data;
         const list = []
-        for (let i = 0; i < result.length; i++) {
+        for (let i = 0; i < result.result.length; i++) {
           list.push({
             id: i,
-            content: result[i].content,
-            distance: result[i].distance,
-            isBookmarked: result[i].isBookmarked,
-            isLiked: result[i].isLiked,
-            likes: result[i].likes,
-            location: result[i].location,
-            postIdx: result[i].postIdx,
-            postImageList: result[i].postImageList,
-            profileImage: result[i].profileImage,
-            userIdx: result[i].userIdx,
-            nickname: result[i].nickname,
-            identification: result[i].identification,
+            content: result.result[i].content,
+            distance: result.result[i].distance,
+            isBookmarked: result.result[i].isBookmarked,
+            isLiked: result.result[i].isLiked,
+            likes: result.result[i].likes,
+            location: result.result[i].location,
+            postIdx: result.result[i].postIdx,
+            postImageList: result.result[i].postImageList,
+            profileImage: result.result[i].profileImage,
+            userIdx: result.result[i].userIdx,
+            nickname: result.result[i].nickname,
+            identification: result.result[i].identification,
           });
         }
         setPosts(list);

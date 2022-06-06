@@ -29,7 +29,8 @@ const PostDetails = ({route,navigation})=> {
     likes,
     postIdx,
     profileImage,
-    identification
+    identification,
+    userIdx,
   } = route.params;
 
   const popup = () => {
@@ -125,8 +126,9 @@ const PostDetails = ({route,navigation})=> {
                 (userId === identification)? 
                 ()=>navigation.navigate("Profile") 
                 : ()=>navigation.navigate("FriendProfile", {
-                  nickname: nickname,
-                  profileImage: profileImage,
+                    nickname: identification,
+                    profileImage: profileImage,
+                    userIdx : userIdx,
                   //stateMessage: data.StateMessage,
                   //follow: data.follow,
                   //post: data.posts,

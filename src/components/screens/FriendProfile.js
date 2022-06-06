@@ -157,7 +157,10 @@ const FriendProfile = ({route, navigation}) => {
 
         <MyPost data={postList} />
         
-        <TouchableOpacity style={{alignItems:'center'}}>
+        <TouchableOpacity
+            style={{alignItems:'center'}}
+            onPress={() => navigation.navigate("FriendAllPosts", {nickname})}
+        >
         <Text>
           전체 게시물 보기
         </Text>
