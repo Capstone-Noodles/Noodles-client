@@ -182,7 +182,15 @@ const App = () => {
           <Stack.Screen name="AllPosts" component={AllPosts} />
 
           <Stack.Screen name="Status" component={Status} />
-          <Stack.Screen name="SearchPost" component={SearchPost} />
+          <Stack.Screen 
+            name="SearchPost" 
+            component={SearchPost} 
+            options={() => ({
+              title: "검색 결과",
+              headerShown: true,
+              headerBackTitleVisible: false,
+            })}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>

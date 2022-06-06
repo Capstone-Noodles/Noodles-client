@@ -1,7 +1,8 @@
 import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import React, {useRef} from 'react';
-import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native-virtualized-view';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Evilcons from "react-native-vector-icons/EvilIcons";
@@ -58,7 +59,7 @@ const People = ({navigation})=> {
         <Ionic name="notifications-outline" style={{fontSize:25}}/>
       </View>
 
-      <ScrollView ref={scrollRef}>
+      <ScrollView>
         {/*<Stories/>*/}
         <PeoplePost/>
         <View style={{

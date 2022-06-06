@@ -13,20 +13,6 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import axios from "axios";
 import { UserContext } from "../../contexts/User";
 
-const searched = [
-  {
-    id: "1",
-    text: "단국대",
-  },
-  {
-    id: "2",
-    text: "단국대 죽전",
-  },
-  {
-    id: "3",
-    text: "단국대 천안",
-  },
-];
 
 const Search = ({ navigation }) => {
   const [search, setSearch] = useState();
@@ -51,6 +37,13 @@ const Search = ({ navigation }) => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const onSubmitEditing = () => {
+    search ? 
+    navigation.navigate("SearchPost", { search: { search } })
+    :
+    Alert.alert("검색어를 입력하세요!")
   };
 
   return (
@@ -129,7 +122,10 @@ const Search = ({ navigation }) => {
           name="search"
           onPress={() => {
             {
-              navigation.navigate("SearchPost", { search: { search } });
+              search ? 
+              navigation.navigate("SearchPost", { search: { search } })
+              :
+              Alert.alert("검색어를 입력하세요!")
               // clickSearchBtn();
             }
           }}
@@ -146,6 +142,8 @@ const Search = ({ navigation }) => {
           placeholder="검색어를 입력하세요."
           placeholderTextColor="#909090"
           onChangeText={setSearch}
+          returnKeyType="search"
+          onSubmitEditing={onSubmitEditing}
           style={{
             width: "94%",
             height: 40,
@@ -160,39 +158,11 @@ const Search = ({ navigation }) => {
         />
       </View>
 
-      {/*
-      <View 
-        style={{
-          justifyContent:'center',
-          alignItems:'center',
-          width:'100%',
-          paddingVertival:10,
-          position:'relative',
-        }}>
-        <Ionic 
-          name="search"
-          style={{fontSize:20, opacity:0.7, position:'absolute', zIndex:1, left:25}}/>
-        <TextInput 
-          placeholder="검색어를 입력하세요."
-          placeholderTextColor="#909090"
-          style={{
-            width:'94%',
-            backgroundColor:'#EBEBEB',
-            borderRadius:10,
-            alignItems:'center',
-            justifyContent:'center',
-            fontSize:16,
-            padding:4,
-            paddingLeft:40,
-          }}/>
-      </View>
-*/}
-
       <View style={{ padding: 15 }}>
         <Text style={{ color: "#484848", fontSize: 14, paddingBottom: 10 }}>
           최근 검색어
         </Text>
-        <FlatList
+        {/* <FlatList
           data={searched}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
@@ -209,8 +179,9 @@ const Search = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           )}
-        />
+        /> */}
       </View>
+
     </View>
   );
 };
