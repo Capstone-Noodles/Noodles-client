@@ -8,12 +8,7 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import {
-  Avatar,
-  Title,
-  Caption,
-  Text
-} from "react-native-paper";
+import { Avatar, Title, Caption, Text } from "react-native-paper";
 import Ionic from "react-native-vector-icons/Ionicons";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -23,7 +18,6 @@ import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
 
 const Profile = ({ navigation }) => {
-
   const { user } = useContext(UserContext);
 
   const [userNickname, setUserNickname] = useState();
@@ -153,7 +147,15 @@ const Profile = ({ navigation }) => {
 
       <View style={{ paddingHorizontal: 15, marginTop: 10 }}>
         <View style={{ alignItems: "flex-end", paddingBottom: 0 }}>
-          <TouchableOpacity onPress={() => navigation.navigate("EditProfile")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("EditProfile", {
+                userNickname: { userNickname },
+                userStateMessage: { userStateMessage },
+                profileImage: { profileImage },
+              })
+            }
+          >
             <Icons name="account-edit-outline" style={{ fontSize: 20 }} />
           </TouchableOpacity>
         </View>
@@ -201,7 +203,10 @@ const Profile = ({ navigation }) => {
             <View style={{ paddingHorizontal: 30 }}></View>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("Following", { following: following, id: id })
+                navigation.navigate("Following", {
+                  following: following,
+                  id: id,
+                })
               }
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -229,13 +234,13 @@ const Profile = ({ navigation }) => {
 
         <MyPost data={postList} />
 
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{ alignItems: "center" }}
-          onPress={() => navigation.navigate("AllPosts")} >
+          onPress={() => navigation.navigate("AllPosts")}
+        >
           <Text>전체 게시물 보기</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 };
