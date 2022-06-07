@@ -107,7 +107,7 @@ const Item = React.memo(
                   style={{ fontSize: 20, paddingRight: 10 }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate("Comment")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Comment", postIdx)}>
                 <Ionic
                   name="ios-chatbubble-outline"
                   style={{ fontSize: 20, paddingRight: 10 }}
@@ -151,8 +151,9 @@ const Item = React.memo(
                   ? () => navigation.navigate("Profile")
                   : () =>
                       navigation.navigate("FriendProfile", {
-                        nickname: nickname,
+                        identification: identification,
                         profileImage: profileImage,
+                        nickname:nickname,
                         //stateMessage: data.StateMessage,
                         //follow: data.follow,
                         //post: data.posts,

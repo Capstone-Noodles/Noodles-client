@@ -177,7 +177,8 @@ const Item = React.memo(
                           (userId === identification)?
                               ()=>navigation.navigate("Profile")
                               : ()=>navigation.navigate("FriendProfile", {
-                                  nickname: identification,
+                                  identification: identification,
+                                  nickname: nickname,
                                   profileImage: profileImage,
                                   userIdx : userIdx,
                                   //stateMessage: data.StateMessage,

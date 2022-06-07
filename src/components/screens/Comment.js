@@ -22,7 +22,7 @@ import { set } from 'react-native-reanimated';
 
 
 const Item = React.memo(
-    ({ item: { id, commentIdx, content, parentCommentIdx, userIdx, identification, profileImage, date} }) => {
+    ({ item: { id, commentIdx, content, parentCommentIdx, userIdx, identification, profileImage, date, nickname} }) => {
 
         const devHeight = Dimensions.get("window").height;
         const { user } = useContext(UserContext);
@@ -77,9 +77,10 @@ const Item = React.memo(
                         (userId === identification)?
                             ()=>navigation.navigate("Profile")
                             : ()=>navigation.navigate("FriendProfile", {
-                        nickname: identification,
+                        identification: identification,
+                        nickname:nickname,
                         profileImage: profileImage,
-                            userIdx : userIdx,
+                        userIdx : userIdx,
                         //stateMessage: data.StateMessage,
                         //follow: data.follow,
                         //post: data.posts,
@@ -374,6 +375,7 @@ const Comment = ({navigation, route})=> {
                                 parentCommentIdx: result[i].parentCommentIdx,
                                 userIdx: result[i].userIdx,
                                 identification: result[i].identification,
+                                nickname: result[i].nickname,
                                 profileImage: result[i].profileImage,
                                 date: result[i].date,
                                 location: result[i].location,

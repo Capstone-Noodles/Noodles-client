@@ -166,7 +166,7 @@ const App = () => {
             name="FriendProfile"
             component={FriendProfile}
             options={({ route }) => ({
-              title: route.params.id,
+              title: route.params.identification,
               headerShown: true,
               headerBackTitleVisible: false,
             })}
@@ -180,9 +180,16 @@ const App = () => {
               headerBackTitleVisible: false,
             })}
           />
-          <Stack.Screen name="AllPosts" component={AllPosts} />
-          <Stack.Screen name="FriendAllPosts" component={FriendAllPosts} />
-
+          <Stack.Screen name="AllPosts" component={AllPosts}/>
+          <Stack.Screen 
+            name="FriendAllPosts" 
+            component={FriendAllPosts} 
+            options={() => ({
+              title: "전체 게시물 조회",
+              headerShown: true,
+              headerBackTitleVisible: false,
+            })}
+          />
           <Stack.Screen name="Status" component={Status} />
           <Stack.Screen 
             name="SearchPost" 
