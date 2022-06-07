@@ -7,30 +7,30 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 const ChatWith = ({route})=> {
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: '그래 안녕',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: route.params.userImg,
-        },
-      },
-      {
-        _id: 2,
-        text: '안녕',
-        createdAt: new Date(),
-        user: {
-          _id: 1,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
-  }, [])
+  // useEffect(() => {
+  //   setMessages([
+  //     {
+  //       _id: 1,
+  //       text: '그래 안녕',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 2,
+  //         name: 'React Native',
+  //         avatar: route.params.userImg,
+  //       },
+  //     },
+  //     {
+  //       _id: 2,
+  //       text: '안녕',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 1,
+  //         name: 'React Native',
+  //         avatar: 'https://placeimg.com/140/140/any',
+  //       },
+  //     },
+  //   ])
+  // }, [])
 
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, messages))

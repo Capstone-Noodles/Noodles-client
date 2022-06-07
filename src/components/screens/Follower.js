@@ -108,7 +108,8 @@ const Item = React.memo(
                 maxWidth:'64%',
               }}
               onPress={()=>navigation.navigate("FriendProfile", {
-                nickname: identification,
+                identification: identification,
+                nickname: nickname,
                 profileImage: profileImage,
                 userIdx : userIdx,
               })}

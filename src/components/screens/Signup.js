@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback, useState } from "react";
 import {
   Text,
   View,
@@ -6,26 +6,28 @@ import {
   TouchableOpacity,
   Keyboard,
   Alert,
-  ScrollView,
   TextInput,
 } from "react-native";
+import { ScrollView } from 'react-native-virtualized-view';
 import styled from "styled-components";
+import Ionic from 'react-native-vector-icons/Ionicons';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
 import Agreement from "../screenComponents/Agreement";
-import Ionic from "react-native-vector-icons/Ionicons";
 import Input from "../screenComponents/Input";
 import Loader from "../screenComponents/Loader";
 import axios from "axios";
 
 const CheckIdContainer = styled.View`
   flex-direction: row;
+  alignItems: baseline;
 `;
 
 const ErrorText = styled.Text`
   flex: 1;
   width: 50%;
-  height: 13px;
-  margin-left: 20px;
+  height: 17px;
+  fontSize: 12px;
+  marginLeft: 20px;
   color: grey;
 `;
 
@@ -87,10 +89,10 @@ const Signup = ({ navigation }) => {
         url: `http://133.186.228.218:8080/users/idCheck?id=${inputs.id}`,
       })
       .then(function (response) {
-        setErrorMessage('사용가능한 아이디입니다.')
+        setErrorMessage('사용 가능한 아이디입니다.')
       })
       .catch(function(error) {
-        setErrorMessage('아이디가 중복되었습니다.')
+        setErrorMessage('중복된 아이디입니다.')
       });
     } catch (e) {
     } finally {
@@ -323,7 +325,7 @@ const Signup = ({ navigation }) => {
         서비스 이용 약관에 동의해 주세요.
       </Text>
       <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
-        <Agreement />
+        <Agreement/>
       </View>
 
       <TouchableOpacity

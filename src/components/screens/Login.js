@@ -213,15 +213,15 @@ const Login = ({ navigation }) => {
         }}
       >
         <TouchableOpacity>
-          <Text style={{ paddingRight: 10, fontSize: 13 }}>아이디 찾기</Text>
+          <Text style={{ paddingHorizontal: 10, fontSize: 13 }}>아이디 찾기</Text>
         </TouchableOpacity>
         <Text style={{ color: "gray", fontSize: 13 }}>| </Text>
         <TouchableOpacity>
-          <Text style={{ paddingRight: 10, fontSize: 13 }}>비밀번호 찾기</Text>
+          <Text style={{ paddingHorizontal: 10, fontSize: 13 }}>비밀번호 찾기</Text>
         </TouchableOpacity>
         <Text style={{ color: "gray", fontSize: 13 }}>| </Text>
         <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-          <Text style={{ fontSize: 13 }}>회원가입</Text>
+          <Text style={{ paddingHorizontal: 10, fontSize: 13 }}>회원가입</Text>
         </TouchableOpacity>
       </View>
     </View>
