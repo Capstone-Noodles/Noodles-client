@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Text, View, Image, TouchableOpacity, Dimensions, FlatList, StatusBar, ImageBackground} from "react-native";
+import React, { useState, useEffect, useContext, useCallback } from "react";
+import { Text, View, Image, TouchableOpacity, Dimensions, FlatList, StatusBar, ImageBackground, Alert} from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { UserContext, UserProvider } from "../../contexts/User";
 import axios from "axios";
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-
-
 
 const Item = React.memo(
   ({ item: 
@@ -26,9 +24,11 @@ const Item = React.memo(
       }, 
      edit, 
      count, 
-     setCount 
+     setCount,
+     checkList,
+     setCheckList
   }) => {
-
+    //const [checkList, setCheckList] = useState([]);
     const [like, setLike] = useState(likes);
     const [bookmark, setBookmark] = useState(isBookmarked);
     const [modalVisible, setModalVisible] = useState(false);
@@ -71,8 +71,11 @@ const Item = React.memo(
             disabled={count>=6 ? true:false}
             onPress={()=>{
               setCheck(!check);
-              console.log('start',check)
+              console.log('start',check);
               check ? setCount(--count):setCount(++count)
+              check ? checkList = checkList.filter((element) => element !== postIdx) : checkList.push(postIdx)
+              console.log("checkList:"+checkList)
+              setCheckList(checkList);
               console.log(count)
               }}>
             <AntDesign 
@@ -88,6 +91,39 @@ const Item = React.memo(
   });
 
 const AllPosts = ()=> {
+    const [checkList, setCheckList] = useState([]);
+
+    const _handleEditPress = useCallback(async() => {
+        try {
+            const body = {
+                "postIdxList" : checkList,
+            }
+            console.log(body)
+            axios.patch('http://133.186.228.218:8080/mypage/mainPost', body, {
+                headers: {
+                    "x-auth-token": `${user?.accessToken}`
+                }
+            })
+                .then(function(response){
+                    dispatch({
+                        accessToken: user.accessToken,
+                        refreshToken: user.refreshToken,
+                        id: user.id,
+                        location: user.location,
+                        latitude: user.latitude,
+                        longitude: user.longitude
+                    });
+                    navigation.navigate("Profile");
+                    return;
+                })
+                .catch(function(error){
+                    console.log(error);
+                    alert("Error",error);
+                });
+        } catch (e) {
+        } finally {
+        }
+    }, [user, dispatch, checkList]);
 
   useEffect(() => {
     try {
@@ -188,10 +224,10 @@ const AllPosts = ()=> {
         </Text>
         <TouchableOpacity 
           onPress={
-            edit ? ()=>navigation.navigate("Profile") : ()=> setEdit(!edit)
+            edit ? _handleEditPress : ()=> setEdit(!edit)
           }>
           <Text style={{fontSize:18, color:'gray' }}>
-            {count>=6 ? '완료':'편집'}
+            {count>=1 ? '완료':'편집'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -201,7 +237,7 @@ const AllPosts = ()=> {
         data={posts}
         numColumns={3}
         renderItem={  ({ item })  => (
-          <Item item={item} edit={edit} count={count} setCount={setCount}/>
+          <Item item={item} edit={edit} count={count} setCount={setCount} checkList={checkList} setCheckList={setCheckList}/>
         )}
         windowSize={3}
       />
