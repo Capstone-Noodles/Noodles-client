@@ -77,6 +77,7 @@ const PresentLocate = ({ navigation }) => {
       })
       .catch((err) => {
         Alert.alert("니 주소 없다잉");
+        navigation.navigate("Locate");
       });
 
     // console.log("end");
