@@ -73,7 +73,7 @@ const Item = React.memo(
     });
 
 const FriendAllPosts = ({route, navigation}) => {
-    const {nickname} = route.params;
+    const {identification} = route.params;
     useEffect(() => {
         try {
             if (user.latitude == null) {
@@ -90,7 +90,7 @@ const FriendAllPosts = ({route, navigation}) => {
                 method: 'get',
                 url: 'http://133.186.228.218:8080/myPosts',
                 params: {
-                    identification: `${nickname}`,
+                    identification: `${identification}`,
                 },
                 headers: {
                     "x-auth-token": `${user?.accessToken}`,
