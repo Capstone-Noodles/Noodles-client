@@ -329,7 +329,6 @@ const Signup = ({ navigation }) => {
       <TouchableOpacity
         onPress={pressSignupBtn}
         activeOpacity={0.7}
-        disabled={disabled}
         style={{ padding: 20 }}
       >
         <View
