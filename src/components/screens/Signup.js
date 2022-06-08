@@ -7,8 +7,9 @@ import {
   Keyboard,
   Alert,
   TextInput,
+  ScrollView
 } from "react-native";
-import { ScrollView } from 'react-native-virtualized-view';
+//import { ScrollView } from 'react-native-virtualized-view';
 import styled from "styled-components";
 import Ionic from 'react-native-vector-icons/Ionicons';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
@@ -19,15 +20,12 @@ import axios from "axios";
 
 const CheckIdContainer = styled.View`
   flex-direction: row;
-  alignItems: baseline;
 `;
 
 const ErrorText = styled.Text`
   flex: 1;
   width: 50%;
   height: 17px;
-  fontSize: 12px;
-  marginLeft: 20px;
   color: grey;
 `;
 
@@ -184,7 +182,7 @@ const Signup = ({ navigation }) => {
   const [isFocused, setIsFocused] = React.useState(false);
 
   return (
-    <ScrollView ref={scrollRef} style={{ flex: 1, backgroundColor: "#fff" }}>
+    <ScrollView style={{ flex: 1, backgroundColor: "#fff" }}>
       <Loader visible={loading} />
       <StatusBar
         backgroundColor="white"
@@ -331,7 +329,6 @@ const Signup = ({ navigation }) => {
       <TouchableOpacity
         onPress={pressSignupBtn}
         activeOpacity={0.7}
-        disabled={disabled}
         style={{ padding: 20 }}
       >
         <View

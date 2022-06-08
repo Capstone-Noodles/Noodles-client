@@ -15,7 +15,8 @@ import axios from "axios";
 
 const FriendProfile = ({route, navigation}) => {
   const { user } = useContext(UserContext);
-  const {id, identification, profileImage, follow, userIdx, nickname} = route.params;
+  const {id, identification, profileImage, follow, userIdx} = route.params;
+  const [nickname, setNickname] = useState();
   const [follow_,setFollow_] = useState(false);
   const [stateMessage, setStateMessage] = useState();
   const [follower, setFollower] = useState();
@@ -39,6 +40,7 @@ const FriendProfile = ({route, navigation}) => {
                 setFollower(result.follower);
                 setFollowing(result.following);
                 setFollow_(result.isFollowed);
+                setNickname(result.nickname);
 
                 const imageListString = result.imageList;
                 const imageList = imageListString.split(",");
@@ -119,9 +121,10 @@ const FriendProfile = ({route, navigation}) => {
               flexDirection:'row', paddingHorizontal: 20,
               }}>
               <TouchableOpacity
-                onPress={() =>
+                onPress={() => {
+                  navigation.goBack(); navigation.goBack();
                   navigation.navigate("Follower", { follower: follower, id: userIdx })
-                }
+                }}
               >
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
@@ -132,9 +135,10 @@ const FriendProfile = ({route, navigation}) => {
               </TouchableOpacity>
               <View style={{paddingHorizontal:30}}></View>
               <TouchableOpacity
-                onPress={() =>
+                onPress={() =>{
+                  navigation.goBack(); navigation.goBack();
                   navigation.navigate("Following", { following: following, id: userIdx })
-                }
+                }}
               >
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
