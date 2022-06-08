@@ -122,7 +122,6 @@ const FriendProfile = ({route, navigation}) => {
               }}>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.goBack(); navigation.goBack();
                   navigation.navigate("Follower", { follower: follower, id: userIdx })
                 }}
               >
@@ -136,7 +135,6 @@ const FriendProfile = ({route, navigation}) => {
               <View style={{paddingHorizontal:30}}></View>
               <TouchableOpacity
                 onPress={() =>{
-                  navigation.goBack(); navigation.goBack();
                   navigation.navigate("Following", { following: following, id: userIdx })
                 }}
               >
