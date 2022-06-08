@@ -518,7 +518,6 @@ const Post = (props) => {
   const { user } = useContext(UserContext);
   const { dispatch } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
-  const isFocused = useIsFocused();
   const regex = /[^0-9]/g;
   const distance = props.distance.replace(regex, "");
 
@@ -576,7 +575,7 @@ const Post = (props) => {
       alert("Error", e);
     } finally {
     }
-  }, [user, setPosts, isFocused, distance]);
+  }, [user, setPosts, distance]);
 
   return (
     <FlatList

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import {
   Text,
   View,
@@ -23,46 +23,11 @@ const PostDetails = ({ route, navigation }) => {
   const userId = user.id;
   const devHeight = Dimensions.get("window").height;
   const [viewMore, setViewMore] = useState(false);
+  const { dispatch } = useContext(UserContext);
 
   const postIdx = route.params.postIdx;
   // console.log(postIdx);
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: `http://133.186.228.218:8080/posts/` + postIdx,
-      params: {
-        longitude: `${user?.longitude}`,
-        latitude: `${user?.latitude}`,
-      },
-      headers: {
-        "x-auth-token": `${user?.accessToken}`,
-      },
-    })
-      .then((res) => {
-        const result = res.data;
-        // console.log(result);
-        setLikes(result.likes);
-        setDistance(result.distance);
-        setIdentification(result.identification);
-        setLocation(result.location);
-        setNickname(result.nickname);
-        setPostImageList(result.postImageList);
-        setProfileImage(result.profileImage);
-        setUserIdx(result.userIdx);
-        setContent(result.content);
-        setBookmark(result.isBookmarked);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    return () => {
-      // cleanup
-    };
-  }, []);
-
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState();
   const [likes, setLikes] = useState();
   const [distance, setDistance] = useState();
   const [identification, setIdentification] = useState();
@@ -76,6 +41,44 @@ const PostDetails = ({ route, navigation }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [others_modalVisible, setOthers_ModalVisible] = useState(false);
+
+  useEffect(() => {
+    try {
+      axios({
+        method: "get",
+        url: `http://133.186.228.218:8080/posts/` + postIdx,
+        params: {
+          longitude: `${user?.longitude}`,
+          latitude: `${user?.latitude}`,
+        },
+        headers: {
+          "x-auth-token": `${user?.accessToken}`,
+        },
+      })
+        .then(function (response) {
+          const result = response.data;
+          // console.log(result);
+          setLike(result.isLiked);
+          setLikes(result.likes);
+          setDistance(result.distance);
+          setIdentification(result.identification);
+          setLocation(result.location);
+          setNickname(result.nickname);
+          setPostImageList(result.postImageList);
+          setProfileImage(result.profileImage);
+          setUserIdx(result.userIdx);
+          setContent(result.content);
+          setBookmark(result.isBookmarked);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } catch (e) {
+      console.log(e);
+      alert("Error", e);
+    } finally {
+    }
+  }, [user, postIdx, setLike, setLikes, setDistance, setIdentification, setLocation, setNickname, setPostImageList, setProfileImage, setUserIdx, setContent, setBookmark]);
 
   // const {
   //   postImageList,
@@ -99,6 +102,71 @@ const PostDetails = ({ route, navigation }) => {
       setOthers_ModalVisible(!others_modalVisible);
     }
   };
+
+  const _handleLikePress = useCallback(async () => {
+    try {
+      axios({
+        method: "post",
+        url: "http://133.186.228.218:8080/posts/like/" + postIdx,
+        headers: {
+          "x-auth-token": `${user?.accessToken}`,
+        },
+      })
+        .then(function (response) {
+          if (like == 0) {
+            setLike(1);
+          } else {
+            setLike(0);
+          }
+          dispatch({
+            accessToken: user.accessToken,
+            refreshToken: user.refreshToken,
+            id: user.id,
+            location: user.location,
+            latitude: user.latitude,
+            longitude: user.longitude,
+          });
+          return response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert("Error", error);
+        });
+    } catch (e) {
+    } finally {
+    }
+  }, [user, postIdx, setLike, dispatch]);
+
+  const _handleDeletePress = useCallback(async () => {
+    try {
+      axios({
+        method: "patch",
+        url: "http://133.186.228.218:8080/posts/delete/" + postIdx,
+        headers: {
+          "x-auth-token": `${user?.accessToken}`,
+        },
+      })
+        .then(function (response) {
+          dispatch({
+            accessToken: user.accessToken,
+            refreshToken: user.refreshToken,
+            id: user.id,
+            location: user.location,
+            latitude: user.latitude,
+            longitude: user.longitude,
+          });
+          setModalVisible(!modalVisible);
+          Alert.alert("게시글이 삭제되었습니다.");
+          return;
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert("Error", error);
+        });
+    } catch (e) {
+    } finally {
+    }
+  }, [user, postIdx, dispatch, setModalVisible, modalVisible]);
 
   return (
     // <View></View>
@@ -154,17 +222,16 @@ const PostDetails = ({ route, navigation }) => {
                 style={{ fontSize: 20, paddingRight: 10 }}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setLike(!like)}>
-              <AntDesign
+            <AntDesign
                 name={like ? "heart" : "hearto"}
                 style={{
                   paddingRight: 10,
                   fontSize: 20,
                   color: like ? "tomato" : "black",
                 }}
+                onPress={_handleLikePress}
               />
-            </TouchableOpacity>
-            <Text>좋아요 {like ? likes + 1 : likes}개</Text>
+              <Text>좋아요 {likes}개</Text>
           </View>
           <TouchableOpacity style={{ paddingLeft: 10 }} onPress={popup}>
             <Feather name="more-vertical" style={{ fontSize: 20 }} />
@@ -348,7 +415,7 @@ const PostDetails = ({ route, navigation }) => {
                     수정
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setClosed(true)}>
+                <TouchableOpacity onPress={_handleDeletePress}>
                   <Foundation
                     name="page-delete"
                     style={{ fontSize: 65, color: "#ffbfbf" }}

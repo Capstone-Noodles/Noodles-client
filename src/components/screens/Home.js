@@ -42,7 +42,7 @@ const Home = ({navigation})=> {
         flexDirection: 'row',
         paddingHorizontal: 15,
         alignItems: 'center',
-        paddingTop: 50,
+        paddingTop: 35,
         paddingBottom:10,
         backgroundColor:'white',
         borderBottomColor:'#ffd2cf',
