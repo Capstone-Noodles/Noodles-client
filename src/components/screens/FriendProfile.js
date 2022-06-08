@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import {  View, Button, Image, StatusBar, TouchableOpacity,Dimensions } from 'react-native';
 import { ScrollView } from 'react-native-virtualized-view';
 //import { AsyncStorage } from '@react-native-async-storage/async-storage';
@@ -22,6 +22,37 @@ const FriendProfile = ({route, navigation}) => {
   const [follower, setFollower] = useState();
   const [following, setFollowing] = useState();
   const [postList, setPostList] = useState([]);
+  const { dispatch } = useContext(UserContext);
+
+    const _handleFollowPress = useCallback(async() => {
+        try {
+            axios({
+                method: 'post',
+                url: 'http://133.186.228.218:8080/following/'+userIdx,
+                headers: {
+                    "x-auth-token": `${user?.accessToken}`,
+                }
+            })
+                .then(function(response){
+                    setFollow_(!follow_)
+                    dispatch({
+                        accessToken: user.accessToken,
+                        refreshToken: user.refreshToken,
+                        id: user.id,
+                        location: user.location,
+                        latitude: user.latitude,
+                        longitude: user.longitude
+                    });
+                    return response.data;
+                })
+                .catch(function(error){
+                    console.log(error);
+                    alert("Error",error);
+                });
+        } catch (e) {
+        } finally {
+        }
+    }, [user, userIdx, setFollow_, follow_, dispatch]);
 
     useEffect(() => {
         axios({
@@ -77,7 +108,7 @@ const FriendProfile = ({route, navigation}) => {
             <View style={{flexDirection:'row',width:'100%',justifyContent:'space-around',alignItems:'center'}}>
             <TouchableOpacity
                 style={{width: 68 }}
-                onPress={() => setFollow_(!follow_)}>
+                onPress={_handleFollowPress}>
                 <View
                     style={{
                       backgroundColor: follow_ ? '#DEDEDE':'#ffbfbf',
