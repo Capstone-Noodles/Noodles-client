@@ -153,25 +153,6 @@ const FriendAllPosts = ({route, navigation}) => {
                 barStyle="dark-content"
                 animated={true}
             />
-            <View
-                style={{
-                    flexDirection:'row',
-                    padding:10,
-                    margin:10,
-                    alignItems:'center',
-                    justifyContent:'space-between',
-                    paddingTop:30,
-                }}>
-                <TouchableOpacity
-                    style={{paddingRight:1}}
-                    onPress={()=>navigation.goBack()}>
-                    <AntDesign name="arrowleft" size={22} color='#484848'/>
-                </TouchableOpacity>
-                <Text style={{paddingHorizontal:15, fontSize:20}}>
-                    전체 게시물 조회
-                </Text>
-            </View>
-
             <FlatList
                 keyExtractor={item => item['id'].toString()}
                 data={posts}

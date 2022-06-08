@@ -10,6 +10,7 @@ const Item = React.memo(
     const [follow,setFollow] = useState(isFollowing);
     const { user } = useContext(UserContext);
     const { dispatch } = useContext(UserContext);
+    const navigation = useNavigation();
 
     if (profileImage === null) {
       profileImage = "https://jimango.s3.ap-northeast-2.amazonaws.com/noodles_basic.jpg";
@@ -63,7 +64,9 @@ const Item = React.memo(
                 justifyContent:'space-between',
                 alignItems:'center',
                 maxWidth:'64%',
-              }}>
+              }}
+              onPress={()=>navigation.navigate('Profile')}
+              >
               <Image
                 source={{uri:`${profileImage}`}}
                 style={{
@@ -103,7 +106,14 @@ const Item = React.memo(
                 justifyContent:'space-between',
                 alignItems:'center',
                 maxWidth:'64%',
-              }}>
+              }}
+              onPress={()=>navigation.navigate("FriendProfile", {
+                identification: identification,
+                nickname: nickname,
+                profileImage: profileImage,
+                userIdx : userIdx,
+              })}
+              >
               <Image
                 source={{uri:`${profileImage}`}}
                 style={{

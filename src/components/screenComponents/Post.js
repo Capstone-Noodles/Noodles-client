@@ -140,7 +140,7 @@ const Item = React.memo(
           >
             <Image
               source={{ uri: `${postImageList}` }}
-              style={{ width: 350, height: 350, borderRadius: 30 }}
+              style={{ width: "95%", height: 350, borderRadius: 30 }}
             />
           </View>
           <View
@@ -210,7 +210,8 @@ const Item = React.memo(
                   ? () => navigation.navigate("Profile")
                   : () =>
                       navigation.navigate("FriendProfile", {
-                        nickname: identification,
+                        identification: identification,
+                        nickname: nickname,
                         profileImage: profileImage,
                         userIdx: userIdx,
                         //stateMessage: data.StateMessage,

@@ -15,7 +15,7 @@ import axios from "axios";
 
 const FriendProfile = ({route, navigation}) => {
   const { user } = useContext(UserContext);
-  const {id, nickname, profileImage, follow, userIdx} = route.params;
+  const {id, identification, profileImage, follow, userIdx, nickname} = route.params;
   const [follow_,setFollow_] = useState(false);
   const [stateMessage, setStateMessage] = useState();
   const [follower, setFollower] = useState();
@@ -97,7 +97,7 @@ const FriendProfile = ({route, navigation}) => {
             </View>
             <TouchableOpacity
                 style={{width: follow? 72:68}}
-                onPress={() => navigation.navigate("ChatWith",{userName:nickname, userImg:profileImage})}>
+                onPress={() => navigation.navigate("ChatWith",{userName:identification, userImg:profileImage})}>
                 <View
                     style={{
                       backgroundColor: '#ffbfbf',
@@ -159,7 +159,7 @@ const FriendProfile = ({route, navigation}) => {
         
         <TouchableOpacity
             style={{alignItems:'center'}}
-            onPress={() => navigation.navigate("FriendAllPosts", {nickname})}
+            onPress={() => navigation.navigate("FriendAllPosts", {identification})}
         >
         <Text>
           전체 게시물 보기

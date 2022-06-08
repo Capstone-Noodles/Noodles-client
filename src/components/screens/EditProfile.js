@@ -57,6 +57,7 @@ const EditProfile = ({ navigation, route } = () => {}) => {
   // }, []);
 
   const { user } = useContext(UserContext);
+  const { dispatch } = useContext(UserContext);
 
   const pressSubmitBtn = () => {
     const form = new FormData();
@@ -80,6 +81,14 @@ const EditProfile = ({ navigation, route } = () => {}) => {
       })
       .then((res) => {
         Alert.alert("프로필이 변경되었습니다.");
+        dispatch({ 
+          accessToken: user.accessToken, 
+          refreshToken: user.refreshToken,
+          id: user.id,
+          location: user.location,
+          latitude: user.latitude, 
+          longitude: user.longitude
+        });
         navigation.navigate("Profile");
       })
       .catch((err) => {

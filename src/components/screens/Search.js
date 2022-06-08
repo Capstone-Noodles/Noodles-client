@@ -120,15 +120,7 @@ const Search = ({ navigation }) => {
       >
         <Ionic
           name="search"
-          onPress={() => {
-            {
-              search ? 
-              navigation.navigate("SearchPost", { search: { search } })
-              :
-              Alert.alert("검색어를 입력하세요!")
-              // clickSearchBtn();
-            }
-          }}
+          onPress={onSubmitEditing}
           style={{
             fontSize: 20,
             opacity: 0.7,
