@@ -330,6 +330,57 @@ const Comment = ({navigation, route})=> {
 
         const postIdx = route.params;
 
+        
+
+        const [userNickname, setUserNickname] = useState();
+        const [id, setId] = useState();
+        const [userStateMessage, setUserStateMessage] = useState();
+        const [follower, setFollower] = useState();
+        const [following, setFollowing] = useState();
+        const [profileImage, setProfileImage] = useState();
+        const [postList, setPostList] = useState([]);
+
+        useEffect(() => {
+          axios({
+            method: "get",
+            url: "http://133.186.228.218:8080/mypage",
+            headers: {
+              "x-auth-token": `${user?.accessToken}`,
+            },
+          })
+            .then((response) => {
+              const result = response.data.result.mypageList[0];
+              setUserNickname(result.nickname);
+              setUserStateMessage(result.description);
+              setFollower(result.follower);
+              setFollowing(result.following);
+              setProfileImage(result.profileImage);
+              setId(result.identification);
+
+              const imageListString = result.imageList;
+              const imageList = imageListString.split(",");
+
+              const postIdxListString = result.postIdxList;
+              const postIdxList = postIdxListString.split(",");
+              console.log(imageList[0]);
+              console.log(postIdxList[0]);
+              const data = [];
+
+              for (let i = 0; i < imageList.length; i++) {
+                data.push({
+                  image: imageList[i],
+                  idx: postIdxList[i],
+                });
+              }
+              setPostList(data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }, [setPostList, user]);
+
+
+
         const _handleContent = (content) => {
             setContent(content);
         };
@@ -407,7 +458,7 @@ const Comment = ({navigation, route})=> {
                         paddingTop:10,
                     }}>
                     <Image
-                        source={require("../../storage/images/fig.jpg")}
+                        source={{uri:`${profileImage}`}}
                         style={{ width: 40, height: 40, borderRadius: 100 }}
                     />
                     <TextInput
