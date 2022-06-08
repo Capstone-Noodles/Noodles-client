@@ -42,7 +42,7 @@ const Signup = ({ navigation }) => {
     id: "",
     password: "",
     phoneNumber: "",
-    name: "",
+    nicknickname: "",
   });
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
@@ -52,7 +52,7 @@ const Signup = ({ navigation }) => {
 
   useEffect(() => {
     if (errorMessage == '사용가능한 아이디입니다.') {
-      if (inputs.id && inputs.password && inputs.phoneNumber && inputs.name) {
+      if (inputs.id && inputs.password && inputs.phoneNumber && inputs.nickname) {
         setDisabled();
       }
     }
@@ -65,7 +65,7 @@ const Signup = ({ navigation }) => {
         id: `${inputs.id}`,
         password: `${inputs.password}`,
         phoneNum: `${inputs.phoneNumber}`,
-        name: `${inputs.name}`,
+        nickName: `${inputs.nickname}`,
       })
       .then((response) => {
         console.log(response.data.result);
@@ -146,8 +146,8 @@ const Signup = ({ navigation }) => {
       handleError("숫자만 입력해주세요!", "phoneNumber");
       valid = false;
     }
-    if (!inputs.name) {
-      handleError("닉네임을 입력해주세요!", "name");
+    if (!inputs.nickname) {
+      handleError("닉네임을 입력해주세요!", "nickname");
       valid = false;
     }
     if (valid == false) {
@@ -206,7 +206,7 @@ const Signup = ({ navigation }) => {
         <Input
           label="ID"
           placeholder="영문ID"
-          iconName="person-outline"
+          iconnickname="person-outline"
           error={errors.id}
           onFocus={() => {
             handleError(null, "id");
@@ -257,7 +257,7 @@ const Signup = ({ navigation }) => {
                     borderColor: errors.id ? 'red':'#ffbfbf',
                     borderWidth: isFocused ? 2.5:1,
             }}>
-              <Ionic name="person-outline" style={{fontSize:20,color:'gray',paddingRight:10}}/>
+              <Ionic nickname="person-outline" style={{fontSize:20,color:'gray',paddingRight:10}}/>
               <TextInput 
                   autoCorrect={false}
                   onFocus={()=>{
@@ -280,7 +280,7 @@ const Signup = ({ navigation }) => {
         <Input
           label="Password"
           placeholder="5자 이상"
-          iconName="md-lock-closed-outline"
+          iconnickname="md-lock-closed-outline"
           error={errors.password}
           onFocus={() => {
             handleError(null, "password");
@@ -291,7 +291,7 @@ const Signup = ({ navigation }) => {
         <Input
           label="PhoneNumber"
           placeholder="- 없이 숫자만 입력"
-          iconName="ios-logo-whatsapp"
+          iconnickname="ios-logo-whatsapp"
           error={errors.phoneNumber}
           onFocus={() => {
             handleError(null, "phoneNumber");
@@ -302,12 +302,12 @@ const Signup = ({ navigation }) => {
         <Input
           label="Nickname"
           placeholder="닉네임"
-          iconName="heart-circle-outline"
-          error={errors.name}
+          iconnickname="heart-circle-outline"
+          error={errors.nickname}
           onFocus={() => {
-            handleError(null, "name");
+            handleError(null, "nickname");
           }}
-          onChangeText={(text) => handleOnChange(text, "name")}
+          onChangeText={(text) => handleOnChange(text, "nickname")}
         />
       </View>
 

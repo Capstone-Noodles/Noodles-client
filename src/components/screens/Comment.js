@@ -94,7 +94,7 @@ const Item = React.memo(
                 <View style={{flexDirection:'column'}}>
                     <View style={{justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row', justifyContent:'flex-start',alignItems:'flex-start', width:'80%'}}>
-                        <Text style={{paddingHorizontal:5, fontSize:10, fontWeight:'bold'}}>
+                        <Text style={{paddingHorizontal:5, fontSize:10, fontWeight:'bold', marginTop: 3 }}>
                             {identification}
                             
                         </Text>
