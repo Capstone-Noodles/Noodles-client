@@ -121,9 +121,10 @@ const FriendProfile = ({route, navigation}) => {
               flexDirection:'row', paddingHorizontal: 20,
               }}>
               <TouchableOpacity
-                onPress={() =>
+                onPress={() => {
+                  navigation.goBack(); navigation.goBack();
                   navigation.navigate("Follower", { follower: follower, id: userIdx })
-                }
+                }}
               >
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
@@ -134,9 +135,10 @@ const FriendProfile = ({route, navigation}) => {
               </TouchableOpacity>
               <View style={{paddingHorizontal:30}}></View>
               <TouchableOpacity
-                onPress={() =>
+                onPress={() =>{
+                  navigation.goBack(); navigation.goBack();
                   navigation.navigate("Following", { following: following, id: userIdx })
-                }
+                }}
               >
                 <View style={{flexDirection:'row',alignItems:'center'}}>
                   <Title style={{fontSize:13,fontWeight:'bold'}}>
